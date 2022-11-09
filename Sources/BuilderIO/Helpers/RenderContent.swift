@@ -1,6 +1,6 @@
 import SwiftUI
 
-@available(iOS 14.0, macOS 10.15, *)
+@available(iOS 15.0, macOS 10.15, *)
 public struct RenderContent: View {
     static var registered = false;
     
@@ -9,10 +9,15 @@ public struct RenderContent: View {
         if (!RenderContent.registered) {
             // TODO: move these out of here?
             registerComponent(name: "Text", factory: { options in
+                print("Text \n titleString = "+options["text"].stringValue+" \n options = \(options)")
                 return BuilderText(text: options["text"].stringValue)
             })
             registerComponent(name: "Image", factory: { options in
                 return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize: <#T##String#>"].stringValue)
+            })
+            registerComponent(name: "Core:Button", factory: { options in
+                // print("Core:Button \n titleString = "+options["text"].stringValue+" \n options = \(options)")
+                return BuilderButton(text: options["text"].stringValue, urlStr: options["link"].stringValue, openInNewTab: options["openLinkInNewTab"].boolValue, responsiveStyles: content.data.blocks[0].responsiveStyles)
             })
             registerComponent(name: "Columns", factory: { options in
                 let decoder = JSONDecoder()
