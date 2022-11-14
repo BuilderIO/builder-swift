@@ -16,7 +16,9 @@ public struct Content {
             
             do {
                 let content = try decoder.decode(BuilderContentList.self, from: Data(jsonString.utf8))
-                callback(content.results[0])
+                if content.results.count>0 {
+                    callback(content.results[0])
+                }
             } catch {
                 print(error)
                 callback(nil)

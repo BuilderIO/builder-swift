@@ -1,38 +1,74 @@
 import SwiftUI
 
-@available(iOS 14.0, macOS 10.15, *)
+@available(iOS 15.0, macOS 10.15, *)
 struct RenderBlock: View {
     var block: BuilderBlock
     var body: some View {
         let textAlignValue = getStyleValue("textAlign")
-        VStack {
-            VStack(alignment: .leading) {
-                let name = block.component?.name
-                if name != nil {
-                    let factoryValue = componentDict[name!]
-                    if factoryValue != nil && block.component?.options! != nil {
-                        AnyView(_fromValue: factoryValue!(block.component!.options!))
-                    } else {
-                        let _ = print("Could not find component", name!)
-                    }
-                    
-                } else if block.children != nil {
-                    RenderBlocks(blocks: block.children!)
-                }
-            }
-            .padding(.leading, getDirectionStyleValue("padding", "Left"))
-            .padding(.top, getDirectionStyleValue("padding", "Top"))
-            .padding(.trailing,  getDirectionStyleValue("padding", "Right"))
-            .padding(.bottom,  getDirectionStyleValue("padding", "Bottom"))
-            .foregroundColor(getColor(propertyName: "color"))
-            .background(getColor(propertyName: "backgroundColor"))
-            .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-        }
-        .padding(.leading, getDirectionStyleValue("margin", "Left"))
-        .padding(.top, getDirectionStyleValue("margin", "Top"))
-        .padding(.trailing,  getDirectionStyleValue("margin", "Right"))
-        .padding(.bottom,  getDirectionStyleValue("margin", "Bottom"))
+        let marginLeft = getFloatValue(cssString:getStyleValue("marginLeft") ?? "0px") ?? 0
+        let marginTop = getFloatValue(cssString:getStyleValue("marginTop") ?? "0px") ?? 0
+        let marginRight = getFloatValue(cssString:getStyleValue("marginRight") ?? "0px") ?? 0
+        let marginBottom = getFloatValue(cssString:getStyleValue("marginBottom") ?? "0px") ?? 0
+        let cornerRadius = getFloatValue(cssString:getStyleValue("borderRadius") ?? "0px") ?? 0
+        let fontWeight = getFontWeight(weight: Int(getFloatValue(cssString:getStyleValue("fontWeight") ?? "300") ?? 30))
+        let fontSize = getFloatValue(cssString: "fontSize") ?? 20.0
         
+        VStack {
+            if #available(iOS 15.0, *) {
+                VStack(alignment: .center) {
+                    let name = block.component?.name
+                    if name != nil {
+                        let factoryValue = componentDict[name!]
+                        if factoryValue != nil && block.component?.options! != nil {
+                            AnyView(_fromValue: factoryValue!(block.component!.options!))
+                        } else {
+                            let _ = print("Could not find component", name!)
+                        }
+                        
+                    } else if block.children != nil {
+                        RenderBlocks(blocks: block.children!)
+                    }
+                }
+                .padding(EdgeInsets(top: getDirectionStyleValue("padding", "Top"), leading: getDirectionStyleValue("padding", "Left"), bottom: getDirectionStyleValue("padding", "Bottom"), trailing: getDirectionStyleValue("padding", "Right"))) // margin
+                .foregroundColor(getColor(propertyName: "color"))
+                .background(RoundedRectangle(cornerRadius: cornerRadius).fill(getColor(propertyName: "backgroundColor") ?? .black))
+                .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
+                .font(.system(size: fontSize, weight: fontWeight, design: .default))
+                .padding(
+                    EdgeInsets(top: marginTop,
+                               leading: marginLeft,
+                               bottom: marginBottom,
+                               trailing: marginRight)
+                )
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
+    
+    func getFontWeight(weight:Int) -> Font.Weight{
+        switch(weight) {
+        case 100:
+            return Font.Weight.ultraLight
+        case 200:
+            return Font.Weight.thin
+        case 300:
+            return Font.Weight.light
+        case 400:
+            return Font.Weight.regular
+        case 500:
+            return Font.Weight.medium
+        case 600:
+            return Font.Weight.semibold
+        case 700:
+            return Font.Weight.bold
+        case 800:
+            return Font.Weight.heavy
+        case 900:
+            return Font.Weight.black
+        default:
+            return Font.Weight.ultraLight
+        }
     }
     
     func getColor(propertyName: String) -> Color? {
@@ -46,15 +82,21 @@ struct RenderBlock: View {
                 return Color.white
             } else if value == "gray" {
                 return Color.gray
+            } else if value == "black" {
+                return Color.black
             }
             
             
             let allMatches = matchingStrings(string: value!, regex: "rgba\\((\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+)\\)");
-            let matches = allMatches[0]
-            
-            if (matches.count > 3) {
-                return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
+            if allMatches.count>0 {
+                let matches = allMatches[0]
+                
+                if (matches.count > 3) {
+                    return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
+                }
             }
+        } else {
+            return Color.white
         }
         return nil
     }
@@ -76,15 +118,24 @@ struct RenderBlock: View {
     func getFloatValue(cssString: String) -> CGFloat? {
         if let regex = try? NSRegularExpression(pattern: "px$") { // TODO: handle decimals
             let newString = regex.stringByReplacingMatches(in: cssString, options: .withTransparentBounds, range: NSMakeRange(0, cssString.count ), withTemplate: "")
+            if(newString == "auto") {
+                let float = ((UIScreen.main.bounds.size.width/2)-10)
+                return float
+            }
             
             if let number = NumberFormatter().number(from: newString) {
-                let float = CGFloat(number)
+                let float = CGFloat(truncating: number)
                 return float
             }
             
         }
         
         return nil
+    }
+    
+    func getIntValue(cssString: String) -> Int? {
+        let floatValue = getFloatValue(cssString: cssString+"px")
+        return Int(floatValue ?? 0.0)
     }
     
     func getStyleValue(_ property: String) -> String? {
