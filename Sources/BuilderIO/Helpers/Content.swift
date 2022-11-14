@@ -13,7 +13,7 @@ public struct Content {
             }
             let decoder = JSONDecoder()
             let jsonString = String(data: data, encoding: .utf8)!
-            
+            print("jsonString = \(jsonString)")
             do {
                 let content = try decoder.decode(BuilderContentList.self, from: Data(jsonString.utf8))
                 if content.results.count>0 {

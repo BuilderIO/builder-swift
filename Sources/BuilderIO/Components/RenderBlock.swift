@@ -86,7 +86,6 @@ struct RenderBlock: View {
                 return Color.black
             }
             
-            
             let allMatches = matchingStrings(string: value!, regex: "rgba\\((\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+)\\)");
             if allMatches.count>0 {
                 let matches = allMatches[0]
