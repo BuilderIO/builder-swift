@@ -1,6 +1,7 @@
 import SwiftyJSON
 import SwiftUI
 
+//typealias BuilderBlockFactory = (JSON) -> Any;
 typealias BuilderBlockFactory = (JSON) -> Any;
 var componentDict: [String:BuilderBlockFactory] = [:]
 
