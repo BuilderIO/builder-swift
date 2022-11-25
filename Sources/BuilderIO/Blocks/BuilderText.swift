@@ -1,65 +1,68 @@
 import SwiftUI
-import WebKit
 
 @available(iOS 15.0, macOS 10.15, *)
 struct BuilderText: View {
     var text: String
-    @State var htmlText = "<html><body><h1>Hello World</h1></body></html>"
     var responsiveStyles: BuilderBlockResponsiveStyles? = BuilderBlockResponsiveStyles() // for outer style of the component
-    let css = "body { background-color : #ff0000 }"
-    
-    // TODO: actually handle HTML
-    func getTextWithoutHtml(_ text: String) -> String {
-        
-        if let regex = try? NSRegularExpression(pattern: "<.*?>") { // TODO: handle decimals
-            let newString = regex.stringByReplacingMatches(in: text, options: .withTransparentBounds, range: NSMakeRange(0, text.count ), withTemplate: "")
-            
-            return newString
-        }
-        
-        return ""
+
+    var body: some View {
+        Text(getTextWithoutHtml(text))
     }
     
-    func getStyles(responsiveStyles:BuilderBlockResponsiveStyles) -> [String:String]? {
-        let step1 = (responsiveStyles.large ?? [:]).merging(responsiveStyles.medium ?? [:]) { (_, new) in new }
-        let step2 = step1.merging(responsiveStyles.small ?? [:]) { (_, new) in new }
+    func getColor(propertyName: String) -> Color? {
+        let value = getStyles()?[propertyName]
+        if value != nil {
+            if value == "red" {
+                return Color.red
+            } else if value == "blue" {
+                return Color.blue
+            } else if value == "white" {
+                return Color.white
+            } else if value == "gray" {
+                return Color.gray
+            } else if value == "black" {
+                return Color.black
+            }
+            
+            let allMatches = matchingStrings(string: value!, regex: "rgba\\((\\d+),\\s*(\\d+),\\s*(\\d+),\\s*(\\d+)\\)");
+            if allMatches.count>0 {
+                let matches = allMatches[0]
+                
+                if (matches.count > 3) {
+                    return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
+                }
+            }
+        } else {
+            return Color.black
+        }
+        return nil
+    }
+    
+    func getStyleValue(_ property: String) -> String? {
+        let styles = getStyles()
+        return styles?[property]
+    }
+    
+    func getDirectionStyleValue(_ type: String, _ direction: String) -> CGFloat {
+        let styles = getStyles()
+        var paddingStr = styles?[type + direction]
+        if (paddingStr == nil) {
+            paddingStr = styles?[type] // TODO: handle muti value padding shorthand
+        }
+        if (paddingStr != nil) {
+            if let num = getFloatValue(cssString: paddingStr!) {
+                return num
+            }
+        }
+        
+        return 0
+    }
+    
+    func getStyles() -> [String:String]? {
+        let step1 = (responsiveStyles?.large ?? [:]).merging(responsiveStyles?.medium ?? [:]) { (_, new) in new }
+        let step2 = step1.merging(responsiveStyles?.small ?? [:]) { (_, new) in new }
         
         return step2
     }
-    
-    var body: some View {
-        let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
-                
-        VStack {
-            WebVieww(text: $htmlText, jsString: js)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, idealHeight: 400, maxHeight: .infinity, alignment: .center)
-//                .padding()
-        }.onAppear {
-            htmlText = text
-        }
-        //        Text(getTextWithoutHtml(text))
-        //            .frame(maxWidth: .infinity)
-    }
-}
 
-@available(iOS 13.0, *)
-struct WebVieww: UIViewRepresentable {
-    
-    @Binding var text: String
-    var jsString: String
-    
-    func makeUIView(context: Context) -> WKWebView {
-        return WKWebView()
-    }
-    
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-        uiView.loadHTMLString(text, baseURL: nil)
-        uiView.evaluateJavaScript(jsString)
-    }
-    
 }
-//struct ContentView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    ContentView()
-//  }
-//}
