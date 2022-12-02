@@ -1,24 +1,48 @@
 import SwiftUI
 import WebKit
 
+private typealias CSS = CSSStyleUtil
+
 @available(iOS 15.0, macOS 10.15, *)
 struct BuilderText: View {
     var text: String
     var responsiveStyles: [String: String]?;
 
-    // TODO: actually handle HTML
-    func getTextWithoutHtml(_ text: String) -> String {
-        if let regex = try? NSRegularExpression(pattern: "<.*?>") { // TODO: handle decimals
-            let newString = regex.stringByReplacingMatches(in: text, options: .withTransparentBounds, range: NSMakeRange(0, text.count ), withTemplate: "")
-            
-            return newString
-        }
-        
-        return ""
-    }
     
     var body: some View {
-        Text(getTextWithoutHtml(text))
-            .frame(maxWidth: .infinity)
+        let foregroundColor = CSS.getColor(value: responsiveStyles?["color"] ?? "black");
+        let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"] ?? "white");
+        let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
+        let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
+        let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
+        let _ = print("Setting", fontSize, fontWeight, "for text", CSS.getTextWithoutHtml(text))
+        Text(CSS.getTextWithoutHtml(text))
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button
+            .font(.system(size: fontSize).weight(fontWeight))
+            .foregroundColor(foregroundColor)
+            .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
     }
+}
+
+
+/**
+ Can be used, but restrictive. Can render HTML strings, but styling the wrapper is hard. Keep as a backup for now.
+ */
+@available(iOS 13.0, *)
+struct TextCustom: UIViewRepresentable {
+  let html: String
+  func updateUIView(_ uiView: UITextView, context: UIViewRepresentableContext<Self>) {
+    DispatchQueue.main.async {
+      let data = Data(self.html.utf8)
+      if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
+        uiView.isEditable = false
+        uiView.attributedText = attributedString
+      }
+    }
+  }
+  func makeUIView(context: UIViewRepresentableContext<Self>) -> UITextView {
+    let label = UITextView()
+    return label
+  }
 }

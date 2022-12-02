@@ -9,14 +9,12 @@ public struct RenderContent: View {
         if (!RenderContent.registered) {
             // TODO: move these out of here?
             registerComponent(name: "Text", factory: { (options, styles) in
-                print("Text \n titleString = "+options["text"].stringValue+" \n options = \(options)")
                 return BuilderText(text: options["text"].stringValue, responsiveStyles: styles)
             })
             registerComponent(name: "Image", factory: { (options, styles) in
                 return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize: <#T##String#>"].stringValue)
             })
             registerComponent(name: "Core:Button", factory: { (options, styles) in
-                // print("Core:Button \n titleString = "+options["text"].stringValue+" \n options = \(options)")
                 return BuilderButton(text: options["text"].stringValue, urlStr: options["link"].stringValue, openInNewTab: options["openLinkInNewTab"].boolValue, responsiveStyles: styles)
             })
             registerComponent(name: "Columns", factory: { (options, styles) in

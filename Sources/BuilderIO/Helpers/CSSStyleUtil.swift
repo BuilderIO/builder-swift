@@ -90,10 +90,6 @@ class CSSStyleUtil {
             let directions = ["Top", "Left", "Bottom", "Right"];
             for direction in directions {
                 if finalStyles[boxStyleProperty + direction] != nil {
-                    let _ = print("BOX STYLES = ", boxStyleProperty, (EdgeInsets(top: getFloatValue(cssString: finalStyles[boxStyleProperty + "Top"]),
-                                      leading: getFloatValue(cssString: finalStyles[boxStyleProperty + "Left"]),
-                                      bottom: getFloatValue(cssString: finalStyles[boxStyleProperty + "Bottom"]),
-                                      trailing: getFloatValue(cssString: finalStyles[boxStyleProperty + "Right"]))))
                     return EdgeInsets(top: getFloatValue(cssString: finalStyles[boxStyleProperty + "Top"]),
                                       leading: getFloatValue(cssString: finalStyles[boxStyleProperty + "Left"]),
                                       bottom: getFloatValue(cssString: finalStyles[boxStyleProperty + "Bottom"]),
