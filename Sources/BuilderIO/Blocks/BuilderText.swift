@@ -4,7 +4,7 @@ import WebKit
 @available(iOS 15.0, macOS 10.15, *)
 struct BuilderText: View {
     var text: String
-    var responsiveStyles: BuilderBlockResponsiveStyles? = BuilderBlockResponsiveStyles() // for outer style of the component
+    var responsiveStyles: [String: String]?;
 
     // TODO: actually handle HTML
     func getTextWithoutHtml(_ text: String) -> String {
