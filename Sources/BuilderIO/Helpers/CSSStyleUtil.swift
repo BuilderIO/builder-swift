@@ -2,6 +2,21 @@
 import Foundation
 import SwiftUI
 
+enum HorizontalAlignment {
+    case FullWidth
+    case Center
+    case LeftAlign
+    case RightAlign
+}
+
+@available(iOS 13.0, *)
+struct FrameDimensions {
+    var minWidth: CGFloat? = nil;
+    var idealWidth: CGFloat? = nil;
+    var maxWidth: CGFloat? = nil;
+    var alignment: Alignment;
+}
+
 class CSSStyleUtil {
     /*
      Takes the responsive styles from Builder blocks response, and
@@ -109,6 +124,45 @@ class CSSStyleUtil {
         }
         
         return ""
+    }
+    
+    static func getHorizontalAlignmentFromMargin(styles: [String: String]) -> HorizontalAlignment {
+        let marginLeft = styles["marginLeft"]
+        let marginRight = styles["marginRight"]
+        
+        let isMarginLeftAbsentOrZero = marginLeft == nil || getFloatValue(cssString: marginLeft) == CGFloat(0);
+        let isMarginRightAbsentOrZero = marginRight == nil || getFloatValue(cssString: marginRight) == CGFloat(0);
+        let isMarginLeftAuto = marginLeft?.lowercased() == "auto";
+        let isMarginRightAuto = marginRight?.lowercased() == "auto";
+        
+        if (isMarginLeftAuto && isMarginRightAuto) {
+            return HorizontalAlignment.Center;
+        } else if (isMarginLeftAuto) {
+            return HorizontalAlignment.RightAlign;
+        } else if (isMarginRightAuto) {
+            return HorizontalAlignment.LeftAlign;
+        } else if (isMarginLeftAbsentOrZero && isMarginRightAbsentOrZero) {
+            return HorizontalAlignment.FullWidth;
+        } 
+        // Default full width?
+        return HorizontalAlignment.FullWidth;
+    }
+    
+    @available(iOS 13.0, *)
+    static func getFrameFromHorizontalAlignment(styles: [String: String]) -> FrameDimensions {
+        let horizontalAlignment = getHorizontalAlignmentFromMargin(styles: styles)
+        
+        if (horizontalAlignment == HorizontalAlignment.FullWidth) {
+            return FrameDimensions(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: .center)
+            
+        } else if (horizontalAlignment == HorizontalAlignment.Center) {
+            return FrameDimensions(alignment: .center)
+        } else if (horizontalAlignment == HorizontalAlignment.LeftAlign) {
+            return FrameDimensions(alignment: .leading)
+        } else {
+            // Right align
+            return FrameDimensions(alignment: .trailing)
+        }
     }
     
     @available(iOS 13.0, *)
