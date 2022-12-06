@@ -15,13 +15,15 @@ struct BuilderText: View {
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
-        let _ = print("Setting", fontSize, fontWeight, "for text", CSS.getTextWithoutHtml(text))
+        let _ = print("Text", CSS.getTextWithoutHtml(text))
+        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
         Text(CSS.getTextWithoutHtml(text))
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button
+            .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
             .foregroundColor(foregroundColor)
             .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+            
     }
 }
 

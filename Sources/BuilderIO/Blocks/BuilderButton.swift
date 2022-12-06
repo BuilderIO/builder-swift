@@ -18,6 +18,7 @@ struct BuilderButton: View {
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
+        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
         Button(action: {
             print(CSS.getTextWithoutHtml(text))
             // print("responsiveStyles = \(String(describing: responsiveStyles))")
@@ -31,8 +32,10 @@ struct BuilderButton: View {
             Text(CSS.getTextWithoutHtml(text))
                 .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button
                 .font(.system(size: fontSize).weight(fontWeight))
+                .frame(alignment: horizontalAlignmentFrame.alignment)
                 
         }
+        .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
         .foregroundColor(foregroundColor)
         .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
             

@@ -8,11 +8,11 @@ struct RenderBlock: View {
     var body: some View {
         let finalStyles = CSS.getFinalStyle(responsiveStyles: block.responsiveStyles );
         let textAlignValue = finalStyles["textAlign"]
+        let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
+        let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
         VStack {
             if #available(iOS 16.0, *) {
-                
-                
                 VStack(alignment: .center) {
                     let name = block.component?.name
                     if name != nil {
@@ -31,6 +31,7 @@ struct RenderBlock: View {
                 }
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles)) // margin
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
+                .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
                 
             } else {
                 // Fallback on earlier versions
