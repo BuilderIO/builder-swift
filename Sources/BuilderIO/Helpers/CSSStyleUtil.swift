@@ -76,9 +76,9 @@ class CSSStyleUtil {
         }
     }
     
-    static func getFloatValue(cssString: String?) -> CGFloat {
+    static func getFloatValue(cssString: String?, defaultValue: CGFloat = CGFloat(0)) -> CGFloat {
         if (cssString == nil) {
-            return CGFloat(0)
+            return defaultValue
         }
         if let regex = try? NSRegularExpression(pattern: "px$") { // TODO: handle decimals
             let newString = regex.stringByReplacingMatches(in: cssString ?? "", options: .withTransparentBounds, range: NSMakeRange(0, (cssString ?? "").count ), withTemplate: "")
@@ -90,7 +90,7 @@ class CSSStyleUtil {
             
         }
         
-        return CGFloat(0)
+        return defaultValue
     }
     
     @available(iOS 13.0, *)

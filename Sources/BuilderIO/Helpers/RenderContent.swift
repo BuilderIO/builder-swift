@@ -12,7 +12,7 @@ public struct RenderContent: View {
                 return BuilderText(text: options["text"].stringValue, responsiveStyles: styles)
             })
             registerComponent(name: "Image", factory: { (options, styles) in
-                return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize: <#T##String#>"].stringValue)
+                return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize"].stringValue, aspectRatio: CSSStyleUtil.getFloatValue(cssString: options["aspectRatio"].stringValue),  responsiveStyles: styles)
             })
             registerComponent(name: "Core:Button", factory: { (options, styles) in
                 return BuilderButton(text: options["text"].stringValue, urlStr: options["link"].stringValue, openInNewTab: options["openLinkInNewTab"].boolValue, responsiveStyles: styles)
