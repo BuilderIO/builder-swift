@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Content {
-    public static func getContent(model: String, apiKey: String, url: String, locale: String?, preview: Boolean?, callback: @escaping ((BuilderContent?)->())) {
+    public static func getContent(model: String, apiKey: String, url: String, locale: String?, preview: Bool?, callback: @escaping ((BuilderContent?)->())) {
         let encodedUrl = String(describing: url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)
         var str = "https://cdn.builder.io/api/v2/content/\(model)?apiKey=\(apiKey)&url=\(encodedUrl)"
         
@@ -9,7 +9,7 @@ public struct Content {
             str += "&locale=\(locale)"
         }
         
-        if let preview = preview {
+        if preview == true {
             str += "&preview=true"
         }
         
