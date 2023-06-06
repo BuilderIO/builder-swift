@@ -19,6 +19,8 @@ public struct Content {
             str += "&cachebust=true"
         }
         
+        print("Requesting from Builder.io: \(str)")
+        
         let url = URL(string: str)!
         
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
