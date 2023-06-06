@@ -1,9 +1,14 @@
 import Foundation
 
 public struct Content {
-    public static func getContent(model: String, apiKey: String, url: String, callback: @escaping ((BuilderContent?)->())) {
+    public static func getContent(model: String, apiKey: String, url: String, locale: String?, callback: @escaping ((BuilderContent?)->())) {
         let encodedUrl = String(describing: url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)
-        let str = "https://cdn.builder.io/api/v2/content/\(model)?apiKey=\(apiKey)&url=\(encodedUrl)"
+        var str = "https://cdn.builder.io/api/v2/content/\(model)?apiKey=\(apiKey)&url=\(encodedUrl)"
+        
+        if let locale = locale, !locale.isEmpty {
+            str += "&locale=\(locale)"
+        }
+        
         let url = URL(string: str)!
         
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
