@@ -1,16 +1,22 @@
 import Foundation
 
 public struct Content {
-    public static func getContent(model: String, apiKey: String, url: String, locale: String?, preview: Bool?, callback: @escaping ((BuilderContent?)->())) {
+    public static func getContent(model: String, apiKey: String, url: String, locale: String?, preview: String?, callback: @escaping ((BuilderContent?)->())) {
         let encodedUrl = String(describing: url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)
-        var str = "https://cdn.builder.io/api/v2/content/\(model)?apiKey=\(apiKey)&url=\(encodedUrl)"
+        var str = "https://cdn.builder.io/api/v2/content/\(model)"
+        
+        if let preview = preview, !preview.isEmpty {
+            str += "/\(preview)"
+        }
+        str += "?apiKey=\(apiKey)&url=\(encodedUrl)"
         
         if let locale = locale, !locale.isEmpty {
             str += "&locale=\(locale)"
         }
         
-        if preview == true {
+        if let preview = preview, !preview.isEmpty {
             str += "&preview=true"
+            str += "&cachebust=true"
         }
         
         let url = URL(string: str)!
