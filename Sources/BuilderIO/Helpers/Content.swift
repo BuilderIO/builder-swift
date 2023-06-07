@@ -17,7 +17,6 @@ public struct Content {
         if let preview = preview, !preview.isEmpty {
             str += "&preview=true"
             str += "&cachebust=true"
-            str += "&cachebuster=\(Float.random(in: 1..<10))"
         }
         
         let url = URL(string: str)!
