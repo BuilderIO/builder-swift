@@ -10,7 +10,7 @@ struct BuilderImage: View {
 
     
     var body: some View {
-        let currentScale = UIScreen.main.scale;
+        let _ = UIScreen.main.scale;
         let foregroundColor = CSS.getColor(value: responsiveStyles?["color"] ?? "black");
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"] ?? "white");
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
@@ -23,7 +23,7 @@ struct BuilderImage: View {
                 image
                     .resizable()
                     .aspectRatio(1/aspectRatio, contentMode: backgroundSize == "cover" ? .fill : .fit)
-                    .frame(width: maxWidth)
+                    .frame(width: maxWidth == .infinity ? nil : maxWidth)
             } else if phase.error != nil {
                 Color.red
             } else {
