@@ -21,7 +21,9 @@ public struct Content {
         
         let url = URL(string: str)!
         
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+        let session = !(preview ?? "").isEmpty ? URLSession(configuration: .ephemeral) : URLSession.shared
+        
+        let task = session.dataTask(with: url) {(data, response, error) in
             guard let data = data else {
                 callback(nil)
                 return
