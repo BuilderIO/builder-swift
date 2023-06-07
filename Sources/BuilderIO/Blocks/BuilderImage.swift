@@ -23,9 +23,9 @@ struct BuilderImage: View {
             if let image = phase.image {
                 image
                     .resizable()
-                    .aspectRatio(aspectRatio, contentMode: backgroundSize == "cover" ? .fill : .fit)
-                    //.frame(width: maxWidth == .infinity ? nil : maxWidth)
-                    //.border(.blue)
+                    .aspectRatio(1/aspectRatio, contentMode: backgroundSize == "cover" ? .fit : .fill)
+                    .frame(width: maxWidth == .infinity ? nil : maxWidth)
+                    .border(.blue)
 
             } else if phase.error != nil {
                 Color.red
