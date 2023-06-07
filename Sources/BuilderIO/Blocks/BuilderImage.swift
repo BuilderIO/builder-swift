@@ -16,6 +16,7 @@ struct BuilderImage: View {
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
         let maxWidth = CSS.getFloatValue(cssString: responsiveStyles?["maxWidth"], defaultValue: .infinity) ;
+        let _ = print("BACKGROUND SIZE ----", backgroundSize, " CONTENT MODE ", backgroundSize == "cover" ? ContentMode.fill : ContentMode.fit);
 
         BackportAsyncImage(url: URL(string: image)) { phase in
             if let image = phase.image {
