@@ -18,13 +18,15 @@ struct BuilderImage: View {
         let maxWidth = CSS.getFloatValue(cssString: responsiveStyles?["maxWidth"], defaultValue: .infinity) ;
         let _ = print("BACKGROUND SIZE ----", backgroundSize, " CONTENT MODE ", backgroundSize == "cover" ? ContentMode.fill : ContentMode.fit);
         let _ = print("ASPECT RATIO", aspectRatio, 1/aspectRatio)
+        let _ = print("Max Width?", maxWidth == .infinity ? nil : maxWidth);
 
         BackportAsyncImage(url: URL(string: image)) { phase in
             if let image = phase.image {
                 image
                     .resizable()
                     .aspectRatio(1/aspectRatio, contentMode: backgroundSize == "cover" ? .fill : .fit)
-                    .scaledToFill()
+                    .frame(width: maxWidth == .infinity ? nil : maxWidth)
+                    .border(.blue)
 
             } else if phase.error != nil {
                 Color.red
