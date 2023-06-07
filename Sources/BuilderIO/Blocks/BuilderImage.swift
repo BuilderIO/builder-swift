@@ -23,7 +23,7 @@ struct BuilderImage: View {
             if let image = phase.image {
                 image
                     .resizable()
-                    .aspectRatio(1/aspectRatio, contentMode: backgroundSize == "cover" ? .fill : .fit)
+                    .aspectRatio(aspectRatio, contentMode: backgroundSize == "cover" ? .fill : .fit)
                     //.frame(width: maxWidth == .infinity ? nil : maxWidth)
                     //.border(.blue)
 
