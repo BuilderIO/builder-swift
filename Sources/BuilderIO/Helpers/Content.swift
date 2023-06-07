@@ -31,9 +31,14 @@ public struct Content {
             let decoder = JSONDecoder()
             let jsonString = String(data: data, encoding: .utf8)!
             do {
-                let content = try decoder.decode(BuilderContentList.self, from: Data(jsonString.utf8))
-                if content.results.count>0 {
-                    callback(content.results[0])
+                if let preview = preview, !preview.isEmpty {
+                    let content = try decoder.decode(BuilderContent.self, from: Data(jsonString.utf8))
+                    callback(content)
+                } else {
+                    let content = try decoder.decode(BuilderContentList.self, from: Data(jsonString.utf8))
+                    if content.results.count>0 {
+                        callback(content.results[0])
+                    }
                 }
             } catch {
                 print(error)
