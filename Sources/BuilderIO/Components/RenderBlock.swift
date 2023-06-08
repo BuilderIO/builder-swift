@@ -11,10 +11,10 @@ struct RenderBlock: View {
         let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
-        VStack {
+        VStack(spacing: 0) {
             let _ = print("Padding for block ---", CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles));
             if #available(iOS 16.0, *) {
-                VStack(alignment: .center) {
+                VStack(alignment: .center, spacing: 0) {
                     let name = block.component?.name
                     if name != nil {
                         let factoryValue = componentDict[name!]
