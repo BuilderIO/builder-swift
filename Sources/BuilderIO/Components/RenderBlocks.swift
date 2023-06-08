@@ -6,7 +6,7 @@ struct RenderBlocks: View {
     
     var body: some View {
         ForEach(blocks, id: \.id) { block in
-            RenderBlock(block: block)
+            RenderBlock(block: block).border(.black, width: 2)
         }
     }
 }
