@@ -31,7 +31,7 @@ public struct RenderContent: View {
     var content: BuilderContent
     
     public var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             RenderBlocks(blocks: content.data.blocks)
         }
     }

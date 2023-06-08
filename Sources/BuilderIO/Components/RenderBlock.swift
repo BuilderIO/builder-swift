@@ -11,35 +11,27 @@ struct RenderBlock: View {
         let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
-        VStack(spacing: 0) {
-//            let _ = print("Padding for block ---", CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles));
-            if #available(iOS 16.0, *) {
-                VStack(alignment: .center, spacing: 0) {
-                    let name = block.component?.name
-                    if name != nil {
-                        let factoryValue = componentDict[name!]
-                        
-                        if factoryValue != nil && block.component?.options! != nil {
-                            AnyView(_fromValue: factoryValue!(block.component!.options!, finalStyles))
-                        } else {
-                            let _ = print("Could not find component", name!)
-                        }
-                        
-                    }
-                    if block.children != nil {
-                        RenderBlocks(blocks: block.children!)
-                    }
-                }
-                .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles)) // margin
-                .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-//                .border(.green)
+        let _ = print("Padding for block ---", block.component?.name, CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles));
+        VStack(alignment: .center, spacing: 0) {
+            let name = block.component?.name
+            if name != nil {
+                let factoryValue = componentDict[name!]
                 
-            } else {
-                // Fallback on earlier versions
+                if factoryValue != nil && block.component?.options! != nil {
+                    AnyView(_fromValue: factoryValue!(block.component!.options!, finalStyles))
+                } else {
+                    let _ = print("Could not find component", name!)
+                }
+                
+            }
+            if block.children != nil {
+                RenderBlocks(blocks: block.children!)
             }
         }
-    }
+        .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles)) // margin
+        .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
+        .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
 
+    }
     
 }
