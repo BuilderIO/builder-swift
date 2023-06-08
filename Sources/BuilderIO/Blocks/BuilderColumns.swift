@@ -16,7 +16,6 @@ struct BuilderColumns: View {
             ForEach(0...columns.count - 1, id: \.self) { index in
                 VStack(spacing: space) {
                     
-                    
                     let blocks = columns[index].blocks
                     RenderBlocks(blocks: blocks)
                     
