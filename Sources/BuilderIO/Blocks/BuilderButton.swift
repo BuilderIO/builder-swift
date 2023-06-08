@@ -15,6 +15,7 @@ struct BuilderButton: View {
     var body: some View {
         let foregroundColor = CSS.getColor(value: responsiveStyles?["color"]);
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"]);
+        let _ = print("BG COLOR BUTTON ----", bgColor);
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
