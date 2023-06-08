@@ -20,7 +20,7 @@ struct BuilderImage: View {
 //        let _ = print("ASPECT RATIO", aspectRatio, 1/aspectRatio)
 //        let _ = print("Max Width?", maxWidth == .infinity ? nil : maxWidth);
 
-        BackportAsyncImage(url: URL(string: image)) { phase in
+        AsyncImage(url: URL(string: image)) { phase in
             if let image = phase.image {
                 image
                     .resizable()
