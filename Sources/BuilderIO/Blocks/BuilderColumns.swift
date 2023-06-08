@@ -12,9 +12,9 @@ struct BuilderColumns: View {
     
     @available(iOS 15.0, *)
     var body: some View {
-        HStack(alignment: .top, spacing: space) {
+        VStack(spacing: space) {
             ForEach(0...columns.count - 1, id: \.self) { index in
-                VStack {
+                VStack(spacing: space) {
                     
                     
                     let blocks = columns[index].blocks
