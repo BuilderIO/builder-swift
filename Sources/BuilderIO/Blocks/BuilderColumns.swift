@@ -22,6 +22,6 @@ struct BuilderColumns: View {
                 }.frame(minWidth: 0, maxWidth: .infinity)
                     .border(.red)
             }
-        }.border(.yellow)
+        }
     }
 }
