@@ -14,13 +14,8 @@ struct BuilderColumns: View {
     var body: some View {
         VStack(spacing: space) {
             ForEach(0...columns.count - 1, id: \.self) { index in
-                VStack(spacing: space) {
-                    
-                    let blocks = columns[index].blocks
-                    RenderBlocks(blocks: blocks)
-                    
-                }.frame(minWidth: 0, maxWidth: .infinity)
-                    .border(.red)
+                let blocks = columns[index].blocks
+                RenderBlocks(blocks: blocks)
             }
         }
     }
