@@ -14,7 +14,7 @@ struct BuilderColumns: View {
     var body: some View {
             ForEach(0...columns.count - 1, id: \.self) { index in
                 let blocks = columns[index].blocks
-                RenderBlocks(blocks: blocks).border(.yellow, width: 3)
+                RenderBlocks(blocks: blocks)
             }
         
     }

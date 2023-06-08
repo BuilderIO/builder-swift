@@ -26,7 +26,6 @@ struct BuilderImage: View {
                     .resizable()
                     .aspectRatio(1/aspectRatio, contentMode: backgroundSize == "cover" ? .fill : .fit)
                     .frame(width: maxWidth == .infinity ? nil : maxWidth)
-//                    .border(.blue)
 
             } else if phase.error != nil {
                 Color.red

@@ -31,7 +31,6 @@ struct RenderBlock: View {
         .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles)) // margin
         .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
         .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-        .border(.green, width: 1)
 
     }
     
