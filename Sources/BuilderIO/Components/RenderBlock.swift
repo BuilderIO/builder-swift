@@ -12,6 +12,7 @@ struct RenderBlock: View {
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
         let _ = print("Padding for block ---", block.component?.name, CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles));
+        Text("Hello")
         VStack(alignment: .center, spacing: 0) {
             let name = block.component?.name
             if name != nil {
