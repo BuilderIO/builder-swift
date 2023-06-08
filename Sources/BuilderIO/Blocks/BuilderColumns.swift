@@ -20,7 +20,8 @@ struct BuilderColumns: View {
                     RenderBlocks(blocks: blocks)
                     
                 }.frame(minWidth: 0, maxWidth: .infinity)
+                    .border(.red)
             }
-        }
+        }.border(.yellow)
     }
 }
