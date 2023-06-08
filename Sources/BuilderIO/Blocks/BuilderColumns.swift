@@ -17,6 +17,6 @@ struct BuilderColumns: View {
                 let blocks = columns[index].blocks
                 RenderBlocks(blocks: blocks)
             }
-        }
+        }.border(.blue)
     }
 }
