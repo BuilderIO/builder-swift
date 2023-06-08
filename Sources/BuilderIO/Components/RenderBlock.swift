@@ -12,6 +12,7 @@ struct RenderBlock: View {
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
         VStack {
+            let _ = print("Padding for block ---", CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles));
             if #available(iOS 16.0, *) {
                 VStack(alignment: .center) {
                     let name = block.component?.name
@@ -32,6 +33,7 @@ struct RenderBlock: View {
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles)) // margin
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
                 .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+                .border(.green)
                 
             } else {
                 // Fallback on earlier versions
