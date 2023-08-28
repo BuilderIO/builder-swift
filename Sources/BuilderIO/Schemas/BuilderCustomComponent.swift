@@ -1,4 +1,5 @@
 public struct BuilderInput {
+    public init() {}
     var name: String
     var friendlyName: String?
     var description: String?
@@ -32,12 +33,14 @@ public struct BuilderInput {
 }
 
 public struct EnumValue {
+    public init() {}
     var label: String
     var value: Any
     var helperText: String?
 }
 
 public struct BuilderCustomComponent {
+    public init() {}
     public var name: String
     public var docsLink: String?
     public var image: String?
