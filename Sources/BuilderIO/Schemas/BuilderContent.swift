@@ -2,6 +2,7 @@
 public struct BuilderContent: Codable {
     var data = BuilderContentData()
     var screenshot: String? = nil
+    var ownerId: String? = nil
 }
 
 struct BuilderContentData: Codable {
