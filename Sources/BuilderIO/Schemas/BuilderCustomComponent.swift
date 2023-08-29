@@ -1,5 +1,4 @@
-public struct BuilderInput {
-    public init() {}
+public struct BuilderInput: Codable {
     var name: String
     var friendlyName: String?
     var description: String?
@@ -32,15 +31,13 @@ public struct BuilderInput {
     var model: String?
 }
 
-public struct EnumValue {
-    public init() {}
-    var label: String
+public struct EnumValue: Codable {
+    public var label: String
     var value: Any
     var helperText: String?
 }
 
-public struct BuilderCustomComponent {
-    public init() {}
+public struct BuilderCustomComponent: Codable {
     public var name: String
     public var docsLink: String?
     public var image: String?
