@@ -33,24 +33,26 @@ public func registerComponent(component: BuilderCustomComponent, factory: @escap
 }
 
 func registerOnEditingSession(component: BuilderCustomComponent, apiKey: String, sessionId: String, sessionToken: String) {
-    let overrideUrl = UserDefaults.standard.string(forKey: "builderRemoteUrl")
-    let url = overrideUrl ?? "https://cdn.builder.io/api/v1/remote-sessions/\(sessionId)"
+    DispatchQueue.global().async {
+        let overrideUrl = UserDefaults.standard.string(forKey: "builderRemoteUrl")
+        let url = overrideUrl ?? "https://cdn.builder.io/api/v1/remote-sessions/\(sessionId)"
 
-    var components = URLComponents(string: url)
-    components?.queryItems = [URLQueryItem(name: "apiKey", value: apiKey), URLQueryItem(name: "sessionToken", value: sessionToken)]
-    // Create the request object
-    var request = URLRequest(url: components!.url!)
-    request.httpMethod = "POST"
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    do {
-        let jsonData = try JSONSerialization.data(withJSONObject: component, options: [])
-        request.httpBody = jsonData
-    } catch {
-        print("Error serializing JSON data: \(error)")
-        return
+        var components = URLComponents(string: url)
+        components?.queryItems = [URLQueryItem(name: "apiKey", value: apiKey), URLQueryItem(name: "sessionToken", value: sessionToken)]
+        // Create the request object
+        var request = URLRequest(url: components!.url!)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: component, options: [])
+            request.httpBody = jsonData
+        } catch {
+            print("Error serializing JSON data: \(error)")
+            return
+        }
+
+        // Create a URLSession task and start it
+        let task = URLSession.shared.dataTask(with: request)
+        task.resume()
     }
-
-    // Create a URLSession task and start it
-    let task = URLSession.shared.dataTask(with: request)
-    task.resume()
 }
