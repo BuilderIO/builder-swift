@@ -68,7 +68,7 @@ public struct BuilderInput: Encodable {
     }
     
 
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case name
         case friendlyName
         case description
@@ -130,20 +130,20 @@ public struct BuilderInput: Encodable {
     var copyOnAdd: Bool?
     var model: String?
     
-    struct EnumValue: Encodable {
+    public struct EnumValue: Encodable {
         var label: String
         var value: String
         var helperText: String?
     }
     
-    enum DefaultValue: Encodable {
+    public enum DefaultValue: Encodable {
         case string(String)
         case int(Int)
         case hash([String: Any])
         case stringArray([String])
         case dictionaryArray([[String: Any]])
 
-        func encode(to encoder: Encoder) throws {
+        public func encode(to encoder: Encoder) throws {
             var container = encoder.singleValueContainer()
             switch self {
             case .string(let value):
