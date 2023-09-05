@@ -1,7 +1,7 @@
 import Foundation
 
 public struct BuilderInput: Encodable {
-    internal init(name: String, friendlyName: String? = nil, description: String? = nil, defaultValue: BuilderInput.DefaultValue? = nil, type: String, required: Bool? = nil, subFields: [BuilderInput]? = nil, helperText: String? = nil, allowedFileTypes: [String]? = nil, imageHeight: Int? = nil, imageWidth: Int? = nil, mediaHeight: Int? = nil, mediaWidth: Int? = nil, hideFromUI: Bool? = nil, modelId: String? = nil, max: Int? = nil, min: Int? = nil, step: Int? = nil, broadcast: Bool? = nil, bubble: Bool? = nil, localized: Bool? = nil, `enum`: [BuilderInput.EnumValue]? = nil, advanced: Bool? = nil, onChange: String? = nil, code: Bool? = nil, richText: Bool? = nil, showIf: String? = nil, copyOnAdd: Bool? = nil, model: String? = nil) {
+    public init(name: String, friendlyName: String? = nil, description: String? = nil, defaultValue: BuilderInput.DefaultValue? = nil, type: String, required: Bool? = nil, subFields: [BuilderInput]? = nil, helperText: String? = nil, allowedFileTypes: [String]? = nil, imageHeight: Int? = nil, imageWidth: Int? = nil, mediaHeight: Int? = nil, mediaWidth: Int? = nil, hideFromUI: Bool? = nil, modelId: String? = nil, max: Int? = nil, min: Int? = nil, step: Int? = nil, broadcast: Bool? = nil, bubble: Bool? = nil, localized: Bool? = nil, `enum`: [BuilderInput.EnumValue]? = nil, advanced: Bool? = nil, onChange: String? = nil, code: Bool? = nil, richText: Bool? = nil, showIf: String? = nil, copyOnAdd: Bool? = nil, model: String? = nil) {
         self.name = name
         self.friendlyName = friendlyName
         self.description = description
@@ -166,7 +166,7 @@ public struct BuilderInput: Encodable {
 }
 
 public struct BuilderCustomComponent: Encodable {
-    internal init(name: String, docsLink: String? = nil, image: String? = nil, screenshot: String? = nil, `override`: Bool? = nil, inputs: [BuilderInput]? = nil, defaultStyles: [String : String]? = nil, noWrap: Bool? = nil, hideFromInsertMenu: Bool? = nil, models: [String]? = nil) {
+    public init(name: String, docsLink: String? = nil, image: String? = nil, screenshot: String? = nil, `override`: Bool? = nil, inputs: [BuilderInput]? = nil, defaultStyles: [String : String]? = nil, noWrap: Bool? = nil, hideFromInsertMenu: Bool? = nil, models: [String]? = nil) {
         self.name = name
         self.docsLink = docsLink
         self.image = image
