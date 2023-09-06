@@ -8,7 +8,7 @@ public class BuilderContentWrapper: ObservableObject {
         self.content = content
     }
     
-    func changeContent(_ newValue: BuilderContent?) {
+    public func changeContent(_ newValue: BuilderContent?) {
         self.content = newValue;
         self.objectWillChange.send();
     }
