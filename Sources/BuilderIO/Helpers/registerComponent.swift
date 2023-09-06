@@ -44,7 +44,7 @@ func registerOnEditingSession(component: BuilderCustomComponent, apiKey: String,
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: component, options: [])
+            let jsonData = try JSONEncoder().encode(component)
             request.httpBody = jsonData
         } catch {
             print("Error serializing JSON data: \(error)")
