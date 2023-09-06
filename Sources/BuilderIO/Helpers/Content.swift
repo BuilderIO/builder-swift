@@ -6,8 +6,8 @@ public struct Content {
         let encodedUrl = String(describing: url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)
         var str = "https://cdn.builder.io/api/v3/content/\(model)"
         
-        let overrideLocale = UserDefaults.standard.string(forKey: "builderLocale")
-        let overridePreviewContent = UserDefaults.standard.string(forKey: "builderContentId")
+        let overrideLocale = UserDefaults.standard.string(forKey: "builderLocale");
+        let overridePreviewContent = UserDefaults.standard.string(forKey: "builderContentId");
         print("override preview content", overridePreviewContent ?? "no override");
         
         let useLocale = overrideLocale ?? locale
