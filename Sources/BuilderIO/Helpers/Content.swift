@@ -2,6 +2,13 @@ import Foundation
 import os
 
 public struct Content {
+    
+    public static func isPreviewing() -> Bool {
+        // Assuming we are only using appetize for previewing in
+        // the content editor for now
+        let isAppetize = UserDefaults.standard.bool(forKey: "isAppetize");
+        return isAppetize;
+    }
     public static func getContent(model: String, apiKey: String, url: String, locale: String? = nil, preview: String? = nil, callback: @escaping ((BuilderContent?)->())) {
         let encodedUrl = String(describing: url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)
         var str = "https://cdn.builder.io/api/v3/content/\(model)"
