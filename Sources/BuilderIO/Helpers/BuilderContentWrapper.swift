@@ -2,7 +2,7 @@
 import Foundation
 
 @available(iOS 13.0, *)
-class BuilderContentWrapper: ObservableObject {
+public class BuilderContentWrapper: ObservableObject {
     var content: BuilderContent? = nil;
     init(content: BuilderContent? = nil) {
         self.content = content
