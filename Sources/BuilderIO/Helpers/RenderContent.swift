@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 @available(iOS 15.0, macOS 10.15, *)
 public struct RenderContent: View {
@@ -14,16 +13,16 @@ public struct RenderContent: View {
             // TODO: move these out of here?
             registerComponent(component: BuilderCustomComponent(name: "Text", inputs: [
                 BuilderInput(name: "text", type: "text")
-            ]), factory: { (options, styles) in
+            ]), factory: { (options, styles, _) in
                 return BuilderText(text: options["text"].stringValue, responsiveStyles: styles)
             }, apiKey: nil)
-            registerComponent(component: BuilderCustomComponent(name: "Image"), factory: { (options, styles) in
-                return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize"].stringValue, aspectRatio: CSSStyleUtil.getFloatValue(cssString: options["aspectRatio"].stringValue),  responsiveStyles: styles)
+            registerComponent(component: BuilderCustomComponent(name: "Image"), factory: { (options, styles, children) in
+                return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize"].stringValue, aspectRatio: CSSStyleUtil.getFloatValue(cssString: options["aspectRatio"].stringValue),  responsiveStyles: styles, children: children)
             }, apiKey: nil)
-            registerComponent(component: BuilderCustomComponent(name: "Core:Button"), factory: { (options, styles) in
+            registerComponent(component: BuilderCustomComponent(name: "Core:Button"), factory: { (options, styles, _) in
                 return BuilderButton(text: options["text"].stringValue, urlStr: options["link"].stringValue, openInNewTab: options["openLinkInNewTab"].boolValue, responsiveStyles: styles)
             }, apiKey: nil)
-            registerComponent(component: BuilderCustomComponent(name: "Columns"), factory: { (options, styles) in
+            registerComponent(component: BuilderCustomComponent(name: "Columns"), factory: { (options, styles, _) in
                 let decoder = JSONDecoder()
                 let jsonString = options["columns"].rawString()!
                 let columns = try! decoder.decode([BuilderColumn].self, from: Data(jsonString.utf8))

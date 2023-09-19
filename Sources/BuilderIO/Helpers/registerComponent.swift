@@ -2,15 +2,15 @@ import SwiftyJSON
 import SwiftUI
 import Foundation
 
-public typealias BuilderBlockFactory = (JSON, [String: String]?) -> Any;
+public typealias BuilderBlockFactory = (JSON, [String: String]?, [BuilderBlock]?) -> Any;
 public var componentDict: [String:BuilderBlockFactory] = [:]
 
 
 public func registerComponent(component: BuilderCustomComponent, factory: @escaping BuilderBlockFactory, apiKey: String?) {
     let name = component.name
-    func useFactory(options: JSON, styles: [String: String]?) -> Any {
+    func useFactory(options: JSON, styles: [String: String]?, children:  [BuilderBlock]?) -> Any {
         do {
-            let value = try factory(options, styles)
+            let value = try factory(options, styles, children)
             return value
         } catch {
             print("Could not instantiate \(name): \(error)")
