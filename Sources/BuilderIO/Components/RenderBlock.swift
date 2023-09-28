@@ -12,18 +12,21 @@ struct RenderBlock: View {
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
         VStack(alignment: .center, spacing: 0) {
-            let name = block.component?.name
-            if name != nil {
-                let factoryValue = componentDict[name!]
-                
-                if  finalStyles["display"] != "none" {
+            if  finalStyles["display"] != "none" {
+                let name = block.component?.name
+                var childrenRendered = false;
+                if name != nil {
+                    let factoryValue = componentDict[name!]
+
                     if factoryValue != nil && block.component?.options! != nil {
                         AnyView(_fromValue: factoryValue!(block.component!.options!, finalStyles, block.children))
-                    } else {
-                        let _ = print("Could not find component", name!)
-                        if block.children != nil {
-                            RenderBlocks(blocks: block.children!)
-                        }
+                    }
+                }
+                
+                if name == nil || (componentDict[name!] != nil && block.component?.options! != nil) {
+                    let _ = print("No Name for component or no factory", name!)
+                    if block.children != nil {
+                        RenderBlocks(blocks: block.children!)
                     }
                 }
             }
