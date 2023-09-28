@@ -16,15 +16,16 @@ struct RenderBlock: View {
             if name != nil {
                 let factoryValue = componentDict[name!]
                 
-                if factoryValue != nil && block.component?.options! != nil && finalStyles["display"] != "none" {
-                    AnyView(_fromValue: factoryValue!(block.component!.options!, finalStyles, block.children))
-                } else {
-                    let _ = print("Could not find component", name!)
-                    if block.children != nil {
-                        RenderBlocks(blocks: block.children!)
+                if  finalStyles["display"] != "none" {
+                    if factoryValue != nil && block.component?.options! != nil {
+                        AnyView(_fromValue: factoryValue!(block.component!.options!, finalStyles, block.children))
+                    } else {
+                        let _ = print("Could not find component", name!)
+                        if block.children != nil {
+                            RenderBlocks(blocks: block.children!)
+                        }
                     }
                 }
-                
             }
         }
         .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles)) // margin
