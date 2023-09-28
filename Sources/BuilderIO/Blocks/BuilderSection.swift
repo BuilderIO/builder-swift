@@ -14,10 +14,9 @@ struct BuilderSection: View {
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"]);
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let _ = print("SECTION FOUND WITH STYLES_____", responsiveStyles ?? "NO RESPONSIVE STYLES");
-        Color.clear.overlay(
+        VStack {
             RenderBlocks(blocks: children!)
-        )
-        
+        }
         .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
             
