@@ -14,7 +14,6 @@ struct RenderBlock: View {
         VStack(alignment: .center, spacing: 0) {
             if  finalStyles["display"] != "none" {
                 let name = block.component?.name
-                var childrenRendered = false;
                 if name != nil {
                     let factoryValue = componentDict[name!]
 

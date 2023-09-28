@@ -16,7 +16,9 @@ struct BuilderSection: View {
         let _ = print("SECTION FOUND WITH STYLES_____", responsiveStyles ?? "NO RESPONSIVE STYLES");
         VStack {
             RenderBlocks(blocks: children!)
-        }.background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        }
+        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
             
         
         

@@ -23,7 +23,9 @@ struct BuilderColumns: View {
                 let blocks = columns[index].blocks
                 RenderBlocks(blocks: blocks)
             }
-        }.background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        }
+        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
             
         
         
