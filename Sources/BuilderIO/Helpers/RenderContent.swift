@@ -26,7 +26,7 @@ public struct RenderContent: View {
                 let decoder = JSONDecoder()
                 let jsonString = options["columns"].rawString()!
                 let columns = try! decoder.decode([BuilderColumn].self, from: Data(jsonString.utf8))
-                return BuilderColumns(columns: columns, space: CGFloat(options["space"].floatValue))
+                return BuilderColumns(columns: columns, space: CGFloat(options["space"].floatValue), responsiveStyles: styles)
             }, apiKey: nil)
             RenderContent.registered = true
         }
