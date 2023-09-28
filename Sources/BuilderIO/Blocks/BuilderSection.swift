@@ -17,8 +17,9 @@ struct BuilderSection: View {
         VStack {
             RenderBlocks(blocks: children!)
         }
-        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
+        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        
             
         
         

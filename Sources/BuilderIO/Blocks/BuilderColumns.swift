@@ -24,8 +24,10 @@ struct BuilderColumns: View {
                 RenderBlocks(blocks: blocks)
             }
         }
-        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
+        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        
+        
             
         
         
