@@ -7,6 +7,7 @@ struct BuilderImage: View {
     var backgroundSize: String;
     var aspectRatio: CGFloat;
     var responsiveStyles: [String: String]?;
+    var children: [BuilderBlock]?;
 
     
     var body: some View {
@@ -37,5 +38,10 @@ struct BuilderImage: View {
         .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
         .foregroundColor(foregroundColor)
         .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        .overlay(content: {
+            if (children != nil) {
+                RenderBlocks(blocks: children!)
+            }
+        })
     }
 }

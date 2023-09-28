@@ -19,11 +19,13 @@ import BuilderIO
 Register any components you have created in your iOS App using something like
 
 ```
-        registerComponent(name: "MyComponentName", factory: { (options, styles) in
+        registerComponent(component: BuilderCustomComponent(name: "MyComponentName",
+          inputs: [ BuilderInput(name: "ctaText", type: "text")]
+        ), factory: { (options, styles) in
             // Return an instance of your view, passing in any
             // properties from Builder to your component for rendering
             return HeroComponent(headingText: options["headingText"].stringValue, ctaText: options["ctaText"].stringValue)
-        });
+        }, apiKey);
 ```
 
 * Currently, you will need to replicate this component registration in a JS SDK so that the web preview can render this component and also correctly showcase your custom component to drag and use in Builder. This is a limitation that will be fixed in the future.
