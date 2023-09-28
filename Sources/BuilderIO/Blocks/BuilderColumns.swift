@@ -18,12 +18,16 @@ struct BuilderColumns: View {
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"]);
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let _ = print("COLUMN FOUND WITH STYLES_____", responsiveStyles ?? "NO RESPONSIVE STYLES");
-        VStack {
-            ForEach(0...columns.count - 1, id: \.self) { index in
-                let blocks = columns[index].blocks
-                RenderBlocks(blocks: blocks)
-            }
-        }
+        Color.clear
+            .overlay(
+                VStack {
+                    ForEach(0...columns.count - 1, id: \.self) { index in
+                        let blocks = columns[index].blocks
+                        RenderBlocks(blocks: blocks)
+                    }
+                }
+            )
+        
         .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
             
