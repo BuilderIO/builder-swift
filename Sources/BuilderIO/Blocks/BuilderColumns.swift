@@ -17,6 +17,7 @@ struct BuilderColumns: View {
     var body: some View {
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"]);
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
+        let _ = print("COLUMN FOUND WITH STYLES_____", responsiveStyles);
         VStack {
             ForEach(0...columns.count - 1, id: \.self) { index in
                 let blocks = columns[index].blocks
