@@ -24,7 +24,7 @@ struct RenderBlock: View {
                 }
                 
                 if name == nil || (componentDict[name!] != nil && block.component?.options! != nil) {
-                    let _ = print("No Name for component or no factory", name!)
+                    let _ = print("No Name for component or no factory", name ?? "NO NAME")
                     if block.children != nil {
                         RenderBlocks(blocks: block.children!)
                     }
