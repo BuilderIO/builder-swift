@@ -19,9 +19,9 @@ struct BuilderText: View {
         let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
         let roundedRectangle = RoundedRectangle(cornerRadius: cornerRadius);
         if ((responsiveStyles?["backgroundColor"]) != nil) {
-            roundedRectangle.fill(bgColor)
+            roundedRectangle.fill(Color.green)
         } else {
-            roundedRectangle.fill(Color.yellow).opacity(0)
+            roundedRectangle.fill(Color.yellow)
         }
         
         Text(CSS.getTextWithoutHtml(text))
@@ -29,7 +29,7 @@ struct BuilderText: View {
             .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
             .background(roundedRectangle)
-            .foregroundColor(foregroundColor)
+            .foregroundColor(Color.purple)
             .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the text
             
             
