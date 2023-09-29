@@ -43,5 +43,6 @@ struct BuilderImage: View {
                 RenderBlocks(blocks: children!)
             }
         })
+        .cornerRadius(cornerRadius)
     }
 }
