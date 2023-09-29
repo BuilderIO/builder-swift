@@ -28,8 +28,8 @@ struct BuilderText: View {
             .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
             .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
-            .background(roundedRectangle)
             .foregroundColor(Color.purple)
+            .background(roundedRectangle)
             .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the text
             
             
