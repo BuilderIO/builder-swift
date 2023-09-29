@@ -17,20 +17,20 @@ struct BuilderText: View {
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
         
         let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
-        let roundedRectangle = RoundedRectangle(cornerRadius: cornerRadius);
-        if ((responsiveStyles?["backgroundColor"]) != nil) {
-            roundedRectangle.fill(Color.green)
-        } else {
-            roundedRectangle.fill(Color.yellow)
-        }
+//        let roundedRectangle = RoundedRectangle(cornerRadius: cornerRadius);
+//        if ((responsiveStyles?["backgroundColor"]) != nil) {
+//            roundedRectangle.fill(Color.green)
+//        } else {
+//            roundedRectangle.fill(Color.yellow)
+//        }
         
         Text(CSS.getTextWithoutHtml(text))
             .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
             .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
             .foregroundColor(Color.purple)
-            .background(roundedRectangle)
-            .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the text
+            .background(Color.yellow)
+//            .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the text
             
             
     }
