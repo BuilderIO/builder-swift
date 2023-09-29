@@ -7,6 +7,7 @@ struct RenderBlock: View {
     var block: BuilderBlock
     var body: some View {
         let finalStyles = CSS.getFinalStyle(responsiveStyles: block.responsiveStyles );
+        let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"]);
         let textAlignValue = finalStyles["textAlign"]
         let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
         let cornerRadius = CSS.getFloatValue(cssString:finalStyles["borderRadius"] ?? "0px")
@@ -33,9 +34,12 @@ struct RenderBlock: View {
                 }
             }
         }
+        
         .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles)) // margin
+        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
         .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
         .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+        .cornerRadius(cornerRadius)
         .overlay(
             RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(borderColor, lineWidth: borderWidth)
