@@ -13,6 +13,7 @@ struct RenderBlock: View {
         let cornerRadius = CSS.getFloatValue(cssString:finalStyles["borderRadius"] ?? "0px")
         let borderWidth = CSS.getFloatValue(cssString:finalStyles["borderWidth"] ?? "0px")
         let borderColor = CSS.getColor(value: finalStyles["borderColor"] ?? "none");
+        let padding = CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles)
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
         VStack(alignment: .center, spacing: 0) {
@@ -35,8 +36,9 @@ struct RenderBlock: View {
             }
         }
         
-        .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles)) // margin
+        .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles)) // margin
         .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
         .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
         .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
         .cornerRadius(cornerRadius)

@@ -34,10 +34,11 @@ struct BuilderImage: View {
                 Color.blue
             }
         }
-        .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button
+        .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the image
         .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
         .foregroundColor(foregroundColor)
         .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the image
         .overlay(content: {
             if (children != nil) {
                 RenderBlocks(blocks: children!)

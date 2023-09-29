@@ -19,6 +19,8 @@ struct BuilderSection: View {
         }
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
         .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin
+        
         
             
         

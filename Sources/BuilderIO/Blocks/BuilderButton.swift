@@ -39,6 +39,7 @@ struct BuilderButton: View {
         .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
         .foregroundColor(foregroundColor)
         .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // Margin for the button
             
         
         .sheet(isPresented: $showWebView) {
