@@ -7,7 +7,7 @@ struct RenderBlock: View {
     var block: BuilderBlock
     var body: some View {
         let finalStyles = CSS.getFinalStyle(responsiveStyles: block.responsiveStyles );
-        let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"]);
+        let bgColor = CSS.getColor(value: finalStyles["backgroundColor"]);
         let textAlignValue = finalStyles["textAlign"]
         let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
         let cornerRadius = CSS.getFloatValue(cssString:finalStyles["borderRadius"] ?? "0px")
