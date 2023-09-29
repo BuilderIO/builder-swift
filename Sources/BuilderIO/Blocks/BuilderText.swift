@@ -26,7 +26,7 @@ struct BuilderText: View {
         
         Text(CSS.getTextWithoutHtml(text))
 //            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
-            .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
+//            .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
             .foregroundColor(Color.purple)
             
