@@ -20,6 +20,8 @@ struct BuilderText: View {
         let roundedRectangle = RoundedRectangle(cornerRadius: cornerRadius);
         if ((responsiveStyles?["backgroundColor"]) != nil) {
             roundedRectangle.fill(bgColor)
+        } else {
+            roundedRectangle.fill(Color.white).opacity(0)
         }
         
         Text(CSS.getTextWithoutHtml(text))
