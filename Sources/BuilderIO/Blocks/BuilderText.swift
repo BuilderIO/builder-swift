@@ -21,7 +21,7 @@ struct BuilderText: View {
         if ((responsiveStyles?["backgroundColor"]) != nil) {
             roundedRectangle.fill(bgColor)
         } else {
-            roundedRectangle.fill(Color.white).opacity(0)
+            roundedRectangle.fill(Color.yellow).opacity(1)
         }
         
         Text(CSS.getTextWithoutHtml(text))
