@@ -17,12 +17,17 @@ struct BuilderText: View {
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
         let _ = print("Text", CSS.getTextWithoutHtml(text))
         let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
+        let roundedRectangle = RoundedRectangle(cornerRadius: cornerRadius);
+        if ((responsiveStyles?["backgroundColor"]) != nil) {
+            roundedRectangle.fill(bgColor)
+        }
+        
         Text(CSS.getTextWithoutHtml(text))
             .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button
             .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
             .foregroundColor(foregroundColor)
-            .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+            .background(roundedRectangle)
             
     }
 }
