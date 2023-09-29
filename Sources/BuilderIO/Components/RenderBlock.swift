@@ -40,10 +40,7 @@ struct RenderBlock: View {
         .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
         .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
         .cornerRadius(cornerRadius)
-        .overlay(
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .stroke(borderColor, lineWidth: borderWidth)
-        )
+        
 
     }
     
