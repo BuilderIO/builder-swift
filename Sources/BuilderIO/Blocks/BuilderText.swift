@@ -29,6 +29,7 @@ struct BuilderText: View {
             .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
             .foregroundColor(Color.purple)
+            .background(Color.clear)
             //.background(Color.yellow)
 //            .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the text
             
