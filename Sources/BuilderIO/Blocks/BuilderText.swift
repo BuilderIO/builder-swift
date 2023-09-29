@@ -24,11 +24,14 @@ struct BuilderText: View {
 //            roundedRectangle.fill(Color.yellow)
 //        }
         
-        Text(CSS.getTextWithoutHtml(text))
-            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
-            .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
-            .font(.system(size: fontSize).weight(fontWeight))
-            .foregroundColor(Color.purple)
+        VStack {
+            Text(CSS.getTextWithoutHtml(text))
+                .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
+                .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
+                .font(.system(size: fontSize).weight(fontWeight))
+                .foregroundColor(foregroundColor)
+        }
+        
             .background(Color.clear)
             //.background(Color.yellow)
 //            .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the text
