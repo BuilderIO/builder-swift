@@ -28,9 +28,6 @@ public struct RenderContent: View {
                 let columns = try! decoder.decode([BuilderColumn].self, from: Data(jsonString.utf8))
                 return BuilderColumns(columns: columns, space: CGFloat(options["space"].floatValue), responsiveStyles: styles)
             }, apiKey: nil)
-            registerComponent(component: BuilderCustomComponent(name: "Core:Section"), factory: { (options, styles, children) in
-                return BuilderSection(responsiveStyles: styles, children: children)
-            }, apiKey: nil)
             RenderContent.registered = true
         }
         
