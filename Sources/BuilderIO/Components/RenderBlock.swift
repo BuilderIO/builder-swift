@@ -16,7 +16,7 @@ struct RenderBlock: View {
         let padding = CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles)
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
-        VStack(alignment: .center, spacing: 0) {
+        let view = VStack(alignment: .center, spacing: 0) {
             if  finalStyles["display"] != "none" {
                 let name = block.component?.name
                 if name != nil {
@@ -39,14 +39,13 @@ struct RenderBlock: View {
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles));
         
         if (finalStyles["backgroundColor"] != nil) {
-            self.background(bgColor)
+            let _ = view.background(bgColor)
         }// margin
 
-        self.padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
+        return view.padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
         .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
         .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
         .cornerRadius(cornerRadius)
-        
 
     }
     
