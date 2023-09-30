@@ -10,20 +10,29 @@ struct BuilderText: View {
 
     
     var body: some View {
+        
         let foregroundColor = CSS.getColor(value: responsiveStyles?["color"] ?? "black");
-        let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"] ?? "rgba(0,0,0,0)");
+//        let _ = print("BUILDER TEXT", text, foregroundColor, responsiveStyles ?? "No Styles")
+//        let bgColor = Color.green; // CSS.getColor(value: responsiveStyles?["backgroundColor"] ?? "rgba(0,0,0,0)");
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
-        let _ = print("Text", CSS.getTextWithoutHtml(text))
+        
         let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
+//        let roundedRectangle = RoundedRectangle(cornerRadius: cornerRadius);
+//        if ((responsiveStyles?["backgroundColor"]) != nil) {
+//            roundedRectangle.fill(Color.green)
+//        } else {
+//            roundedRectangle.fill(Color.yellow)
+//        }
+        
         Text(CSS.getTextWithoutHtml(text))
-            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button
+//            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
             .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
             .foregroundColor(foregroundColor)
-            .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
-            
+//            .background(Color.green)
+//            .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the text
     }
 }
 

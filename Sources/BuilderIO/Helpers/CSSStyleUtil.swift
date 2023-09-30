@@ -54,6 +54,10 @@ class CSSStyleUtil {
                 if (matches.count > 3) {
                     return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
                 }
+            } else {
+                if ((value?.hasPrefix("#")) != nil) {
+                    return hexStringToUIColor(hex: value ?? "#fff")
+                }
             }
         } else {
             return Color.white
@@ -61,7 +65,36 @@ class CSSStyleUtil {
         return Color.white
     }
     
-    
+    @available(iOS 13.0, *)
+    static func hexStringToUIColor (hex:String) -> Color {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+
+        if (cString.count == 3) {
+            let r = cString[cString.index(cString.startIndex, offsetBy: 2)]
+            let g = cString[cString.index(cString.startIndex, offsetBy: 1)]
+            let b = cString[cString.index(cString.startIndex, offsetBy: 0)]
+            cString = String(repeating: r, count: 2) + String(repeating: g, count: 2) +
+                String(repeating: b, count: 2)
+        }
+
+        if ((cString.count) != 6) {
+            return Color.gray
+        }
+        
+        var rgbValue:UInt64 = 0
+        Scanner(string: cString).scanHexInt64(&rgbValue)
+
+        return Color(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0
+        )
+        
+    }
     
     static func matchingStrings(string: String, regex: String) -> [[String]] {
         guard let regex = try? NSRegularExpression(pattern: regex, options: []) else { return [] }
