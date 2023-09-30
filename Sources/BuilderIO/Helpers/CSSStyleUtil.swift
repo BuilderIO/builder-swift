@@ -71,10 +71,12 @@ class CSSStyleUtil {
     static func hexStringToUIColor (hex:String) -> Color {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
+        print("cSTRING BEFORE removing #", cString);
         if (cString.hasPrefix("#")) {
             cString.remove(at: cString.startIndex)
         }
 
+        print("cSTRING after removing #", cString);
         if ((cString.count) != 6) {
             return Color.gray
         }
