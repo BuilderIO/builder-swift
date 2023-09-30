@@ -25,7 +25,7 @@ struct BuilderColumns: View {
             }
         }
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
-        .background(bgColor)
+        .background(bgColor) 
         .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:]))
         
         
