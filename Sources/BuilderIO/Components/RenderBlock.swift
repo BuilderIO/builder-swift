@@ -39,14 +39,16 @@ struct RenderBlock: View {
         
             .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles));
         
-            let _ = print("Block ID", block.id, " Background color ", finalStyles["backgroundColor"] ?? "No BG Color")
+            
             if (finalStyles["backgroundColor"] != nil) {
+                let _ = print("Block ID", block.id, " Background color ", finalStyles["backgroundColor"] ?? "No BG Color SHOULD NOT HAPPEN")
                 view.background(bgColor)
                     .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
                     .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
                     .cornerRadius(cornerRadius)
             } else {
+                let _ = print("Block ID", block.id, " NO Background color ")
                 view
                     .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
