@@ -55,7 +55,9 @@ class CSSStyleUtil {
                     return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
                 }
             } else {
+                print("NOT AN RGB MATCH, CHECKING #hex", value ?? "NO VALUE");
                 if ((value?.hasPrefix("#")) != nil) {
+                    print("MATCH FOR HEX #hex", value ?? "NO VALUE");
                     return hexStringToUIColor(hex: value ?? "#fff")
                 }
             }
