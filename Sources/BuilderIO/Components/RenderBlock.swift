@@ -38,6 +38,7 @@ struct RenderBlock: View {
         
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles));
         
+        let _ = print("Block ID", block.id, " Background color ", finalStyles["backgroundColor"] ?? "No BG Color")
         if (finalStyles["backgroundColor"] != nil) {
             let _ = view.background(bgColor)
         }// margin
