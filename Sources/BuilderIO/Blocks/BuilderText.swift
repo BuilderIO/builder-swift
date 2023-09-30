@@ -12,7 +12,7 @@ struct BuilderText: View {
     var body: some View {
         
         let foregroundColor = CSS.getColor(value: responsiveStyles?["color"] ?? "black");
-        let _ = print("BUILDER TEXT", text, foregroundColor, responsiveStyles ?? "No Styles")
+//        let _ = print("BUILDER TEXT", text, foregroundColor, responsiveStyles ?? "No Styles")
 //        let bgColor = Color.green; // CSS.getColor(value: responsiveStyles?["backgroundColor"] ?? "rgba(0,0,0,0)");
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
@@ -32,11 +32,7 @@ struct BuilderText: View {
             .font(.system(size: fontSize).weight(fontWeight))
             .foregroundColor(foregroundColor)
 //            .background(Color.green)
-            
-            
 //            .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:])) // margin for the text
-            
-            
     }
 }
 

@@ -29,7 +29,7 @@ struct RenderBlock: View {
                 }
                 
                 if name == nil || !(componentDict[name!] != nil && block.component?.options! != nil) {
-                    let _ = print("No Name for component or no factory", name ?? "NO NAME")
+//                    let _ = print("No Name for component or no factory", name ?? "NO NAME")
                     if block.children != nil {
                         RenderBlocks(blocks: block.children!)
                     }
@@ -41,14 +41,14 @@ struct RenderBlock: View {
         
             
             if (finalStyles["backgroundColor"] != nil) {
-                let _ = print("Block ID", block.id, " Background color ", finalStyles["backgroundColor"] ?? "No BG Color SHOULD NOT HAPPEN")
+//                let _ = print("Block ID", block.id, " Background color ", finalStyles["backgroundColor"] ?? "No BG Color SHOULD NOT HAPPEN")
                 view.background(bgColor)
                     .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
                     .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
                     .cornerRadius(cornerRadius)
             } else {
-                let _ = print("Block ID", block.id, " NO Background color ")
+//                let _ = print("Block ID", block.id, " NO Background color ")
                 view
                     .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)

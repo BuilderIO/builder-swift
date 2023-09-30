@@ -13,7 +13,7 @@ struct BuilderSection: View {
     var body: some View {
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"]);
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
-        let _ = print("SECTION FOUND WITH STYLES_____", responsiveStyles ?? "NO RESPONSIVE STYLES");
+//        let _ = print("SECTION FOUND WITH STYLES_____", responsiveStyles ?? "NO RESPONSIVE STYLES");
         VStack {
             RenderBlocks(blocks: children!)
         }

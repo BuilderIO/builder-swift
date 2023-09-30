@@ -55,9 +55,7 @@ class CSSStyleUtil {
                     return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
                 }
             } else {
-                print("NOT AN RGB MATCH, CHECKING #hex", value ?? "NO VALUE");
                 if ((value?.hasPrefix("#")) != nil) {
-                    print("MATCH FOR HEX #hex", value ?? "NO VALUE");
                     return hexStringToUIColor(hex: value ?? "#fff")
                 }
             }
@@ -71,12 +69,10 @@ class CSSStyleUtil {
     static func hexStringToUIColor (hex:String) -> Color {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
-        print("cSTRING BEFORE removing #", cString);
         if (cString.hasPrefix("#")) {
             cString.remove(at: cString.startIndex)
         }
 
-        print("cSTRING after removing #", cString);
         if (cString.count == 3) {
             let r = cString[cString.index(cString.startIndex, offsetBy: 2)]
             let g = cString[cString.index(cString.startIndex, offsetBy: 1)]
@@ -84,12 +80,10 @@ class CSSStyleUtil {
             cString = String(repeating: r, count: 2) + String(repeating: g, count: 2) +
                 String(repeating: b, count: 2)
         }
-        print("cSTRING after CHANGE #", cString);
+
         if ((cString.count) != 6) {
             return Color.gray
         }
-
-        
         
         var rgbValue:UInt64 = 0
         Scanner(string: cString).scanHexInt64(&rgbValue)
@@ -101,8 +95,6 @@ class CSSStyleUtil {
         )
         
     }
-    
-    
     
     static func matchingStrings(string: String, regex: String) -> [[String]] {
         guard let regex = try? NSRegularExpression(pattern: regex, options: []) else { return [] }
