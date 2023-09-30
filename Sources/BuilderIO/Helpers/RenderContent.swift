@@ -45,7 +45,7 @@ public struct RenderContent: View {
                         sendTrackingPixel()
                     }
                 }
-        }
+        }.background(Color.white)
     }
 
     func sendTrackingPixel() {
