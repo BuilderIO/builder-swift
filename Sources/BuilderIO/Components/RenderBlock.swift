@@ -16,12 +16,13 @@ struct RenderBlock: View {
         let padding = CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles)
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
-        let view = VStack(alignment: .center, spacing: 0) {
-            if  finalStyles["display"] != "none" {
+        if  finalStyles["display"] != "none" {
+            let view = VStack(alignment: .center, spacing: 0) {
+                
                 let name = block.component?.name
                 if name != nil {
                     let factoryValue = componentDict[name!]
-
+                    
                     if factoryValue != nil && block.component?.options! != nil {
                         AnyView(_fromValue: factoryValue!(block.component!.options!, finalStyles, block.children))
                     }
@@ -34,23 +35,24 @@ struct RenderBlock: View {
                     }
                 }
             }
-        }
         
-        .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles));
         
-        let _ = print("Block ID", block.id, " Background color ", finalStyles["backgroundColor"] ?? "No BG Color")
-        if (finalStyles["backgroundColor"] != nil) {
-            view.background(bgColor)
-                .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
-                .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-                .cornerRadius(cornerRadius)
-        } else {
-            view
-                .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
-                .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-                .cornerRadius(cornerRadius)
+            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles));
+        
+            let _ = print("Block ID", block.id, " Background color ", finalStyles["backgroundColor"] ?? "No BG Color")
+            if (finalStyles["backgroundColor"] != nil) {
+                view.background(bgColor)
+                    .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
+                    .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
+                    .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+                    .cornerRadius(cornerRadius)
+            } else {
+                view
+                    .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
+                    .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
+                    .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+                    .cornerRadius(cornerRadius)
+            }
         }
 
         
