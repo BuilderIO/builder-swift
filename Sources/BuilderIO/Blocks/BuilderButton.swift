@@ -38,7 +38,7 @@ struct BuilderButton: View {
         }
         .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
         .foregroundColor(foregroundColor)
-//        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
+        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(bgColor))
             
         
         .sheet(isPresented: $showWebView) {
