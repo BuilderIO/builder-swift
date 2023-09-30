@@ -10,7 +10,9 @@ struct BuilderText: View {
 
     
     var body: some View {
+        
         let foregroundColor = CSS.getColor(value: responsiveStyles?["color"] ?? "black");
+        let _ = print("BUILDER TEXT", text, foregroundColor)
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"] ?? "rgba(0,0,0,0)");
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
