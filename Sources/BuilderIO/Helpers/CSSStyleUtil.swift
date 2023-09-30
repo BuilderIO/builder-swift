@@ -77,10 +77,20 @@ class CSSStyleUtil {
         }
 
         print("cSTRING after removing #", cString);
+        if (cString.count == 3) {
+            let r = cString[cString.index(cString.startIndex, offsetBy: 2)]
+            let g = cString[cString.index(cString.startIndex, offsetBy: 1)]
+            let b = cString[cString.index(cString.startIndex, offsetBy: 0)]
+            cString = String(repeating: r, count: 2) + String(repeating: g, count: 2) +
+                String(repeating: b, count: 2)
+        }
+        print("cSTRING after CHANGE #", cString);
         if ((cString.count) != 6) {
             return Color.gray
         }
 
+        
+        
         var rgbValue:UInt64 = 0
         Scanner(string: cString).scanHexInt64(&rgbValue)
 
@@ -89,6 +99,7 @@ class CSSStyleUtil {
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0
         )
+        
     }
     
     
