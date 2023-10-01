@@ -9,6 +9,8 @@ struct RenderBlock: View {
         let finalStyles = CSS.getFinalStyle(responsiveStyles: block.responsiveStyles );
         let hasBgColor = finalStyles["backgroundColor"] != nil;
 
+        let hasMinHeight = finalStyles["minHeight"] != nil;
+        let minHeight = CSS.getFloatValue(cssString: finalStyles["minHeight"] ?? "0px");
         let bgColor = CSS.getColor(value: finalStyles["backgroundColor"]);
         let textAlignValue = finalStyles["textAlign"]
         let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
@@ -44,7 +46,13 @@ struct RenderBlock: View {
             }
             .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
             .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-            .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+            .if(hasMinHeight) { view in
+                view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: minHeight, alignment: alignment)
+            }
+            .if(!hasMinHeight) { view in
+                view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+            }
+            
             .cornerRadius(cornerRadius)
           
         }
