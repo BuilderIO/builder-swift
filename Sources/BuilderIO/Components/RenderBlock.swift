@@ -33,9 +33,12 @@ struct RenderBlock: View {
                     .if(!hasMinHeight) { view in
                         view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
                     }
+                    .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
+                    
                     .if(hasBgColor) { view in
                         view.foregroundColor(bgColor)
                     }
+                    .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     
             } else {
                 VStack(alignment: .center, spacing: 0) {
