@@ -22,9 +22,13 @@ struct RenderBlock: View {
         let isEmptyView = (name == nil || componentDict[name!]  == nil) && block.children == nil;
         if  finalStyles["display"] != "none" {
             if (isEmptyView) {
+                // SwiftUI Does not like empty vstacks and just does not
+                // render it. SO instead, we render a rectangle just for a case
+                // where we have an empty block with no children that we use
+                // as spacers.
                 Rectangle()
                     .if(hasMinHeight) { view in
-                        view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: 10, idealHeight: 10, alignment: alignment)
+                        view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: minHeight, idealHeight: minHeight, alignment: alignment)
                     }
                     .if(!hasMinHeight) { view in
                         view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
@@ -53,14 +57,14 @@ struct RenderBlock: View {
                 }
 
                 .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
-    //            .if(hasBgColor) { view in
-    //                view.background(bgColor)
-    //            }
-                .background(Color.purple)
+                .if(hasBgColor) { view in
+                    view.background(bgColor)
+                }
+//                .background(Color.purple)
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
                 .if(hasMinHeight) { view in
-                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: 10, idealHeight: 10, alignment: alignment)
+                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: minHeight, idealHeight: minHeight, alignment: alignment)
                 }
                 .if(!hasMinHeight) { view in
                     view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
