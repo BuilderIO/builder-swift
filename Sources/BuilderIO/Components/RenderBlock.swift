@@ -19,7 +19,7 @@ struct RenderBlock: View {
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
         if  finalStyles["display"] != "none" {
-            view = VStack(alignment: .center, spacing: 0) {
+            VStack(alignment: .center, spacing: 0) {
                 
                 let name = block.component?.name
                 if name != nil {
