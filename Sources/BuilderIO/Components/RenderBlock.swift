@@ -41,9 +41,10 @@ struct RenderBlock: View {
             }
 
             .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
-            .if(hasBgColor) { view in
-                view.background(bgColor)
-            }
+//            .if(hasBgColor) { view in
+//                view.background(bgColor)
+//            }
+            .background(Color.purple)
             .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
             .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
             .if(hasMinHeight) { view in
