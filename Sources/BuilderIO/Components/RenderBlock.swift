@@ -7,6 +7,8 @@ struct RenderBlock: View {
     var block: BuilderBlock
     var body: some View {
         let finalStyles = CSS.getFinalStyle(responsiveStyles: block.responsiveStyles );
+        let hasBgColor = finalStyles["backgroundColor"] != nil;
+
         let bgColor = CSS.getColor(value: finalStyles["backgroundColor"]);
         let textAlignValue = finalStyles["textAlign"]
         let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
@@ -17,7 +19,7 @@ struct RenderBlock: View {
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         
         if  finalStyles["display"] != "none" {
-            let view = VStack(alignment: .center, spacing: 0) {
+            view = VStack(alignment: .center, spacing: 0) {
                 
                 let name = block.component?.name
                 if name != nil {
@@ -35,26 +37,16 @@ struct RenderBlock: View {
                     }
                 }
             }
-        
-        
-            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles));
-        
-            
-            if (finalStyles["backgroundColor"] != nil) {
-//                let _ = print("Block ID", block.id, " Background color ", finalStyles["backgroundColor"] ?? "No BG Color SHOULD NOT HAPPEN")
+
+            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
+            .if(hasBgColor) { view in
                 view.background(bgColor)
-                    .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
-                    .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                    .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-                    .cornerRadius(cornerRadius)
-            } else {
-//                let _ = print("Block ID", block.id, " NO Background color ")
-                view
-                    .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
-                    .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                    .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-                    .cornerRadius(cornerRadius)
             }
+            .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
+            .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
+            .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+            .cornerRadius(cornerRadius)
+          
         }
 
         
