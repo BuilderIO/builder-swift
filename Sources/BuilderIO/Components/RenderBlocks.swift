@@ -6,7 +6,10 @@ struct RenderBlocks: View {
     
     var body: some View {
         ForEach(blocks, id: \.id) { block in
-            RenderBlock(block: block)
+            if !block.id.contains("pixel") {
+                RenderBlock(block: block)
+            }
+            
         }
     }
 }

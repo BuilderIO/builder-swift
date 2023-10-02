@@ -15,8 +15,9 @@ struct BuilderColumns: View {
     
     @available(iOS 15.0, *)
     var body: some View {
+        let hasBgColor = responsiveStyles?["backgroundColor"] != nil;
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"]);
-        let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
+        
 //        let _ = print("COLUMN FOUND WITH STYLES_____", responsiveStyles ?? "NO RESPONSIVE STYLES");
         VStack {
             ForEach(0...columns.count - 1, id: \.self) { index in
@@ -25,7 +26,10 @@ struct BuilderColumns: View {
             }
         }
         .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
-        .background(bgColor) 
+        .if(hasBgColor) { view in
+            view.background(bgColor)
+        }
+        
         .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:]))
         
         
