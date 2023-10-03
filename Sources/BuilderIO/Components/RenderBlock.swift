@@ -7,7 +7,6 @@ struct RenderBlock: View {
     var block: BuilderBlock
     var body: some View {
         let finalStyles = CSS.getFinalStyle(responsiveStyles: block.responsiveStyles );
-        let _ = print("FOR BLOCK", block.id, "STYLES", finalStyles);
         let hasBgColor = finalStyles["backgroundColor"] != nil;
 
         let hasMinHeight = finalStyles["minHeight"] != nil;
@@ -66,9 +65,6 @@ struct RenderBlock: View {
                 .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
                 .if(hasBgColor) { view in
                     view.background(bgColor)
-                }
-                .if(!hasBgColor) { view in
-                    view.background(Color.purple)
                 }
 //                .background(Color.purple)
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
