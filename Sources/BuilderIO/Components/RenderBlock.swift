@@ -63,7 +63,12 @@ struct RenderBlock: View {
                         }
                     }
                 }
-
+                .if(hasWidth) { view in
+                    view.frame(minWidth: 0, idealWidth: idealWidth, maxWidth: idealWidth, alignment: alignment)
+                }
+                .if(!hasWidth) { view in
+                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+                }
                 .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
                 .if(hasBgColor) { view in
                     view.background(bgColor)
@@ -71,12 +76,7 @@ struct RenderBlock: View {
 //                .background(Color.purple)
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .if(hasWidth) { view in
-                    view.frame(minWidth: 0, idealWidth: idealWidth, maxWidth: idealWidth, alignment: alignment)
-                }
-                .if(!hasWidth) { view in
-                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-                }
+                
                 
                 
                 .cornerRadius(cornerRadius)
