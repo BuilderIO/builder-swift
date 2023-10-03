@@ -7,7 +7,7 @@ struct RenderBlock: View {
     var block: BuilderBlock
     
     func getIdealWidth(finalStyles: [String: String], maxWidth: CGFloat) -> CGFloat {
-        var idealWidth = finalStyles["alignSelf"] == "stretch" ? .infinity : (finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity);
+        let idealWidth = finalStyles["alignSelf"] == "stretch" || finalStyles["alignSelf"] == "center" ? .infinity : (finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity);
         return maxWidth != .infinity && idealWidth == .infinity ? maxWidth : idealWidth;
     }
     
@@ -19,7 +19,7 @@ struct RenderBlock: View {
         let minHeight = CSS.getFloatValue(cssString: finalStyles["minHeight"] ?? "0px");
         let bgColor = CSS.getColor(value: finalStyles["backgroundColor"]);
         let textAlignValue = finalStyles["textAlign"]
-        let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
+        let horizontalAlignment = CSS.getHorizontalAlignment(styles: finalStyles)
         let cornerRadius = CSS.getFloatValue(cssString:finalStyles["borderRadius"] ?? "0px")
         let borderWidth = CSS.getFloatValue(cssString:finalStyles["borderWidth"] ?? "0px")
         let borderColor = CSS.getColor(value: finalStyles["borderColor"] ?? "none");

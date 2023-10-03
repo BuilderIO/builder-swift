@@ -209,6 +209,14 @@ class CSSStyleUtil {
         return HorizontalAlignment.FullWidth;
     }
     
+    static func getHorizontalAlignment(styles: [String: String]) -> HorizontalAlignment {
+        if styles["alignSelf"] != nil {
+            return getHorizontalAlignmentFromAlignSelf(styles: styles)
+        } else {
+            return getHorizontalAlignmentFromMargin(styles: styles)
+        }
+    }
+    
     @available(iOS 13.0, *)
     static func getFrameFromHorizontalAlignment(styles: [String: String]) -> FrameDimensions {
         var horizontalAlignment : HorizontalAlignment;
