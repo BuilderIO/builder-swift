@@ -42,8 +42,9 @@ public struct RenderContent: View {
                         sendTrackingPixel()
                     }
                 }
-        }.background(Color.purple)
+        }
         .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity)
+        .background(Color.purple)
     }
 
     func sendTrackingPixel() {
