@@ -55,10 +55,10 @@ class CSSStyleUtil {
                     return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
                 }
             } else {
-                if value?.hasPrefix("var") != nil {
+                if value?.hasPrefix("var") == true {
                     return hexStringToUIColor(hex: extractHexValueFromVarString(from: value ?? "#fff") ?? "#fff")
                 }
-                if ((value?.hasPrefix("#")) != nil) {
+                if value?.hasPrefix("#") == true {
                     return hexStringToUIColor(hex: value ?? "#fff")
                 }
             }
