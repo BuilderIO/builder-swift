@@ -8,7 +8,7 @@ struct RenderBlock: View {
     
     func getIdealWidth(finalStyles: [String: String], maxWidth: CGFloat) -> CGFloat {
         let idealWidth = finalStyles["alignSelf"] == "stretch" || finalStyles["alignSelf"] == "center" ? .infinity : (finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity);
-        return maxWidth != .infinity && idealWidth == .infinity ? maxWidth : idealWidth;
+        return finalStyles["alignSelf"] != nil ? .infinity: (maxWidth != .infinity && idealWidth == .infinity ? maxWidth : idealWidth);
     }
     
     var body: some View {
