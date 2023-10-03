@@ -5,6 +5,12 @@ private typealias CSS = CSSStyleUtil
 @available(iOS 15.0, macOS 10.15, *)
 struct RenderBlock: View {
     var block: BuilderBlock
+    
+    func getIdealWidth(finalStyles: [String: String], maxWidth: CGFloat) -> CGFloat {
+        var idealWidth = finalStyles["alignSelf"] == "stretch" ? .infinity : (finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity);
+        return maxWidth != .infinity && idealWidth == .infinity ? maxWidth : idealWidth;
+    }
+    
     var body: some View {
         let finalStyles = CSS.getFinalStyle(responsiveStyles: block.responsiveStyles );
         let hasBgColor = finalStyles["backgroundColor"] != nil;
@@ -18,9 +24,9 @@ struct RenderBlock: View {
         let borderWidth = CSS.getFloatValue(cssString:finalStyles["borderWidth"] ?? "0px")
         let borderColor = CSS.getColor(value: finalStyles["borderColor"] ?? "none");
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
-        let idealWidth = finalStyles["alignSelf"] == "stretch" ? .infinity : (finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity);
-        let hasWidth = idealWidth != .infinity;
         let maxWidth = CSS.getFloatValue(cssString: finalStyles["maxWidth"], defaultValue: .infinity) ;
+        let idealWidth = self.getIdealWidth(finalStyles: finalStyles, maxWidth: maxWidth)
+        let hasWidth = idealWidth != .infinity;
         
         let name = block.component?.name
         let isEmptyView = (name == nil || componentDict[name!]  == nil) && block.children == nil;
