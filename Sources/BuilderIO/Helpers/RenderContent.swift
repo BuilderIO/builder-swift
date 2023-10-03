@@ -42,7 +42,7 @@ public struct RenderContent: View {
                         sendTrackingPixel()
                     }
                 }
-        }.background(Color.white)
+        }.background(Color.green)
         .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity)
     }
 
