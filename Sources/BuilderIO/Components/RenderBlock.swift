@@ -44,6 +44,7 @@ struct RenderBlock: View {
                     .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     
             } else {
+                let _ = print("Block", block.id, "Ideal Width", idealWidth, "Max Width", maxWidth);
                 VStack(alignment: .center, spacing: 0) {
                     
                     if name != nil {
