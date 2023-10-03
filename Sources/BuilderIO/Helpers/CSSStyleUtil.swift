@@ -199,9 +199,24 @@ class CSSStyleUtil {
         return HorizontalAlignment.FullWidth;
     }
     
+    static func getHorizontalAlignmentFromAlignSelf(styles: [String: String]) -> HorizontalAlignment {
+        let alignSelf = styles["alignSelf"];
+        if (alignSelf == "center") {
+            return HorizontalAlignment.Center;
+        } else if (alignSelf == "auto" || alignSelf == "stretch") {
+            return HorizontalAlignment.FullWidth;
+        }
+        return HorizontalAlignment.FullWidth;
+    }
+    
     @available(iOS 13.0, *)
     static func getFrameFromHorizontalAlignment(styles: [String: String]) -> FrameDimensions {
-        let horizontalAlignment = getHorizontalAlignmentFromMargin(styles: styles)
+        var horizontalAlignment : HorizontalAlignment;
+        if (styles["alignSelf"] != nil) {
+            horizontalAlignment = getHorizontalAlignmentFromAlignSelf(styles: styles)
+        } else {
+            horizontalAlignment = getHorizontalAlignmentFromMargin(styles: styles)
+        }
         
         if (horizontalAlignment == HorizontalAlignment.FullWidth) {
             return FrameDimensions(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: .center)
