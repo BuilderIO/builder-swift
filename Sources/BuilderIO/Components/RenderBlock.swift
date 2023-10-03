@@ -20,6 +20,7 @@ struct RenderBlock: View {
         let borderColor = CSS.getColor(value: finalStyles["borderColor"] ?? "none");
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         let idealWidth = finalStyles["alignSelf"] == "stretch" ? .infinity : (finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity);
+        let maxWidth = CSS.getFloatValue(cssString: finalStyles["maxWidth"], defaultValue: .infinity) ;
         
         let name = block.component?.name
         let isEmptyView = (name == nil || componentDict[name!]  == nil) && block.children == nil;
@@ -72,7 +73,7 @@ struct RenderBlock: View {
 //                .background(Color.purple)
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+                .frame(minWidth: 0, idealWidth: idealWidth, maxWidth: maxWidth, alignment: alignment)
                 
                 .cornerRadius(cornerRadius)
             }
