@@ -67,7 +67,7 @@ struct RenderBlock: View {
 //                .background(Color.purple)
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .frame(minWidth: 0, idealWidth: idealWidth, maxWidth: .infinity, alignment: alignment)
+                .frame(minWidth: 0, idealWidth: idealWidth, maxWidth: idealWidth, alignment: alignment)
                 
                 .cornerRadius(cornerRadius)
             }
