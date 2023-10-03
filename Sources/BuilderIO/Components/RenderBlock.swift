@@ -18,6 +18,7 @@ struct RenderBlock: View {
         let borderWidth = CSS.getFloatValue(cssString:finalStyles["borderWidth"] ?? "0px")
         let borderColor = CSS.getColor(value: finalStyles["borderColor"] ?? "none");
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
+        let idealWidth = finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity;
         let name = block.component?.name
         let isEmptyView = (name == nil || componentDict[name!]  == nil) && block.children == nil;
         if  finalStyles["display"] != "none" {
@@ -66,12 +67,7 @@ struct RenderBlock: View {
 //                .background(Color.purple)
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .if(hasMinHeight) { view in
-                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: minHeight, idealHeight: minHeight, alignment: alignment)
-                }
-                .if(!hasMinHeight) { view in
-                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-                }
+                .frame(minWidth: 0, idealWidth: idealWidth, maxWidth: .infinity, alignment: alignment)
                 
                 .cornerRadius(cornerRadius)
             }
