@@ -12,7 +12,7 @@ struct BuilderText: View {
     var body: some View {
         
         let foregroundColor = CSS.getColor(value: responsiveStyles?["color"] ?? "black");
-//        let _ = print("BUILDER TEXT", text, foregroundColor, responsiveStyles ?? "No Styles")
+        
 //        let bgColor = Color.green; // CSS.getColor(value: responsiveStyles?["backgroundColor"] ?? "rgba(0,0,0,0)");
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
@@ -25,7 +25,7 @@ struct BuilderText: View {
 //        } else {
 //            roundedRectangle.fill(Color.yellow)
 //        }
-        
+        let _ = print("BUILDER TEXT", text, responsiveStyles ?? "No Styles", horizontalAlignmentFrame);
         Text(CSS.getTextWithoutHtml(text))
 //            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
             .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
