@@ -55,6 +55,9 @@ class CSSStyleUtil {
                     return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
                 }
             } else {
+                if value?.hasPrefix("var") != nil {
+                    return hexStringToUIColor(hex: extractHexValueFromVarString(from: value ?? "#fff") ?? "#fff")
+                }
                 if ((value?.hasPrefix("#")) != nil) {
                     return hexStringToUIColor(hex: value ?? "#fff")
                 }
@@ -63,6 +66,21 @@ class CSSStyleUtil {
             return Color.white
         }
         return Color.white
+    }
+    
+    static func extractHexValueFromVarString(from input: String) -> String? {
+        let pattern = "#([0-9A-Fa-f]{6})" // Regular expression pattern to match hex color code
+        let regex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+        let range = NSRange(input.startIndex..<input.endIndex, in: input)
+        
+        if let match = regex.firstMatch(in: input, options: [], range: range) {
+            let hexRange = Range(match.range(at: 1), in: input)
+            if let hexValue = hexRange.map({ String(input[$0]) }) {
+                return hexValue
+            }
+        }
+        
+        return nil
     }
     
     @available(iOS 13.0, *)
