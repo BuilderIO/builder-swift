@@ -202,7 +202,7 @@ class CSSStyleUtil {
     static func getHorizontalAlignmentFromAlignSelf(styles: [String: String]) -> HorizontalAlignment {
         let alignSelf = styles["alignSelf"];
         if (alignSelf == "center") {
-            return HorizontalAlignment.Center;
+            return HorizontalAlignment.FullWidth;
         } else if (alignSelf == "auto" || alignSelf == "stretch") {
             return HorizontalAlignment.FullWidth;
         }
