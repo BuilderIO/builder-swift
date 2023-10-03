@@ -19,6 +19,7 @@ struct RenderBlock: View {
         let borderColor = CSS.getColor(value: finalStyles["borderColor"] ?? "none");
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
         let idealWidth = finalStyles["alignSelf"] == "stretch" ? .infinity : (finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity);
+        let hasWidth = idealWidth != .infinity;
         let maxWidth = CSS.getFloatValue(cssString: finalStyles["maxWidth"], defaultValue: .infinity) ;
         
         let name = block.component?.name
@@ -44,7 +45,7 @@ struct RenderBlock: View {
                     .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     
             } else {
-                let _ = print("Block", block.id, "Ideal Width", idealWidth, "Max Width", maxWidth);
+                let _ = print("Block", block.id, "Ideal Width", idealWidth, "Max Width", maxWidth, "has width", hasWidth);
                 VStack(alignment: .center, spacing: 0) {
                     
                     if name != nil {
@@ -70,7 +71,13 @@ struct RenderBlock: View {
 //                .background(Color.purple)
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .frame(minWidth: 0, idealWidth: idealWidth, maxWidth: maxWidth, alignment: alignment)
+                .if(hasWidth) { view in
+                    view.frame(minWidth: 0, idealWidth: idealWidth, maxWidth: idealWidth, alignment: alignment)
+                }
+                .if(!hasWidth) { view in
+                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+                }
+                
                 
                 .cornerRadius(cornerRadius)
             }
