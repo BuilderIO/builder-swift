@@ -21,7 +21,6 @@ struct BuilderButton: View {
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
         let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
         Button(action: {
-            print(CSS.getTextWithoutHtml(text))
             // print("responsiveStyles = \(String(describing: responsiveStyles))")
             if let str = urlStr, let url = URL(string: str) {
                 self.showWebView = !openInNewTab
