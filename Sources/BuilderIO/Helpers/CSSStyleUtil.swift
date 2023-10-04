@@ -55,7 +55,10 @@ class CSSStyleUtil {
                     return Color(red: Double(matches[1])! / 255, green: Double(matches[2])! / 255, blue: Double(matches[3])! / 255, opacity: Double(matches[4])!)
                 }
             } else {
-                if ((value?.hasPrefix("#")) != nil) {
+                if value?.hasPrefix("var") == true {
+                    return hexStringToUIColor(hex: extractHexValueFromVarString(from: value ?? "#fff") ?? "#fff")
+                }
+                if value?.hasPrefix("#") == true {
                     return hexStringToUIColor(hex: value ?? "#fff")
                 }
             }
@@ -63,6 +66,21 @@ class CSSStyleUtil {
             return Color.white
         }
         return Color.white
+    }
+    
+    static func extractHexValueFromVarString(from input: String) -> String? {
+        let pattern = "#([0-9A-Fa-f]{6})" // Regular expression pattern to match hex color code
+        let regex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+        let range = NSRange(input.startIndex..<input.endIndex, in: input)
+        
+        if let match = regex.firstMatch(in: input, options: [], range: range) {
+            let hexRange = Range(match.range(at: 1), in: input)
+            if let hexValue = hexRange.map({ String(input[$0]) }) {
+                return hexValue
+            }
+        }
+        
+        return nil
     }
     
     @available(iOS 13.0, *)
@@ -181,9 +199,32 @@ class CSSStyleUtil {
         return HorizontalAlignment.FullWidth;
     }
     
+    static func getHorizontalAlignmentFromAlignSelf(styles: [String: String]) -> HorizontalAlignment {
+        let alignSelf = styles["alignSelf"];
+        if (alignSelf == "center") {
+            return HorizontalAlignment.FullWidth;
+        } else if (alignSelf == "auto" || alignSelf == "stretch") {
+            return HorizontalAlignment.FullWidth;
+        }
+        return HorizontalAlignment.FullWidth;
+    }
+    
+    static func getHorizontalAlignment(styles: [String: String]) -> HorizontalAlignment {
+        if styles["alignSelf"] != nil {
+            return getHorizontalAlignmentFromAlignSelf(styles: styles)
+        } else {
+            return getHorizontalAlignmentFromMargin(styles: styles)
+        }
+    }
+    
     @available(iOS 13.0, *)
     static func getFrameFromHorizontalAlignment(styles: [String: String]) -> FrameDimensions {
-        let horizontalAlignment = getHorizontalAlignmentFromMargin(styles: styles)
+        var horizontalAlignment : HorizontalAlignment;
+        if (styles["alignSelf"] != nil) {
+            horizontalAlignment = getHorizontalAlignmentFromAlignSelf(styles: styles)
+        } else {
+            horizontalAlignment = getHorizontalAlignmentFromMargin(styles: styles)
+        }
         
         if (horizontalAlignment == HorizontalAlignment.FullWidth) {
             return FrameDimensions(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: .center)

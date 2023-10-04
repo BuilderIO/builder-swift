@@ -5,6 +5,44 @@ private typealias CSS = CSSStyleUtil
 @available(iOS 15.0, macOS 10.15, *)
 struct RenderBlock: View {
     var block: BuilderBlock
+    
+    func getIdealWidth(finalStyles: [String: String], maxWidth: CGFloat) -> CGFloat {
+        let idealWidth = finalStyles["alignSelf"] == "stretch" || finalStyles["alignSelf"] == "center" ? .infinity : (finalStyles["width"] != nil ? CSS.getFloatValue(cssString: finalStyles["width"]) : .infinity);
+        return finalStyles["alignSelf"] != nil ? .infinity: (maxWidth != .infinity && idealWidth == .infinity ? maxWidth : idealWidth);
+    }
+    
+    func getWidthAndIdealWidth(finalStyles: [String: String]) -> [String: CGFloat] {
+        var response: [String: CGFloat] = [:]
+
+        if (finalStyles["alignSelf"] != nil && finalStyles["width"] != nil) {
+            if (finalStyles["alignSelf"] == "center") {
+                response["width"] = CSS.getFloatValue(cssString: finalStyles["width"])
+                response["maxWidth"] = CSS.getFloatValue(cssString: finalStyles["width"])
+            } else {
+                response["width"] = .infinity
+                response["maxWidth"] = .infinity
+            }
+            
+            
+        } else if (finalStyles["alignSelf"] != nil) {
+            if (finalStyles["alignSelf"] == "center") {
+                response["width"] = CSS.getFloatValue(cssString: finalStyles["width"])
+            } else {
+                response["width"] = .infinity
+            }
+            
+            response["maxWidth"] = .infinity
+        } else if (finalStyles["width"] != nil) {
+            response["width"] = CSS.getFloatValue(cssString: finalStyles["width"])
+            response["maxWidth"] = .infinity
+        } else {
+            response["width"] = .infinity
+            response["maxWidth"] = .infinity
+        }
+        
+        return response
+    }
+    
     var body: some View {
         let finalStyles = CSS.getFinalStyle(responsiveStyles: block.responsiveStyles );
         let hasBgColor = finalStyles["backgroundColor"] != nil;
@@ -13,11 +51,16 @@ struct RenderBlock: View {
         let minHeight = CSS.getFloatValue(cssString: finalStyles["minHeight"] ?? "0px");
         let bgColor = CSS.getColor(value: finalStyles["backgroundColor"]);
         let textAlignValue = finalStyles["textAlign"]
-        let horizontalAlignment = CSS.getHorizontalAlignmentFromMargin(styles: finalStyles)
+        let horizontalAlignment = CSS.getHorizontalAlignment(styles: finalStyles)
         let cornerRadius = CSS.getFloatValue(cssString:finalStyles["borderRadius"] ?? "0px")
         let borderWidth = CSS.getFloatValue(cssString:finalStyles["borderWidth"] ?? "0px")
         let borderColor = CSS.getColor(value: finalStyles["borderColor"] ?? "none");
         let alignment = horizontalAlignment == HorizontalAlignment.LeftAlign ? Alignment.leading : (horizontalAlignment == HorizontalAlignment.Center ? Alignment.center : Alignment.trailing)
+        let widths = self.getWidthAndIdealWidth(finalStyles: finalStyles)
+        let maxWidth = widths["maxWidth"]
+        let idealWidth = widths["width"]
+        let hasWidth = idealWidth != .infinity;
+        
         let name = block.component?.name
         let isEmptyView = (name == nil || componentDict[name!]  == nil) && block.children == nil;
         if  finalStyles["display"] != "none" {
@@ -41,6 +84,7 @@ struct RenderBlock: View {
                     .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     
             } else {
+                let _ = print("Block", block.id, "Ideal Width", idealWidth, "Max Width", maxWidth, "has width", hasWidth);
                 VStack(alignment: .center, spacing: 0) {
                     
                     if name != nil {
@@ -58,7 +102,12 @@ struct RenderBlock: View {
                         }
                     }
                 }
-
+                .if(hasWidth) { view in
+                    view.frame(minWidth: 0, idealWidth: idealWidth, maxWidth: maxWidth, alignment: alignment)
+                }
+                .if(!hasWidth) { view in
+                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
+                }
                 .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
                 .if(hasBgColor) { view in
                     view.background(bgColor)
@@ -66,12 +115,8 @@ struct RenderBlock: View {
 //                .background(Color.purple)
                 .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                 .multilineTextAlignment(textAlignValue == "center" ? .center : textAlignValue == "right" ? .trailing : .leading)
-                .if(hasMinHeight) { view in
-                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: minHeight, idealHeight: minHeight, alignment: alignment)
-                }
-                .if(!hasMinHeight) { view in
-                    view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
-                }
+                
+                
                 
                 .cornerRadius(cornerRadius)
             }
