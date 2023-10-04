@@ -96,7 +96,7 @@ struct RenderBlock: View {
                     }
                 }
                 .if(hasWidth) { view in
-                    view.frame(minWidth: 0, idealWidth: idealWidth, maxWidth: idealWidth, alignment: alignment)
+                    view.frame(minWidth: 0, idealWidth: idealWidth, maxWidth: maxWidth, alignment: alignment)
                 }
                 .if(!hasWidth) { view in
                     view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
