@@ -26,7 +26,9 @@ public func registerComponent(component: BuilderCustomComponent, factory: @escap
     let sessionId = UserDefaults.standard.string(forKey: "builderSessionId");
     let sessionToken = UserDefaults.standard.string(forKey: "builderSessionToken");
 
+    print("Registering component", sessionId, sessionToken, apiKey)
     if (sessionId != nil && sessionToken != nil && apiKey != nil) {
+        print("Sending to editing session")
         registerOnEditingSession(component: component, apiKey: apiKey!, sessionId: sessionId!, sessionToken: sessionToken!);
     }
 
@@ -51,6 +53,7 @@ func registerOnEditingSession(component: BuilderCustomComponent, apiKey: String,
             return
         }
 
+        print("Making a request", url, components?.queryItems, request)
         // Create a URLSession task and start it
         let task = URLSession.shared.dataTask(with: request)
         task.resume()
