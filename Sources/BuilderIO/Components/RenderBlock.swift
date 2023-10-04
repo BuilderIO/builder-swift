@@ -15,8 +15,15 @@ struct RenderBlock: View {
         var response: [String: CGFloat] = [:]
 
         if (finalStyles["alignSelf"] != nil && finalStyles["width"] != nil) {
-            response["width"] = CSS.getFloatValue(cssString: finalStyles["width"])
-            response["maxWidth"] = .infinity
+            if (finalStyles["alignSelf"] == "center") {
+                response["width"] = CSS.getFloatValue(cssString: finalStyles["width"])
+                response["maxWidth"] = CSS.getFloatValue(cssString: finalStyles["width"])
+            } else {
+                response["width"] = .infinity
+                response["maxWidth"] = .infinity
+            }
+            
+            
         } else if (finalStyles["alignSelf"] != nil) {
             if (finalStyles["alignSelf"] == "center") {
                 response["width"] = CSS.getFloatValue(cssString: finalStyles["width"])
