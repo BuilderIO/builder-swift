@@ -65,6 +65,7 @@ struct RenderBlock: View {
         let isEmptyView = (name == nil || componentDict[name!]  == nil) && block.children == nil;
         if  finalStyles["display"] != "none" {
             if (isEmptyView) {
+                let _ = print("EMPTY BLOCK", block.id, "hasMinHeight", hasMinHeight, "min height", minHeight)
                 // SwiftUI Does not like empty vstacks and just does not
                 // render it. SO instead, we render a rectangle just for a case
                 // where we have an empty block with no children that we use
@@ -84,7 +85,7 @@ struct RenderBlock: View {
                     .padding(CSS.getBoxStyle(boxStyleProperty: "margin", finalStyles: finalStyles))
                     
             } else {
-                let _ = print("Block", block.id, "Ideal Width", idealWidth, "Max Width", maxWidth, "has width", hasWidth);
+                
                 VStack(alignment: .center, spacing: 0) {
                     
                     if name != nil {

@@ -25,7 +25,6 @@ struct BuilderText: View {
 //        } else {
 //            roundedRectangle.fill(Color.yellow)
 //        }
-        let _ = print("BUILDER TEXT", text, responsiveStyles ?? "No Styles", horizontalAlignment);
         Text(CSS.getTextWithoutHtml(text))
 //            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
             .frame(idealWidth: .infinity, maxWidth: .infinity, alignment: .center)
