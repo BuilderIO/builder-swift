@@ -30,7 +30,7 @@ struct BuilderButton: View {
             }
         }) {
             Text(CSS.getTextWithoutHtml(text))
-//                .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button
+                .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button
                 .font(.system(size: fontSize).weight(fontWeight))
                 .frame(alignment: horizontalAlignmentFrame.alignment)
                 
