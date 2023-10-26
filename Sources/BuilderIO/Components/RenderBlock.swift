@@ -61,7 +61,8 @@ struct RenderBlock: View {
         let idealWidth = widths["width"]
         let hasWidth = idealWidth != .infinity;
         
-        let name = block.component?.name
+        let name = block.component?.name;
+        let isButton = name == "Core:Button";
         let isEmptyView = (name == nil || componentDict[name!]  == nil) && block.children == nil;
         if  finalStyles["display"] != "none" {
             if (isEmptyView) {
@@ -103,14 +104,16 @@ struct RenderBlock: View {
                         }
                     }
                 }
-                .if(hasWidth) { view in
+                .if(hasWidth && !isButton) { view in
                     view.frame(minWidth: 0, idealWidth: idealWidth, maxWidth: maxWidth, alignment: alignment)
                 }
-                .if(!hasWidth) { view in
+                .if(!hasWidth || isButton) { view in
                     view.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: alignment)
                 }
-                .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
-                .if(hasBgColor) { view in
+                .if(!isButton) { view in
+                    view.padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: finalStyles))
+                }
+                .if(hasBgColor && !isButton) { view in
                     view.background(bgColor)
                 }
 //                .background(Color.purple)
