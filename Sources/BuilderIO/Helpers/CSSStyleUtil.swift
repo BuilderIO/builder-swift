@@ -221,14 +221,11 @@ class CSSStyleUtil {
     static func getFrameFromHorizontalAlignment(styles: [String: String]) -> FrameDimensions {
         var horizontalAlignment : HorizontalAlignment;
         if (styles["alignSelf"] != nil) {
-            print("Getting frame from alignSelf");
             horizontalAlignment = getHorizontalAlignmentFromAlignSelf(styles: styles)
         } else {
-            print("Getting frame from margin");
             horizontalAlignment = getHorizontalAlignmentFromMargin(styles: styles)
         }
         
-        print("Frame", horizontalAlignment);
         if (horizontalAlignment == HorizontalAlignment.FullWidth) {
             return FrameDimensions(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: .center)
             
