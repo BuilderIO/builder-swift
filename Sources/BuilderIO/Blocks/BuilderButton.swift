@@ -19,7 +19,7 @@ struct BuilderButton: View {
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
-        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
+        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:], isText: false);
         Button(action: {
             // print("responsiveStyles = \(String(describing: responsiveStyles))")
             if let str = urlStr, let url = URL(string: str) {
