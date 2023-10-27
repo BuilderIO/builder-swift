@@ -18,7 +18,7 @@ struct BuilderText: View {
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
         
-        let horizontalAlignment = CSS.getHorizontalAlignment(styles: responsiveStyles ?? [:]);
+        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
 //        let roundedRectangle = RoundedRectangle(cornerRadius: cornerRadius);
 //        if ((responsiveStyles?["backgroundColor"]) != nil) {
 //            roundedRectangle.fill(Color.green)
@@ -27,7 +27,7 @@ struct BuilderText: View {
 //        }
         Text(CSS.getTextWithoutHtml(text))
 //            .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the text
-            .frame(idealWidth: .infinity, maxWidth: .infinity, alignment: .center)
+            .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
             .font(.system(size: fontSize).weight(fontWeight))
             .foregroundColor(foregroundColor)
 //            .background(Color.green)
