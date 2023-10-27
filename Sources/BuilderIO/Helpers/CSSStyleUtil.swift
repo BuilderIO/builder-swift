@@ -227,7 +227,7 @@ class CSSStyleUtil {
         }
         
         if (horizontalAlignment == HorizontalAlignment.FullWidth) {
-            return FrameDimensions(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: .center)
+            return FrameDimensions(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: .leading)
             
         } else if (horizontalAlignment == HorizontalAlignment.Center) {
             return FrameDimensions(alignment: .center)
