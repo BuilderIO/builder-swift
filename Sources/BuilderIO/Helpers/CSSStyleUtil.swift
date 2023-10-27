@@ -218,7 +218,7 @@ class CSSStyleUtil {
     }
     
     @available(iOS 13.0, *)
-    static func getFrameFromHorizontalAlignment(styles: [String: String]) -> FrameDimensions {
+    static func getFrameFromHorizontalAlignment(styles: [String: String], isText: Bool) -> FrameDimensions {
         var horizontalAlignment : HorizontalAlignment;
         if (styles["alignSelf"] != nil) {
             horizontalAlignment = getHorizontalAlignmentFromAlignSelf(styles: styles)
@@ -227,7 +227,7 @@ class CSSStyleUtil {
         }
         
         if (horizontalAlignment == HorizontalAlignment.FullWidth) {
-            return FrameDimensions(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: .leading)
+            return FrameDimensions(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, alignment: isText ? .leading : .center)
             
         } else if (horizontalAlignment == HorizontalAlignment.Center) {
             return FrameDimensions(alignment: .center)

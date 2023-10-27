@@ -15,7 +15,7 @@ struct BuilderImage: View {
         let foregroundColor = CSS.getColor(value: responsiveStyles?["color"] ?? "black");
         let bgColor = CSS.getColor(value: responsiveStyles?["backgroundColor"] ?? "white");
         let cornerRadius = CSS.getFloatValue(cssString:responsiveStyles?["borderRadius"] ?? "0px")
-        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
+        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:], isText: false);
         let maxWidth = CSS.getFloatValue(cssString: responsiveStyles?["maxWidth"], defaultValue: .infinity) ;
 //        let _ = print("BACKGROUND SIZE ----", backgroundSize, " CONTENT MODE ", backgroundSize == "cover" ? ContentMode.fill : ContentMode.fit);
 //        let _ = print("ASPECT RATIO", aspectRatio, 1/aspectRatio)

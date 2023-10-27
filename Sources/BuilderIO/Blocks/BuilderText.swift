@@ -18,7 +18,7 @@ struct BuilderText: View {
         let fontSize = CSS.getFloatValue(cssString: responsiveStyles?["fontSize"] ?? "16px")
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
         
-        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:]);
+        let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:], isText: true);
 //        let roundedRectangle = RoundedRectangle(cornerRadius: cornerRadius);
 //        if ((responsiveStyles?["backgroundColor"]) != nil) {
 //            roundedRectangle.fill(Color.green)
