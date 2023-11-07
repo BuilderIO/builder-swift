@@ -4,12 +4,23 @@ private typealias CSS = CSSStyleUtil
 
 @available(iOS 15.0, macOS 10.15, *)
 struct BuilderButton: View {
-    var text: String
-    var urlStr: String?
-    var openInNewTab: Bool = false
+    var text: String;
+    var urlStr: String?;
+    var openInNewTab: Bool = false;
+    
     var responsiveStyles: [String: String]?;
+    var buttonAction: ((String, String?) -> Void)?;
 
     @State private var showWebView = false
+    
+    func defaultHandleButtonClick() {
+        if let str = urlStr, let url = URL(string: str) {
+            self.showWebView = !openInNewTab
+            if openInNewTab == true {
+                UIApplication.shared.open(url)
+            }
+        }
+    }
     
     
     var body: some View {
@@ -21,13 +32,12 @@ struct BuilderButton: View {
         let fontWeight = CSS.getFontWeightFromNumber(value: CSS.getFloatValue(cssString: responsiveStyles?["fontWeight"] ?? "400"))
         let horizontalAlignmentFrame = CSS.getFrameFromHorizontalAlignment(styles: responsiveStyles ?? [:], isText: false);
         Button(action: {
-            // print("responsiveStyles = \(String(describing: responsiveStyles))")
-            if let str = urlStr, let url = URL(string: str) {
-                self.showWebView = !openInNewTab
-                if openInNewTab == true {
-                    UIApplication.shared.open(url)
-                }
+            if let action = self.buttonAction {
+                action(text, urlStr ?? "");
+            } else {
+                self.defaultHandleButtonClick();
             }
+            
         }) {
             Text(CSS.getTextWithoutHtml(text))
                 .padding(CSS.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])) // padding for the button

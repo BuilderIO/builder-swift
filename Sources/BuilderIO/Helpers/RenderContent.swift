@@ -6,7 +6,7 @@ public struct RenderContent: View {
     var content: BuilderContent;
     var apiKey: String;
 
-    public init(content: BuilderContent, apiKey: String) {
+    public init(content: BuilderContent, apiKey: String, clickActionHandler: ((String, String?) -> Void)?) {
         self.content = content
         self.apiKey = apiKey
         if (!RenderContent.registered) {
@@ -20,7 +20,7 @@ public struct RenderContent: View {
                 return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize"].stringValue, aspectRatio: CSSStyleUtil.getFloatValue(cssString: options["aspectRatio"].stringValue),  responsiveStyles: styles, children: children)
             }, apiKey: nil)
             registerComponent(component: BuilderCustomComponent(name: "Core:Button"), factory: { (options, styles, _) in
-                return BuilderButton(text: options["text"].stringValue, urlStr: options["link"].stringValue, openInNewTab: options["openLinkInNewTab"].boolValue, responsiveStyles: styles)
+                return BuilderButton(text: options["text"].stringValue, urlStr: options["link"].stringValue, openInNewTab: options["openLinkInNewTab"].boolValue, responsiveStyles: styles, buttonAction: clickActionHandler)
             }, apiKey: nil)
             registerComponent(component: BuilderCustomComponent(name: "Columns"), factory: { (options, styles, _) in
                 let decoder = JSONDecoder()
