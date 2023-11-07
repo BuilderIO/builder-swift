@@ -9,9 +9,14 @@ The SDK for BuilderIO for iOS in Swift.
 * Add a dependency on the Builder Swift SDK in your iOS App via the Github package: https://github.com/BuilderIO/builder-swift
 * Point to the `main` branch of the repository to get the latest and greatest SDK code 
 * Import `BuilderIO` wherever you need to use the SDK methods
+* Instantiate an instance of the `BuilderContentWrapper` at the beginning of your view
 
 ```
 import BuilderIO
+
+struct ContentView: View {
+    @ObservedObject var content: BuilderContentWrapper = BuilderContentWrapper();
+}
 ```
 
 ### (Optional) Register your custom components
@@ -25,10 +30,8 @@ Register any components you have created in your iOS App using something like
             // Return an instance of your view, passing in any
             // properties from Builder to your component for rendering
             return HeroComponent(headingText: options["headingText"].stringValue, ctaText: options["ctaText"].stringValue)
-        }, apiKey);
+        }, "YOUR_BUILDER_API_KEY");
 ```
-
-* Currently, you will need to replicate this component registration in a JS SDK so that the web preview can render this component and also correctly showcase your custom component to drag and use in Builder. This is a limitation that will be fixed in the future.
 
 ## Fetch Content
 
@@ -42,6 +45,9 @@ Content.getContent(model: "page",
                    preview: "") { content in
     // Update your view here
     // Ideally in the main thread
+    DispatchQueue.main.async {
+        self.content.changeContent(content);
+    }
 }
 ```
 
@@ -53,7 +59,32 @@ At the location where you want to render the content fetched from Builder (in a 
 
 
 ```
-RenderContent(content: content.wrappedValue!)
+RenderContent(content: content.wrappedValue!, apiKey: "<YOUR_BUILDER_API_KEY>")
+```
+
+Alternatively, if you want to override the click handling and want to intercept each `Button` click, then you can pass in your own custom click handler that can do whatever you need to do.
+
+```
+RenderContent(content: content.wrappedValue!, apiKey: "<YOUR_BUILDER_API_KEY>") { buttonText, urlString in
+    print("Some one clicked a button!!", buttonText, urlString ?? "empty url");
+}
+```
+
+## Handle Preview Updates from the WebApp
+
+At the end of your view where you render Builder Content, add the following snippet which
+
+* Adds a reload button which refreshes the content
+* Listens to notifications from Appetize (Used in the web app) to update content as you change it in the editor
+
+```
+if (Content.isPreviewing()) {
+    Button("Reload") {
+        fetchContent();
+    }.onReceive(NotificationCenter.default.publisher(for: deviceDidShakeNotification)) { _ in
+        fetchContent()
+    }
+}
 ```
 
 ## Complete example
