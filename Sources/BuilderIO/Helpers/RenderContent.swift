@@ -6,9 +6,10 @@ public struct RenderContent: View {
     var content: BuilderContent;
     var apiKey: String;
 
-    public init(content: BuilderContent, apiKey: String, clickActionHandler: ((String, String?) -> Void)?) {
+    public init(content: BuilderContent, apiKey: String, clickActionHandler: ((String, String?) -> Void)? = nil) {
         self.content = content
         self.apiKey = apiKey
+        
         if (!RenderContent.registered) {
             // TODO: move these out of here?
             registerComponent(component: BuilderCustomComponent(name: "Text", inputs: [
