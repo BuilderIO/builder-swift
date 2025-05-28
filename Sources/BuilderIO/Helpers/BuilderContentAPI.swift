@@ -1,7 +1,7 @@
 import Foundation
 import os
 
-public struct Content {
+public struct BuilderContentAPI {
     
     public static func isPreviewing() -> Bool {
         // Assuming we are only using appetize for previewing in

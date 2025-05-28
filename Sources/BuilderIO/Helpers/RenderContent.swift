@@ -39,7 +39,7 @@ public struct RenderContent: View {
         VStack(alignment: .leading, spacing: 0) {
             RenderBlocks(blocks: content.data.blocks)
                 .onAppear{
-                    if (!Content.isPreviewing()) {
+                    if (!BuilderContentAPI.isPreviewing()) {
                         sendTrackingPixel()
                     }
                 }
