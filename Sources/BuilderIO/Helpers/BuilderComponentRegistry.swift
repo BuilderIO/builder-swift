@@ -14,13 +14,10 @@ import SwiftyJSON
 class BuilderComponentRegistry {
     static let shared = BuilderComponentRegistry()
     
-    private var registry: [BuilderComponentType: any BuilderViewProtocol] = [:]
+    private var registry: [BuilderComponentType: any BuilderViewProtocol.Type] = [:]
     
-    func register(type: BuilderComponentType, viewType: any BuilderViewProtocol) {
-        registry[type] = factory
+    func register(type: BuilderComponentType, viewClass: any BuilderViewProtocol.Type) {
+        registry[type] = viewClass
     }
     
-    func create(type: String, data: ComponentData) -> UIComponent? {
-        return registry[type]?(data)
-    }
 }

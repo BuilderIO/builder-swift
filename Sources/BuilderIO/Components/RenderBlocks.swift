@@ -5,11 +5,16 @@ struct RenderBlocks: View {
     var blocks: [BuilderBlock]
     
     var body: some View {
-        ForEach(blocks, id: \.id) { block in
-            if !block.id.contains("pixel") {
-                RenderBlock(block: block)
+        
+        ScrollView {
+            LazyVStack {
+                ForEach(blocks, id: \.id) { block in
+                    if !block.id.contains("pixel") {
+                        RenderBlock(block: block)
+                    }
+                    
+                }
             }
-            
         }
     }
 }

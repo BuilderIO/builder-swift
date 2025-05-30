@@ -15,7 +15,7 @@ public struct RenderContent: View {
             registerComponent(component: BuilderCustomComponent(name: "Text", inputs: [
                 BuilderInput(name: "text", type: "text")
             ]), factory: { (options, styles, _) in
-                return BuilderText(text: options["text"].stringValue, responsiveStyles: styles)
+                return BuilderTextV2(options: options, styles: styles)
             }, apiKey: nil)
             registerComponent(component: BuilderCustomComponent(name: "Image"), factory: { (options, styles, children) in
                 return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize"].stringValue, aspectRatio: CSSStyleUtil.getFloatValue(cssString: options["aspectRatio"].stringValue),  responsiveStyles: styles, children: children)
