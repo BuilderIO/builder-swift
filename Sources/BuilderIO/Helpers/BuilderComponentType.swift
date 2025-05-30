@@ -1,10 +1,3 @@
-//
-//  BuilderComponentTypes.swift
-//  BuilderIO
-//
-//  Created by Aaron de Melo on 28/05/25.
-//
-
 struct BuilderComponentType: Equatable, Hashable {
     let rawValue: String
 

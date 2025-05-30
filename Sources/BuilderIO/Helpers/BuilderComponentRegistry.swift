@@ -1,10 +1,3 @@
-//
-//  BuilderComponentRegistry.swift
-//  BuilderIO
-//
-//  Created by Aaron de Melo on 28/05/25.
-//
-
 import Foundation
 import SwiftUI
 import SwiftyJSON

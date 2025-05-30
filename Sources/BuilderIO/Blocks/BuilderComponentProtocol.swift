@@ -1,10 +1,3 @@
-//
-//  BuilderComponentProtocol.swift
-//  BuilderIO
-//
-//  Created by Aaron de Melo on 28/05/25.
-//
-
 import SwiftUI
 import SwiftyJSON
 
@@ -14,22 +7,6 @@ protocol BuilderViewProtocol: View {
     init(options: JSON, styles: [String: String]?);
     
 }
-
-extension BuilderViewProtocol {
-
-    func buildResponsiveStyles(responsiveStyles: BuilderBlockResponsiveStyles?) -> [String: String] {
-        var finalStyle: [String:String] = [:]
-        finalStyle = finalStyle.merging(responsiveStyles?.large ?? [:]) { (_, new) in new }
-        finalStyle = finalStyle.merging(responsiveStyles?.medium ?? [:]) { (_, new) in new }
-        finalStyle = finalStyle.merging(responsiveStyles?.small ?? [:]) { (_, new) in new }
-        
-        return finalStyle;
-    }
-    
-}
-
-
-
 
 //--------------view modifier to apply responsive styles-------------------
 
