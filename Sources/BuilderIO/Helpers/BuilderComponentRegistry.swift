@@ -3,7 +3,7 @@ import SwiftUI
 import SwiftyJSON
 
 
-
+//component registry, TODO: factory for compoenents
 class BuilderComponentRegistry {
     static let shared = BuilderComponentRegistry()
     

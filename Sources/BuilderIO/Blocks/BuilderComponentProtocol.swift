@@ -33,8 +33,6 @@ struct ResponsiveStylesBuilderView: ViewModifier {
     }
 
     
-    
-    
     func body(content: Content) -> some View {
         content
             .frame(idealWidth: horizontalAlignmentFrame.idealWidth, maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment)
@@ -44,48 +42,17 @@ struct ResponsiveStylesBuilderView: ViewModifier {
             .if(foregroundColor != nil){ view in
                 view.foregroundColor(foregroundColor)
             }
-            
+        
     }
-    
-    
-    
     
 }
 
+//Make the view modifier available to all Views
 extension View {
     func responsiveStylesBuilderView(responsiveStyles: [String: String], isText: Bool = false) -> some View {
         self.modifier(ResponsiveStylesBuilderView(responsiveStyles: responsiveStyles, isText: isText))
     }
 }
-
-//--------------Core Button------------------- sample component
-
-struct BuilderTextV2: BuilderViewProtocol {
-  
-    
-    var componentType: BuilderComponentType = .coreButton
-    
-    
-    var responsiveStyles: [String: String]?
-    var text: String?
-    
-
-    init(options: JSON, styles: [String: String]?) {
-        self.responsiveStyles = styles
-        self.text = options["text"].string ?? ""
-    }
-    
-    var body: some View {
-        Text(CSSStyleUtil.getTextWithoutHtml(text ?? ""))
-            .if(!(self.responsiveStyles?.isEmpty ?? true)){ view in
-                view.responsiveStylesBuilderView(responsiveStyles: self.responsiveStyles!, isText: true) }
-    }
-    
-    
-
-}
-
-
 
 
 

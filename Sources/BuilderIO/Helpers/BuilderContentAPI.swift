@@ -9,6 +9,7 @@ public struct BuilderContentAPI {
         let isAppetize = UserDefaults.standard.bool(forKey: "isAppetize");
         return isAppetize;
     }
+    
     public static func getContent(model: String, apiKey: String, url: String, locale: String? = nil, preview: String? = nil, callback: @escaping ((BuilderContent?)->())) {
         let encodedUrl = String(describing: url.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)
         var str = "https://cdn.builder.io/api/v3/content/\(model)"
