@@ -8,9 +8,9 @@ struct BuilderTextV2: BuilderViewProtocol {
     var responsiveStyles: [String: String]?
     var text: String?
     
-    init(options: JSON, styles: [String: String]?) {
+    init(options: JSON?, styles: [String: String]?) {
         self.responsiveStyles = styles
-        self.text = options["text"].string ?? ""
+        self.text = options?["text"].string ?? ""
     }
     
     var body: some View {

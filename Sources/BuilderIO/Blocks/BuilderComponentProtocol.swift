@@ -4,8 +4,21 @@ import SwiftyJSON
 
 protocol BuilderViewProtocol: View {
     var responsiveStyles: [String: String]? { get set }
-    init(options: JSON, styles: [String: String]?);
+    init(options: JSON?, styles: [String: String]?);
     
+}
+
+struct BuilderEmptyView: BuilderViewProtocol {
+    
+    var responsiveStyles: [String: String]?
+
+    init(options: JSON?, styles: [String: String]?) {
+        self.responsiveStyles = styles
+    }
+
+    var body: some View {
+        EmptyView()
+    }
 }
 
 //--------------view modifier to apply responsive styles-------------------

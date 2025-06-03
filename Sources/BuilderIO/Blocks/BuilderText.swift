@@ -39,6 +39,9 @@ struct BuilderText: View {
 /**
  Can be used, but restrictive. Can render HTML strings, but styling the wrapper is hard. Keep as a backup for now.
  */
+
+
+///Replace with WKWebview
 @available(iOS 13.0, *)
 struct TextCustom: UIViewRepresentable {
   let html: String

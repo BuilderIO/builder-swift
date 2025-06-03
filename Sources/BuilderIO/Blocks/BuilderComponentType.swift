@@ -4,10 +4,13 @@ struct BuilderComponentType: Equatable, Hashable {
     static let text = BuilderComponentType(rawValue: "Text")
     static let image = BuilderComponentType(rawValue: "Image")
     static let coreButton = BuilderComponentType(rawValue: "Core:Button")
-    static let columns = BuilderComponentType(rawValue: "Columns")
+    static let column = BuilderComponentType(rawValue: "Columns")
+    static let section = BuilderComponentType(rawValue: "Core:Section")
+    static let box = BuilderComponentType(rawValue: "Box")
 
     // Add new types dynamically
     static func custom(_ name: String) -> BuilderComponentType {
         return BuilderComponentType(rawValue: name)
     }
+    
 }

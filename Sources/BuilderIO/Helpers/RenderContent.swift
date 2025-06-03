@@ -11,24 +11,7 @@ public struct RenderContent: View {
         self.apiKey = apiKey
         
         if (!RenderContent.registered) {
-            // TODO: move these out of here?
-            registerComponent(component: BuilderCustomComponent(name: "Text", inputs: [
-                BuilderInput(name: "text", type: "text")
-            ]), factory: { (options, styles, _) in
-                return BuilderTextV2(options: options, styles: styles)
-            }, apiKey: nil)
-            registerComponent(component: BuilderCustomComponent(name: "Image"), factory: { (options, styles, children) in
-                return BuilderImage(image: options["image"].stringValue, backgroundSize: options["backgroundSize"].stringValue, aspectRatio: CSSStyleUtil.getFloatValue(cssString: options["aspectRatio"].stringValue),  responsiveStyles: styles, children: children)
-            }, apiKey: nil)
-            registerComponent(component: BuilderCustomComponent(name: "Core:Button"), factory: { (options, styles, _) in
-                return BuilderButton(text: options["text"].stringValue, urlStr: options["link"].stringValue, openInNewTab: options["openLinkInNewTab"].boolValue, responsiveStyles: styles, buttonAction: clickActionHandler)
-            }, apiKey: nil)
-            registerComponent(component: BuilderCustomComponent(name: "Columns"), factory: { (options, styles, _) in
-                let decoder = JSONDecoder()
-                let jsonString = options["columns"].rawString()!
-                let columns = try! decoder.decode([BuilderColumn].self, from: Data(jsonString.utf8))
-                return BuilderColumns(columns: columns, space: CGFloat(options["space"].floatValue), responsiveStyles: styles)
-            }, apiKey: nil)
+            BuilderComponentRegistry.shared.initialize()
             RenderContent.registered = true
         }
         
@@ -37,7 +20,7 @@ public struct RenderContent: View {
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            RenderBlocks(blocks: content.data.blocks)
+            BuilderBox(children: content.data.blocks, styles: nil)
                 .onAppear{
                     if (!BuilderContentAPI.isPreviewing()) {
                         sendTrackingPixel()

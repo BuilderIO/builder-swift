@@ -1,4 +1,6 @@
 import SwiftUI
+import SwiftyJSON
+
 private typealias CSS = CSSStyleUtil
 
 @available(iOS 15.0, macOS 10.15, *)
@@ -43,4 +45,25 @@ struct BuilderImage: View {
         })
         .cornerRadius(cornerRadius)
     }
+}
+
+
+struct BuilderImageV2: BuilderViewProtocol {
+    
+ 
+    var componentType: BuilderComponentType = .image
+    
+    var responsiveStyles: [String: String]?
+    var imageURL: URL?
+    
+    init(options: JSON?, styles: [String: String]?) {
+        self.responsiveStyles = styles
+        self.imageURL = URL(string: options?["image"].string ?? "")
+    }
+    
+    var body: some View {
+        AsyncImage(url:imageURL)
+    }
+    
+
 }

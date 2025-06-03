@@ -1,9 +1,5 @@
 import SwiftUI
 
-@available(iOS, deprecated: 15.0, renamed: "SwiftUI.AsyncImage")
-@available(iOS 15.0, *)
-public typealias AsyncImage = BackportAsyncImage
-
 
 @available(iOS, deprecated: 15.0, renamed: "SwiftUI.AsyncImagePhase")
 @available(iOS 15.0, *)
