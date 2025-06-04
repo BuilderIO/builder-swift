@@ -15,6 +15,7 @@ struct BuilderBox: View {
         
     }
     
+    @ViewBuilder
     var body: some View {
         let layout = isHorizontal ? AnyLayout(HStackLayout(alignment: .center))
         : AnyLayout(VStackLayout(alignment: .center))
@@ -26,10 +27,10 @@ struct BuilderBox: View {
                         
                         // nil check on component
                         if let component = children[index].component  {
-                            BuilderComponentRegistry.shared.view(for:  component, responsiveStyles: CSSStyleUtil.getFinalStyle(responsiveStyles: children[index].responsiveStyles))
-                            //if children then zstack below
-                            if (children[index].children != nil && children[index].children!.count > 0) {
-                            }
+                            BuilderComponentRegistry.shared.view(for: component, responsiveStyles: CSSStyleUtil.getFinalStyle(responsiveStyles: children[index].responsiveStyles))
+                                .if(children[index].children != nil && children[index].children!.count > 0) { overlayView in
+                                    overlayView.overlay(BuilderBox(children: children[index].children, styles: nil))
+                                }
                         } else {
                             EmptyView()
                         }

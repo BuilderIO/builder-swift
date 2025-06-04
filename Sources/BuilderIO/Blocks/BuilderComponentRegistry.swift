@@ -28,9 +28,9 @@ class BuilderComponentRegistry {
     
     
     func initialize() {
-        register(type: .text, viewClass: BuilderTextV2.self)
-        register(type: .image, viewClass: BuilderImageV2.self)
-
+        register(type: .text, viewClass: BuilderText.self)
+        register(type: .image, viewClass: BuilderImage.self)
+        register(type: .column, viewClass: BuilderColumns.self)
     }
     
 }
