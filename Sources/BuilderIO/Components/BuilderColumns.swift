@@ -22,7 +22,6 @@ struct BuilderColumns: BuilderViewProtocol {
         self.space = block.component?.options?["space"].doubleValue ?? 0;
     }
     
-    @available(iOS 15.0, *)
     var body: some View {
         let hasBgColor = responsiveStyles?["backgroundColor"] != nil;
         let bgColor = CSSStyleUtil.getColor(value: responsiveStyles?["backgroundColor"]);
@@ -38,12 +37,7 @@ struct BuilderColumns: BuilderViewProtocol {
         .if(hasBgColor) { view in
             view.background(bgColor)
         }
-        
         .padding(CSSStyleUtil.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:]))
-        
-        
-        
-        
         
     }
 }
