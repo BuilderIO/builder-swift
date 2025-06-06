@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import SwiftyJSON
 
-
+//BuilderComponentRegistry single instance factory for building preregistered components
 class BuilderComponentRegistry {
     static let shared = BuilderComponentRegistry()
 
@@ -10,6 +10,7 @@ class BuilderComponentRegistry {
     private var registry: [BuilderComponentType: any BuilderViewProtocol.Type] = [:]
     
     // Returns the view for a given block by looking up the component type in the registry.
+    // Wrapped in anyview as Swift UI does not support dynamic type instantiation directly
     func view(for block: BuilderBlock) -> AnyView {
         let type = BuilderComponentType(rawValue: block.component?.name ?? "")
         
