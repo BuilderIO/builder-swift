@@ -4,10 +4,8 @@ import SwiftyJSON
 
 protocol BuilderViewProtocol: View {
     var componentType: BuilderComponentType { get }
-    var block : BuilderBlock { get }
-    init(block: BuilderBlock);
-    
-    
+    var block : BuilderBlockModel { get }
+    init(block: BuilderBlockModel);
 }
 
 extension BuilderViewProtocol {
@@ -17,11 +15,11 @@ extension BuilderViewProtocol {
 }
 
 struct BuilderEmptyView: BuilderViewProtocol {
-    var block: BuilderBlock
+    var block: BuilderBlockModel
     
     var componentType: BuilderComponentType = .empty
 
-    init(block: BuilderBlock) {
+    init(block: BuilderBlockModel) {
         self.block = block
     }
 

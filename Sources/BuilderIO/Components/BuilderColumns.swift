@@ -5,13 +5,13 @@ import SwiftyJSON
 
 struct BuilderColumns: BuilderViewProtocol {
     var componentType: BuilderComponentType = .columns
-    var block: BuilderBlock
+    var block: BuilderBlockModel
     
     var columns: [BuilderContentData]
     var space: CGFloat = 0
     var responsiveStyles: [String: String]?;
     
-    init(block: BuilderBlock) {
+    init(block: BuilderBlockModel) {
         self.block = block
         
         if
@@ -38,7 +38,7 @@ struct BuilderColumns: BuilderViewProtocol {
 
         VStack(spacing: space) {
             ForEach(columns.indices, id: \.self) { index in
-                BuilderBox(blocks: columns[index].blocks)
+                BuilderModel(blocks: columns[index].blocks)
             }
         }
         .padding(CSSStyleUtil.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))

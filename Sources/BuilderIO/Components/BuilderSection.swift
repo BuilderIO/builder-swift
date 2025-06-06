@@ -6,12 +6,12 @@ struct BuilderSection: BuilderViewProtocol {
     
     var componentType: BuilderComponentType = .section
 
-    var block: BuilderBlock
+    var block: BuilderBlockModel
     var columns: [BuilderContentData]
     var space: CGFloat = 0
     var responsiveStyles: [String: String]?;
     
-    init(block: BuilderBlock) {
+    init(block: BuilderBlockModel) {
         self.block = block
         let decoder = JSONDecoder()
         let jsonString = block.component!.options!["columns"].rawString()!
@@ -28,7 +28,7 @@ struct BuilderSection: BuilderViewProtocol {
         VStack(spacing: space) {
         
             ForEach(0...columns.count - 1, id: \.self) { index in
-                BuilderBox(blocks: columns[index].blocks)
+                BuilderModel(blocks: columns[index].blocks)
             }
            
         }

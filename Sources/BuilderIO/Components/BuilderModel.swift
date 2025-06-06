@@ -3,12 +3,12 @@ import SwiftyJSON
 
 //BuilderBox forms the out layout container for all components mimicking Blocks from response. As blocks can have layout direction of either horizontal or vertical a check is made and layout selected.
 
-struct BuilderBox:  View {
+struct BuilderModel:  View {
     
-    var blocks: [BuilderBlock]
+    var blocks: [BuilderBlockModel]
     var componentType: BuilderComponentType = .box
     
-    init(blocks: [BuilderBlock]) {
+    init(blocks: [BuilderBlockModel]) {
         self.blocks = blocks
     }
     
@@ -44,11 +44,11 @@ struct BuilderBox:  View {
     }
     
     @ViewBuilder
-     private func layoutContent(for child: BuilderBlock) -> some View {
+     private func layoutContent(for child: BuilderBlockModel) -> some View {
          if let component = child.component {
              BuilderComponentRegistry.shared.view(for: child)
          } else if let children = child.children, !children.isEmpty {
-             BuilderBox(blocks: children)
+             BuilderModel(blocks: children)
          } else {
              Spacer()
          }

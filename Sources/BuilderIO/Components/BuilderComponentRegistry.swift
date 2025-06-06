@@ -11,7 +11,7 @@ class BuilderComponentRegistry {
     
     // Returns the view for a given block by looking up the component type in the registry.
     // Wrapped in anyview as Swift UI does not support dynamic type instantiation directly
-    func view(for block: BuilderBlock) -> AnyView {
+    func view(for block: BuilderBlockModel) -> AnyView {
         let type = BuilderComponentType(rawValue: block.component?.name ?? "")
         
         guard let viewType = registry[type] else {

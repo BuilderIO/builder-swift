@@ -4,12 +4,12 @@ import SwiftyJSON
 struct BuilderImage: BuilderViewProtocol {
     var componentType: BuilderComponentType = .image
 
-    var block: BuilderBlock
+    var block: BuilderBlockModel
     var responsiveStyles: [String: String]?
     var imageURL: URL?
     
 
-    init(block: BuilderBlock) {
+    init(block: BuilderBlockModel) {
         self.block = block
         self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
         self.imageURL = URL(string: block.component?.options?["image"].string ?? "")

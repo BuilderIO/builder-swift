@@ -6,7 +6,7 @@ public struct BuilderContent: Codable {
 }
 
 struct BuilderContentData: Codable {
-    var blocks: [BuilderBlock] = []
+    var blocks: [BuilderBlockModel] = []
 }
 
 struct BuilderContentList: Codable {
