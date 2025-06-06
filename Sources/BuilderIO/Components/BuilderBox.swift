@@ -16,7 +16,6 @@ struct BuilderBox:  View {
     var body: some View {
 
         ScrollView {
-            
             ForEach(Array(blocks.enumerated()), id: \.offset) { index, child in
                 let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
                 
@@ -25,22 +24,35 @@ struct BuilderBox:  View {
                 let layout = isHorizontal ? AnyLayout(HStackLayout(alignment: .center))
                 : AnyLayout(VStackLayout(alignment: .center))
                 
-                layout {
-                    // nil check on component
-                    if let component = child.component  {
-                        BuilderComponentRegistry.shared.view(for: child)
-                    } else if(child.children != nil && child.children!.count > 0){
-                        BuilderBox(blocks: child.children!)
+                Group {
+                    if isHorizontal {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            layout {
+                                layoutContent(for: child)
+                            }.modifier(ResponsiveStylesBuilderView(responsiveStyles: responsiveStyles ?? [:], isText: false))
+                        }
                     } else {
-                        EmptyView()
+                        layout {
+                            layoutContent(for: child)
+                        }.modifier(ResponsiveStylesBuilderView(responsiveStyles: responsiveStyles ?? [:], isText: false))
                     }
-                }.modifier(ResponsiveStylesBuilderView(responsiveStyles: responsiveStyles ?? [:], isText: false))
-                
-                
+                }
+               
                 
             }
         }
     }
+    
+    @ViewBuilder
+     private func layoutContent(for child: BuilderBlock) -> some View {
+         if let component = child.component {
+             BuilderComponentRegistry.shared.view(for: child)
+         } else if let children = child.children, !children.isEmpty {
+             BuilderBox(blocks: children)
+         } else {
+             Spacer()
+         }
+     }
     
 }
         

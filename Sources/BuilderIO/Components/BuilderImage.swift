@@ -16,7 +16,7 @@ struct BuilderImage: BuilderViewProtocol {
     }
     
     var body: some View {
-        AsyncImage(url:imageURL).frame(width: 50,height: 50)
+       AsyncImage(url:imageURL).frame(width: 5,height: 5)
         EmptyView()
     }
     
