@@ -7,6 +7,7 @@ struct BuilderComponentType: Equatable, Hashable {
     static let column = BuilderComponentType(rawValue: "Columns")
     static let section = BuilderComponentType(rawValue: "Core:Section")
     static let box = BuilderComponentType(rawValue: "Box")
+    static let empty = BuilderComponentType(rawValue: "Empty")
 
     // Add new types dynamically
     static func custom(_ name: String) -> BuilderComponentType {

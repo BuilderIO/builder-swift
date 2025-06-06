@@ -20,7 +20,7 @@ public struct RenderContent: View {
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            BuilderBox(children: content.data.blocks, styles: nil)
+            BuilderBox(blocks: content.data.blocks)
                 .onAppear{
                     if (!BuilderContentAPI.isPreviewing()) {
                         sendTrackingPixel()

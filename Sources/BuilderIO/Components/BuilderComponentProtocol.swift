@@ -3,17 +3,26 @@ import SwiftyJSON
 
 
 protocol BuilderViewProtocol: View {
-    var responsiveStyles: [String: String]? { get set }
-    init(options: JSON?, styles: [String: String]?);
+    var componentType: BuilderComponentType { get }
+    var block : BuilderBlock { get }
+    init(block: BuilderBlock);
+    
     
 }
 
-struct BuilderEmptyView: BuilderViewProtocol {
-    
-    var responsiveStyles: [String: String]?
+extension BuilderViewProtocol {
+     func getFinalStyle(responsiveStyles: BuilderBlockResponsiveStyles?) -> [String: String] {
+         return CSSStyleUtil.getFinalStyle(responsiveStyles: responsiveStyles)
+    }
+}
 
-    init(options: JSON?, styles: [String: String]?) {
-        self.responsiveStyles = styles
+struct BuilderEmptyView: BuilderViewProtocol {
+    var block: BuilderBlock
+    
+    var componentType: BuilderComponentType = .empty
+
+    init(block: BuilderBlock) {
+        self.block = block
     }
 
     var body: some View {
