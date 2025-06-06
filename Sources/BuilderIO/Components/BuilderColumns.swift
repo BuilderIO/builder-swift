@@ -13,31 +13,36 @@ struct BuilderColumns: BuilderViewProtocol {
     
     init(block: BuilderBlock) {
         self.block = block
-        let decoder = JSONDecoder()
-        let jsonString = block.component!.options!["columns"].rawString()!
-        let columns = try! decoder.decode([BuilderContentData].self, from: Data(jsonString.utf8))
-        self.columns = columns
-   
-        self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
-        self.space = block.component?.options?["space"].doubleValue ?? 0;
-    }
-    
-    var body: some View {
-        let hasBgColor = responsiveStyles?["backgroundColor"] != nil;
-        let bgColor = CSSStyleUtil.getColor(value: responsiveStyles?["backgroundColor"]);
         
+        if
+            let jsonString = block.component?.options?["columns"].rawString(),
+            let jsonData = jsonString.data(using: .utf8)
+        {
+            let decoder = JSONDecoder()
+            do {
+                self.columns = try decoder.decode([BuilderContentData].self, from: jsonData)
+            } catch {
+                self.columns = []
+            }
+        } else {
+            self.columns = []
+        }
+        
+        self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
+        self.space = block.component?.options?["space"].doubleValue ?? 0
+    }
+
+    var body: some View {
+        let hasBackground = responsiveStyles?["backgroundColor"] != nil
+        let backgroundColor = CSSStyleUtil.getColor(value: responsiveStyles?["backgroundColor"])
+
         VStack(spacing: space) {
-            
-            ForEach(0...columns.count - 1, id: \.self) { index in
+            ForEach(columns.indices, id: \.self) { index in
                 BuilderBox(blocks: columns[index].blocks)
             }
-            
         }
         .padding(CSSStyleUtil.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:]))
-        .if(hasBgColor) { view in
-            view.background(bgColor)
-        }
+        .background(hasBackground ? backgroundColor : nil)
         .padding(CSSStyleUtil.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:]))
-        
     }
 }
