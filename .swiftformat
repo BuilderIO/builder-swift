@@ -1,0 +1,8 @@
+# .swiftformat
+
+# Basic rules
+--header strip
+--wraparguments preserve
+--wrapelements preserve
+--self remove
+--semicolons inline
