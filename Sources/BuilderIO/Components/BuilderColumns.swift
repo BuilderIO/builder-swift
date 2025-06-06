@@ -4,7 +4,7 @@ import SwiftyJSON
 
 
 struct BuilderColumns: BuilderViewProtocol {
-    var componentType: BuilderComponentType = .column
+    var componentType: BuilderComponentType = .columns
     var block: BuilderBlock
     
     var columns: [BuilderContentData]

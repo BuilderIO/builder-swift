@@ -1,18 +1,17 @@
 import SwiftUI
 import SwiftyJSON
 
+//Builder Block grouping from response
 struct BuilderBox:  View {
     
     var blocks: [BuilderBlock]
     var componentType: BuilderComponentType = .box
-
     
     init(blocks: [BuilderBlock]) {
         self.blocks = blocks
     }
     
     
-    @ViewBuilder
     var body: some View {
 
         ScrollView {
@@ -20,6 +19,7 @@ struct BuilderBox:  View {
             ForEach(Array(blocks.enumerated()), id: \.offset) { index, child in
                 let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
                 
+                //Calculate the layout direction based on the responsive styles
                 let isHorizontal = (responsiveStyles["flexDirection"] == CSSConstants.FlexDirection.row.rawValue)
                 let layout = isHorizontal ? AnyLayout(HStackLayout(alignment: .center))
                 : AnyLayout(VStackLayout(alignment: .center))
