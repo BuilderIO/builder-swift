@@ -1,11 +1,11 @@
 import SwiftyJSON
 
 // Schema for Builder blocks
-public struct BuilderBlock: Codable {
+public struct BuilderBlockModel: Codable {
     var id: String
     var properties: [String: String]? = [:]
     var bindings: [String: String]? = [:]
-    var children: [BuilderBlock]? = []
+    var children: [BuilderBlockModel]? = []
     var component: BuilderBlockComponent? = nil
     var responsiveStyles: BuilderBlockResponsiveStyles? = BuilderBlockResponsiveStyles() // for inner style of the component
 }

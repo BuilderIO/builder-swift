@@ -1,16 +1,18 @@
 import SwiftUI
 import SwiftyJSON
 
-struct BuilderTextV2: BuilderViewProtocol {
-      
+struct BuilderText: BuilderViewProtocol {
+    var block: BuilderBlockModel
+    
     var componentType: BuilderComponentType = .text
     
     var responsiveStyles: [String: String]?
     var text: String?
     
-    init(options: JSON, styles: [String: String]?) {
-        self.responsiveStyles = styles
-        self.text = options["text"].string ?? ""
+    init(block: BuilderBlockModel) {
+        self.block = block
+        self.text = block.component?.options?["text"].string ?? ""
+        self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
     }
     
     var body: some View {
