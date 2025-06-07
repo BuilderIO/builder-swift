@@ -2,21 +2,21 @@ import SwiftyJSON
 
 // Schema for Builder blocks
 public struct BuilderBlockModel: Codable {
-    var id: String
-    var properties: [String: String]? = [:]
-    var bindings: [String: String]? = [:]
-    var children: [BuilderBlockModel]? = []
-    var component: BuilderBlockComponent? = nil
-    var responsiveStyles: BuilderBlockResponsiveStyles? = BuilderBlockResponsiveStyles() // for inner style of the component
+  var id: String
+  var properties: [String: String]? = [:]
+  var bindings: [String: String]? = [:]
+  var children: [BuilderBlockModel]? = []
+  var component: BuilderBlockComponent? = nil
+  var responsiveStyles: BuilderBlockResponsiveStyles? = BuilderBlockResponsiveStyles()  // for inner style of the component
 }
 
 public struct BuilderBlockComponent: Codable {
-    var name: String
-    var options: JSON? = [:]
+  var name: String
+  var options: JSON? = [:]
 }
 
 public struct BuilderBlockResponsiveStyles: Codable {
-    var large: [String: String]? = [:]
-    var medium: [String: String]? = [:]
-    var small: [String: String]? = [:]
+  var large: [String: String]? = [:]
+  var medium: [String: String]? = [:]
+  var small: [String: String]? = [:]
 }
