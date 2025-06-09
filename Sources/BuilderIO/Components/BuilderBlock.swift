@@ -14,136 +14,145 @@ struct BuilderBlock: View {
 
   var body: some View {
 
-      ForEach(Array(blocks.enumerated()), id: \.offset) { index, child in
-        let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
+    ForEach(Array(blocks.enumerated()), id: \.offset) { index, child in
+      let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
 
-          BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:]) {
-              if let component = child.component {
-                BuilderComponentRegistry.shared.view(for: child)
-              } else if let children = child.children, !children.isEmpty {
-                BuilderBlock(blocks: children)
-              } else {
-                Spacer()
-              }
-          }
-
+      BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:]) {
+        if let component = child.component {
+          BuilderComponentRegistry.shared.view(for: child)
+        } else if let children = child.children, !children.isEmpty {
+          BuilderBlock(blocks: children)
+        } else {
+          Spacer()
+        }
       }
-    
+
+    }
+
   }
 
 }
 
+struct BuilderBlockLayout<Content: View>: View {
+  let responsiveStyles: [String: String]
+  @ViewBuilder let content: () -> Content
 
+  var body: some View {
 
-struct BuilderBlockLayout<Content: View>: View
-{
-    let responsiveStyles: [String: String]
-    @ViewBuilder  let content: () -> Content
-    
-    var body: some View {
+    // 1. Extract basic layout parameters
+    let direction = responsiveStyles["flexDirection"] ?? "column"
+    let wrap = responsiveStyles["flexWrap"] == "wrap"
+    let scroll = responsiveStyles["overflow"] == "auto" && direction == "row"
 
-        // 1. Extract basic layout parameters
-        let direction = responsiveStyles["flexDirection"] ?? "column"
-        let wrap = responsiveStyles["flexWrap"] == "wrap"
-        let scroll = responsiveStyles["overflow"] == "auto" && direction == "row"
-        
-        let justify = responsiveStyles["justifyContent"]
-        let alignItems = responsiveStyles["alignItems"]
+    let justify = responsiveStyles["justifyContent"]
+    let alignItems = responsiveStyles["alignItems"]
 
-        let marginLeft = responsiveStyles["marginLeft"]?.lowercased()
-        let marginRight = responsiveStyles["marginRight"]?.lowercased()
-        
-        let spacing = extractPixels(responsiveStyles["gap"]) ?? 0
-        let padding = extractEdgeInsets(for:"padding", from: responsiveStyles)
-        let margin =  extractEdgeInsets(for:"margin", from: responsiveStyles)
+    let marginLeft = responsiveStyles["marginLeft"]?.lowercased()
+    let marginRight = responsiveStyles["marginRight"]?.lowercased()
 
-        let minHeight = extractPixels(responsiveStyles["minHeight"])
-        let maxHeight = extractPixels(responsiveStyles["maxHeight"])
-        let minWidth = extractPixels(responsiveStyles["minWidth"])
-        let maxWidth = extractPixels(responsiveStyles["maxWidth"])
+    let spacing = extractPixels(responsiveStyles["gap"]) ?? 0
+    let padding = extractEdgeInsets(for: "padding", from: responsiveStyles)
+    let margin = extractEdgeInsets(for: "margin", from: responsiveStyles)
 
-        let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
-        
-        // 2. Build base layout (wrapped or not)
-        let layoutView: some View = Group {
-            if wrap {
-                LazyVGrid(
-                    columns: [GridItem(.adaptive(minimum: 100), spacing: spacing)],
-                    alignment: BuilderBlockLayout<Content>.horizontalAlignment(marginsLeft:marginLeft, marginsRight:marginRight, justify: justify, alignItems: alignItems),
-                    spacing: spacing,
-                    content: content
-                )
-            } else if direction == "row" {
-                HStack(alignment:BuilderBlockLayout<Content>.verticalAlignment( justify: justify, alignItems: alignItems),spacing: spacing) {
-                    content()
-                }
-            } else {
-                VStack(alignment: BuilderBlockLayout<Content>.horizontalAlignment(marginsLeft:marginLeft, marginsRight:marginRight, justify: justify, alignItems: alignItems), spacing: spacing) {
-                    content()
-                }
-            }
-        }
+    let minHeight = extractPixels(responsiveStyles["minHeight"])
+    let maxHeight = extractPixels(responsiveStyles["maxHeight"])
+    let minWidth = extractPixels(responsiveStyles["minWidth"])
+    let maxWidth = extractPixels(responsiveStyles["maxWidth"])
 
-        // 3. Wrap in scroll if overflow: auto
-        let scrollableView: some View = Group {
-            if scroll {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    layoutView
-                }
-            } else {
-                layoutView
-            }
-        }
+    let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
 
-        // 4. Apply visual and layout modifiers
-        return scrollableView
-            .padding(padding) 
-            .frame(minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight)
-            .padding(margin) //margin
-            .cornerRadius(borderRadius)
-    }
-
-    
-    func extractPixels(_ value: String?) -> CGFloat? {
-        guard let value = value?.replacingOccurrences(of: "px", with: ""),
-              let number = Double(value) else { return nil }
-        return CGFloat(number)
-    }
-
-    func extractEdgeInsets(for insetType:String, from styles: [String: String]) -> EdgeInsets {
-        
-        return EdgeInsets(
-            top: extractPixels(styles["\(insetType)Top"]) ?? 0,
-            leading: extractPixels(styles["\(insetType)Left"]) ?? 0,
-            bottom: extractPixels(styles["\(insetType)Bottom"]) ?? 0,
-            trailing: extractPixels(styles["\(insetType)Right"]) ?? 0
+    // 2. Build base layout (wrapped or not)
+    let layoutView: some View = Group {
+      if wrap {
+        LazyVGrid(
+          columns: [GridItem(.adaptive(minimum: 100), spacing: spacing)],
+          alignment: BuilderBlockLayout<Content>.horizontalAlignment(
+            marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
+            alignItems: alignItems),
+          spacing: spacing,
+          content: content
         )
+      } else if direction == "row" {
+        HStack(
+          alignment: BuilderBlockLayout<Content>.verticalAlignment(
+            justify: justify, alignItems: alignItems), spacing: spacing
+        ) {
+          content()
+        }
+      } else {
+        VStack(
+          alignment: BuilderBlockLayout<Content>.horizontalAlignment(
+            marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
+            alignItems: alignItems), spacing: spacing
+        ) {
+          content()
+        }
+      }
     }
 
-    
-    static func horizontalAlignment(marginsLeft:String?, marginsRight:String?, justify: String?, alignItems:String?) -> HorizontalAlignment {
-   
-        if((marginsLeft == "auto" && marginsRight == "auto") || justify == "center" || alignItems == "center") {
-            return .center
-        } else if(marginsLeft == "auto" || justify == "flex-start" || alignItems == "flex-start") {
-            return .leading
-        } else if(marginsRight == "auto" || justify == "flex-end" || alignItems == "flex-end") {
-            return .trailing
+    // 3. Wrap in scroll if overflow: auto
+    let scrollableView: some View = Group {
+      if scroll {
+        ScrollView(.horizontal, showsIndicators: false) {
+          layoutView
         }
-        return .center
+      } else {
+        layoutView
+      }
     }
 
-    
-    static func verticalAlignment(justify: String?, alignItems:String?) -> VerticalAlignment {
-   
-        if(justify == "center" || alignItems == "center") {
-            return .center
-        } else if(justify == "flex-start" || alignItems == "flex-start") {
-            return .top
-        } else if( justify == "flex-end" || alignItems == "flex-end") {
-            return .bottom
-        }
-        return .center
+    // 4. Apply visual and layout modifiers
+    return
+      scrollableView
+      .padding(padding)
+      .frame(minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight)
+      .padding(margin)  //margin
+      .cornerRadius(borderRadius)
+  }
+
+  func extractPixels(_ value: String?) -> CGFloat? {
+    guard let value = value?.replacingOccurrences(of: "px", with: ""),
+      let number = Double(value)
+    else { return nil }
+    return CGFloat(number)
+  }
+
+  func extractEdgeInsets(for insetType: String, from styles: [String: String]) -> EdgeInsets {
+
+    return EdgeInsets(
+      top: extractPixels(styles["\(insetType)Top"]) ?? 0,
+      leading: extractPixels(styles["\(insetType)Left"]) ?? 0,
+      bottom: extractPixels(styles["\(insetType)Bottom"]) ?? 0,
+      trailing: extractPixels(styles["\(insetType)Right"]) ?? 0
+    )
+  }
+
+  static func horizontalAlignment(
+    marginsLeft: String?, marginsRight: String?, justify: String?, alignItems: String?
+  ) -> HorizontalAlignment {
+
+    if (marginsLeft == "auto" && marginsRight == "auto") || justify == "center"
+      || alignItems == "center"
+    {
+      return .center
+    } else if marginsLeft == "auto" || justify == "flex-start" || alignItems == "flex-start" {
+      return .leading
+    } else if marginsRight == "auto" || justify == "flex-end" || alignItems == "flex-end" {
+      return .trailing
     }
-    
+    return .center
+  }
+
+  static func verticalAlignment(justify: String?, alignItems: String?) -> VerticalAlignment {
+
+    if justify == "center" || alignItems == "center" {
+      return .center
+    } else if justify == "flex-start" || alignItems == "flex-start" {
+      return .top
+    } else if justify == "flex-end" || alignItems == "flex-end" {
+      return .bottom
+    }
+    return .center
+  }
+
 }

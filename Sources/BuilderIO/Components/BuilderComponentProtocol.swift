@@ -60,7 +60,6 @@ struct ResponsiveStylesBuilderView: ViewModifier {
         idealWidth: horizontalAlignmentFrame.idealWidth,
         maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment
       )
-    
 
   }
 
