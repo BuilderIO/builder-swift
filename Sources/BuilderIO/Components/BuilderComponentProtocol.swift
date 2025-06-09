@@ -60,12 +60,7 @@ struct ResponsiveStylesBuilderView: ViewModifier {
         idealWidth: horizontalAlignmentFrame.idealWidth,
         maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment
       )
-      .if(fontSize != nil) { view in
-        view.font(.system(size: fontSize!).weight(fontWeight!))
-      }
-      .if(foregroundColor != nil) { view in
-        view.foregroundColor(foregroundColor)
-      }
+    
 
   }
 

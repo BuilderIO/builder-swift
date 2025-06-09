@@ -28,7 +28,7 @@ struct BuilderSection: BuilderViewProtocol {
     VStack(spacing: space) {
 
       ForEach(0...columns.count - 1, id: \.self) { index in
-        BuilderModel(blocks: columns[index].blocks)
+        BuilderBlock(blocks: columns[index].blocks)
       }
 
     }
