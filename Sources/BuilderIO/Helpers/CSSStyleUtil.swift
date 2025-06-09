@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-enum HorizontalAlignment {
+enum BuilderHorizontalAlignment {
   case FullWidth
   case Center
   case LeftAlign
@@ -186,7 +186,7 @@ class CSSStyleUtil {
     return ""
   }
 
-  static func getHorizontalAlignmentFromMargin(styles: [String: String]) -> HorizontalAlignment {
+  static func getHorizontalAlignmentFromMargin(styles: [String: String]) -> BuilderHorizontalAlignment {
     let marginLeft = styles["marginLeft"]
     let marginRight = styles["marginRight"]
 
@@ -198,29 +198,29 @@ class CSSStyleUtil {
     let isMarginRightAuto = marginRight?.lowercased() == "auto"
 
     if isMarginLeftAuto && isMarginRightAuto {
-      return HorizontalAlignment.Center
+      return BuilderHorizontalAlignment.Center
     } else if isMarginLeftAuto {
-      return HorizontalAlignment.RightAlign
+      return BuilderHorizontalAlignment.RightAlign
     } else if isMarginRightAuto {
-      return HorizontalAlignment.LeftAlign
+      return BuilderHorizontalAlignment.LeftAlign
     } else if isMarginLeftAbsentOrZero && isMarginRightAbsentOrZero {
-      return HorizontalAlignment.FullWidth
+      return BuilderHorizontalAlignment.FullWidth
     }
     // Default full width?
-    return HorizontalAlignment.FullWidth
+    return BuilderHorizontalAlignment.FullWidth
   }
 
-  static func getHorizontalAlignmentFromAlignSelf(styles: [String: String]) -> HorizontalAlignment {
+  static func getHorizontalAlignmentFromAlignSelf(styles: [String: String]) -> BuilderHorizontalAlignment {
     let alignSelf = styles["alignSelf"]
     if alignSelf == "center" {
-      return HorizontalAlignment.FullWidth
+      return BuilderHorizontalAlignment.FullWidth
     } else if alignSelf == "auto" || alignSelf == "stretch" {
-      return HorizontalAlignment.FullWidth
+      return BuilderHorizontalAlignment.FullWidth
     }
-    return HorizontalAlignment.FullWidth
+    return BuilderHorizontalAlignment.FullWidth
   }
 
-  static func getHorizontalAlignment(styles: [String: String]) -> HorizontalAlignment {
+  static func getHorizontalAlignment(styles: [String: String]) -> BuilderHorizontalAlignment {
     if styles["alignSelf"] != nil {
       return getHorizontalAlignmentFromAlignSelf(styles: styles)
     } else {
@@ -232,21 +232,21 @@ class CSSStyleUtil {
   static func getFrameFromHorizontalAlignment(styles: [String: String], isText: Bool)
     -> FrameDimensions
   {
-    var horizontalAlignment: HorizontalAlignment
+    var horizontalAlignment: BuilderHorizontalAlignment
     if styles["alignSelf"] != nil {
       horizontalAlignment = getHorizontalAlignmentFromAlignSelf(styles: styles)
     } else {
       horizontalAlignment = getHorizontalAlignmentFromMargin(styles: styles)
     }
 
-    if horizontalAlignment == HorizontalAlignment.FullWidth {
+    if horizontalAlignment == BuilderHorizontalAlignment.FullWidth {
       return FrameDimensions(
         minWidth: 0, idealWidth: .infinity, maxWidth: .infinity,
         alignment: isText ? .leading : .center)
 
-    } else if horizontalAlignment == HorizontalAlignment.Center {
+    } else if horizontalAlignment == BuilderHorizontalAlignment.Center {
       return FrameDimensions(alignment: .center)
-    } else if horizontalAlignment == HorizontalAlignment.LeftAlign {
+    } else if horizontalAlignment == BuilderHorizontalAlignment.LeftAlign {
       return FrameDimensions(alignment: .leading)
     } else {
       // Right align
