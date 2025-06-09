@@ -20,14 +20,14 @@ public struct RenderContent: View {
   }
 
   public var body: some View {
-      ScrollView {
-          BuilderBlock(blocks: content.data.blocks)
-              .onAppear {
-                  if !BuilderContentAPI.isPreviewing() {
-                      sendTrackingPixel()
-                  }
-              }
-      }
+    ScrollView {
+      BuilderBlock(blocks: content.data.blocks)
+        .onAppear {
+          if !BuilderContentAPI.isPreviewing() {
+            sendTrackingPixel()
+          }
+        }
+    }
   }
 
   func sendTrackingPixel() {

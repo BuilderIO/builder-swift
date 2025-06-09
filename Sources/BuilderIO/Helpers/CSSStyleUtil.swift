@@ -186,7 +186,9 @@ class CSSStyleUtil {
     return ""
   }
 
-  static func getHorizontalAlignmentFromMargin(styles: [String: String]) -> BuilderHorizontalAlignment {
+  static func getHorizontalAlignmentFromMargin(styles: [String: String])
+    -> BuilderHorizontalAlignment
+  {
     let marginLeft = styles["marginLeft"]
     let marginRight = styles["marginRight"]
 
@@ -210,7 +212,9 @@ class CSSStyleUtil {
     return BuilderHorizontalAlignment.FullWidth
   }
 
-  static func getHorizontalAlignmentFromAlignSelf(styles: [String: String]) -> BuilderHorizontalAlignment {
+  static func getHorizontalAlignmentFromAlignSelf(styles: [String: String])
+    -> BuilderHorizontalAlignment
+  {
     let alignSelf = styles["alignSelf"]
     if alignSelf == "center" {
       return BuilderHorizontalAlignment.FullWidth
