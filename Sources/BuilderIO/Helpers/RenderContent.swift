@@ -20,16 +20,14 @@ public struct RenderContent: View {
   }
 
   public var body: some View {
-    VStack(alignment: .leading, spacing: 0) {
-      BuilderModel(blocks: content.data.blocks)
+    ScrollView {
+      BuilderBlock(blocks: content.data.blocks)
         .onAppear {
           if !BuilderContentAPI.isPreviewing() {
             sendTrackingPixel()
           }
         }
     }
-    .frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity)
-    .background(Color.white)
   }
 
   func sendTrackingPixel() {
