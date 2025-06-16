@@ -32,7 +32,7 @@ struct BuilderEmptyView: BuilderViewProtocol {
 struct ResponsiveStylesBuilderView: ViewModifier {
 
   var responsiveStyles: [String: String]
-  let horizontalAlignmentFrame: FrameDimensions
+  //let horizontalAlignmentFrame: FrameDimensions
   let foregroundColor: Color?
   let cornerRadius: CGFloat?
   let fontSize: CGFloat?
@@ -50,17 +50,10 @@ struct ResponsiveStylesBuilderView: ViewModifier {
       CSSStyleUtil.getFontWeightFromNumber(value: CSSStyleUtil.getFloatValue(cssString: fontWeight))
     }
 
-    horizontalAlignmentFrame = CSSStyleUtil.getFrameFromHorizontalAlignment(
-      styles: responsiveStyles ?? [:], isText: true)
   }
 
   func body(content: Content) -> some View {
     content
-      .frame(
-        idealWidth: horizontalAlignmentFrame.idealWidth,
-        maxWidth: horizontalAlignmentFrame.maxWidth, alignment: horizontalAlignmentFrame.alignment
-      )
-
   }
 
 }

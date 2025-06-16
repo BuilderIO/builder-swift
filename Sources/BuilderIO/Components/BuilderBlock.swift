@@ -55,9 +55,9 @@ struct BuilderBlockLayout<Content: View>: View {
     let margin = extractEdgeInsets(for: "margin", from: responsiveStyles)
 
     let minHeight = extractPixels(responsiveStyles["minHeight"])
-    let maxHeight = extractPixels(responsiveStyles["maxHeight"])
+    let maxHeight = extractPixels(responsiveStyles["maxHeight"]) ?? .infinity
     let minWidth = extractPixels(responsiveStyles["minWidth"])
-    let maxWidth = extractPixels(responsiveStyles["maxWidth"])
+    let maxWidth = extractPixels(responsiveStyles["maxWidth"]) ?? .infinity
 
     let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
 
@@ -73,19 +73,47 @@ struct BuilderBlockLayout<Content: View>: View {
           content: content
         )
       } else if direction == "row" {
+        let hStackAlignment = BuilderBlockLayout<Content>.verticalAlignment(
+          justify: justify, alignItems: alignItems)
+
+        let frameAlignment: Alignment =
+          switch hStackAlignment {
+          case .top: .top
+          case .center: .center
+          case .bottom: .bottom
+          default: .center
+          }
+
         HStack(
-          alignment: BuilderBlockLayout<Content>.verticalAlignment(
-            justify: justify, alignItems: alignItems), spacing: spacing
+          alignment: hStackAlignment, spacing: spacing
         ) {
-          content()
+          content().padding(padding)
+            .frame(
+              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+              alignment: frameAlignment)
         }
       } else {
+
+        let vStackAlignment = BuilderBlockLayout<Content>.horizontalAlignment(
+          marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
+          alignItems: alignItems)
+
+        let frameAlignment: Alignment =
+          switch vStackAlignment {
+          case .leading: .leading
+          case .center: .center
+          case .trailing: .trailing
+          default: .center
+          }
+
         VStack(
-          alignment: BuilderBlockLayout<Content>.horizontalAlignment(
-            marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
-            alignItems: alignItems), spacing: spacing
+          alignment: vStackAlignment, spacing: spacing
         ) {
-          content()
+
+          content().padding(padding)
+            .frame(
+              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+              alignment: frameAlignment)
         }
       }
     }
@@ -104,8 +132,6 @@ struct BuilderBlockLayout<Content: View>: View {
     // 4. Apply visual and layout modifiers
     return
       scrollableView
-      .padding(padding)
-      .frame(minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight)
       .padding(margin)  //margin
       .cornerRadius(borderRadius)
   }
