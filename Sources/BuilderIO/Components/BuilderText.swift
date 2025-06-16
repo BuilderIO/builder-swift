@@ -17,9 +17,6 @@ struct BuilderText: BuilderViewProtocol {
 
   var body: some View {
     Text(CSSStyleUtil.getTextWithoutHtml(text ?? ""))
-      .if(!(self.responsiveStyles?.isEmpty ?? true)) { view in
-        view.responsiveStylesBuilderView(responsiveStyles: self.responsiveStyles!, isText: true)
-      }
   }
 
 }
