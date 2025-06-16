@@ -55,7 +55,7 @@ struct BuilderBlockLayout<Content: View>: View {
     let margin = extractEdgeInsets(for: "margin", from: responsiveStyles)
 
     let minHeight = extractPixels(responsiveStyles["minHeight"])
-    let maxHeight = extractPixels(responsiveStyles["maxHeight"]) ?? .infinity
+    let maxHeight = extractPixels(responsiveStyles["maxHeight"])
     let minWidth = extractPixels(responsiveStyles["minWidth"])
     let maxWidth = extractPixels(responsiveStyles["maxWidth"]) ?? .infinity
 
@@ -65,7 +65,9 @@ struct BuilderBlockLayout<Content: View>: View {
     let layoutView: some View = Group {
       if wrap {
         LazyVGrid(
-          columns: [GridItem(.adaptive(minimum: 100), spacing: spacing)],
+          columns: [
+            GridItem(.flexible(minimum: minWidth ?? 0, maximum: maxWidth), spacing: spacing)
+          ],
           alignment: BuilderBlockLayout<Content>.horizontalAlignment(
             marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
             alignItems: alignItems),
