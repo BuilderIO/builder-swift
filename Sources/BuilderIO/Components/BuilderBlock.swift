@@ -57,7 +57,9 @@ struct BuilderBlockLayout<Content: View>: View {
     let minHeight = extractPixels(responsiveStyles["minHeight"])
     let maxHeight = extractPixels(responsiveStyles["maxHeight"])
     let minWidth = extractPixels(responsiveStyles["minWidth"])
-    let maxWidth = extractPixels(responsiveStyles["maxWidth"]) ?? .infinity
+    let maxWidth =
+      extractPixels(responsiveStyles["maxWidth"])
+      ?? ((marginLeft == "auto" || marginRight == "auto") ? nil : .infinity)
 
     let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
 
@@ -66,7 +68,8 @@ struct BuilderBlockLayout<Content: View>: View {
       if wrap {
         LazyVGrid(
           columns: [
-            GridItem(.flexible(minimum: minWidth ?? 0, maximum: maxWidth), spacing: spacing)
+            GridItem(
+              .flexible(minimum: minWidth ?? 0, maximum: maxWidth ?? .infinity), spacing: spacing)
           ],
           alignment: BuilderBlockLayout<Content>.horizontalAlignment(
             marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
@@ -92,7 +95,10 @@ struct BuilderBlockLayout<Content: View>: View {
           content().padding(padding)
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-              alignment: frameAlignment)
+              alignment: frameAlignment
+            ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
+            .padding(margin)  //margin
+            .cornerRadius(borderRadius)
         }
       } else {
 
@@ -109,13 +115,20 @@ struct BuilderBlockLayout<Content: View>: View {
           }
 
         VStack(
-          alignment: vStackAlignment, spacing: spacing
+          alignment: .leading, spacing: spacing
         ) {
+          HStack {
+            if marginLeft == "auto" { Spacer() }
+            content().padding(padding)
+              .frame(
+                minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+                alignment: frameAlignment
+              ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
+              .padding(margin)  //margin
+              .cornerRadius(borderRadius)
+            if marginRight == "auto" { Spacer() }
+          }.frame(maxWidth: .infinity)
 
-          content().padding(padding)
-            .frame(
-              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-              alignment: frameAlignment)
         }
       }
     }
@@ -134,8 +147,7 @@ struct BuilderBlockLayout<Content: View>: View {
     // 4. Apply visual and layout modifiers
     return
       scrollableView
-      .padding(margin)  //margin
-      .cornerRadius(borderRadius)
+
   }
 
   func extractPixels(_ value: String?) -> CGFloat? {
@@ -165,7 +177,7 @@ struct BuilderBlockLayout<Content: View>: View {
       return .center
     } else if marginsRight == "auto" || justify == "flex-start" || alignItems == "flex-start" {
       return .leading
-    } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {   
+    } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {
       return .trailing
     }
     return .center

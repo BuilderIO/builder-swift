@@ -17,88 +17,82 @@ struct BuilderText: BuilderViewProtocol {
 
   var body: some View {
 
-      HTMLTextView(html: wrapHtmlWithStyledDiv(styleDictionary: responsiveStyles ?? [:], htmlString: text ?? ""))
+    HTMLTextView(
+      html: wrapHtmlWithStyledDiv(styleDictionary: responsiveStyles ?? [:], htmlString: text ?? ""))
   }
-    
-    func wrapHtmlWithStyledDiv(styleDictionary: [String: String], htmlString: String) -> String {
-        
-    
-        guard !styleDictionary.isEmpty else {
-            return htmlString
-        }
 
-        // 1. Convert the dictionary to a CSS style string
-        var cssProperties: [String] = []
-        for (key, value) in styleDictionary {
-            // Convert Swift-style/camelCase keys to CSS-style (kebab-case) keys
-            let cssKey: String
-            switch key {
-            case "fontFamily":
-                cssKey = "font-family"
-            case "fontSize":
-                cssKey = "font-size"
-            case "fontWeight":
-                cssKey = "font-weight"
-            case "backgroundColor":
-                cssKey = "background-color"
-            case "color":
-                cssKey = "color"
-            case "lineHeight":
-                cssKey = "line-height"
-            default:
-                continue
-            }
-            cssProperties.append("\(cssKey): \(value);")
-        }
+  func wrapHtmlWithStyledDiv(styleDictionary: [String: String], htmlString: String) -> String {
 
-        let inlineCssStyle = cssProperties.joined(separator: " ")
-        
-        guard !inlineCssStyle.isEmpty else {
-            return htmlString
-        }
-        
-        let finalHtmlString = "<div style=\"\(inlineCssStyle)\">\(htmlString)</div>"
-
-        return finalHtmlString
+    guard !styleDictionary.isEmpty else {
+      return htmlString
     }
 
-}
+    // 1. Convert the dictionary to a CSS style string
+    var cssProperties: [String] = []
+    for (key, value) in styleDictionary {
+      // Convert Swift-style/camelCase keys to CSS-style (kebab-case) keys
+      let cssKey: String
+      switch key {
+      case "fontFamily":
+        cssKey = "font-family"
+      case "fontSize":
+        cssKey = "font-size"
+      case "fontWeight":
+        cssKey = "font-weight"
+      case "color":
+        cssKey = "color"
+      case "lineHeight":
+        cssKey = "line-height"
+      default:
+        continue
+      }
+      cssProperties.append("\(cssKey): \(value);")
+    }
 
+    let inlineCssStyle = cssProperties.joined(separator: " ")
+
+    guard !inlineCssStyle.isEmpty else {
+      return htmlString
+    }
+
+    let finalHtmlString = "<div style=\"\(inlineCssStyle)\">\(htmlString)</div>"
+
+    return finalHtmlString
+  }
+
+}
 
 struct HTMLTextView: View {
-    let html: String
+  let html: String
 
-    var body: some View {
-        Group {
-            contentView
-        }
+  var body: some View {
+    Group {
+      contentView
     }
+  }
 
-    private var contentView: some View {
-        if let data = html.data(using: .utf8),
-           let nsAttributedString = try? NSAttributedString(
-               data: data,
-               options: [
-                   .documentType: NSAttributedString.DocumentType.html,
-                   .characterEncoding: String.Encoding.utf8.rawValue
-               ],
-               documentAttributes: nil
-           ),
-           let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit) {
-            
-            
-            
-            Text(swiftUIAttributedString)
-        } else {
-            Text("Failed to render HTML")
-                .foregroundColor(.red)
-        }
+  @ViewBuilder
+  private var contentView: some View {
+    if let data = html.data(using: .utf8),
+      let nsAttributedString = try? NSAttributedString(
+        data: data,
+        options: [
+          .documentType: NSAttributedString.DocumentType.html,
+          .characterEncoding: String.Encoding.utf8.rawValue,
+        ],
+        documentAttributes: nil
+      ),
+      let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit)
+    {
+
+      Text(swiftUIAttributedString)
+
+    } else {
+      Text("Failed to render HTML")
+        .foregroundColor(.red)
     }
-    
-    
-  
+  }
 }
-
 
 struct BuilderText_Previews: PreviewProvider {
   static let builderJSONString = """
