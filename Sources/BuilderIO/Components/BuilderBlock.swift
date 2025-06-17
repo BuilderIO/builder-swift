@@ -163,9 +163,9 @@ struct BuilderBlockLayout<Content: View>: View {
       || alignItems == "center"
     {
       return .center
-    } else if marginsLeft == "auto" || justify == "flex-start" || alignItems == "flex-start" {
+    } else if marginsRight == "auto" || justify == "flex-start" || alignItems == "flex-start" {
       return .leading
-    } else if marginsRight == "auto" || justify == "flex-end" || alignItems == "flex-end" {
+    } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {   
       return .trailing
     }
     return .center
