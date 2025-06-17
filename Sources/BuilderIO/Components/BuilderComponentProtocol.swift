@@ -32,7 +32,6 @@ struct BuilderEmptyView: BuilderViewProtocol {
 struct ResponsiveStylesBuilderView: ViewModifier {
 
   var responsiveStyles: [String: String]
-  //let horizontalAlignmentFrame: FrameDimensions
   let foregroundColor: Color?
   let cornerRadius: CGFloat?
   let fontSize: CGFloat?
