@@ -57,7 +57,7 @@ struct BuilderBlockLayout<Content: View>: View {
     let minHeight = extractPixels(responsiveStyles["minHeight"])
     let maxHeight = extractPixels(responsiveStyles["maxHeight"])
     let minWidth = extractPixels(responsiveStyles["minWidth"])
-    let maxWidth = extractPixels(responsiveStyles["maxWidth"])
+    let maxWidth = extractPixels(responsiveStyles["maxWidth"]) ?? .infinity
 
     let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
 
@@ -65,7 +65,9 @@ struct BuilderBlockLayout<Content: View>: View {
     let layoutView: some View = Group {
       if wrap {
         LazyVGrid(
-          columns: [GridItem(.adaptive(minimum: 100), spacing: spacing)],
+          columns: [
+            GridItem(.flexible(minimum: minWidth ?? 0, maximum: maxWidth), spacing: spacing)
+          ],
           alignment: BuilderBlockLayout<Content>.horizontalAlignment(
             marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
             alignItems: alignItems),
@@ -73,19 +75,47 @@ struct BuilderBlockLayout<Content: View>: View {
           content: content
         )
       } else if direction == "row" {
+        let hStackAlignment = BuilderBlockLayout<Content>.verticalAlignment(
+          justify: justify, alignItems: alignItems)
+
+        let frameAlignment: Alignment =
+          switch hStackAlignment {
+          case .top: .top
+          case .center: .center
+          case .bottom: .bottom
+          default: .center
+          }
+
         HStack(
-          alignment: BuilderBlockLayout<Content>.verticalAlignment(
-            justify: justify, alignItems: alignItems), spacing: spacing
+          alignment: hStackAlignment, spacing: spacing
         ) {
-          content()
+          content().padding(padding)
+            .frame(
+              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+              alignment: frameAlignment)
         }
       } else {
+
+        let vStackAlignment = BuilderBlockLayout<Content>.horizontalAlignment(
+          marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
+          alignItems: alignItems)
+
+        let frameAlignment: Alignment =
+          switch vStackAlignment {
+          case .leading: .leading
+          case .center: .center
+          case .trailing: .trailing
+          default: .center
+          }
+
         VStack(
-          alignment: BuilderBlockLayout<Content>.horizontalAlignment(
-            marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
-            alignItems: alignItems), spacing: spacing
+          alignment: vStackAlignment, spacing: spacing
         ) {
-          content()
+
+          content().padding(padding)
+            .frame(
+              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+              alignment: frameAlignment)
         }
       }
     }
@@ -104,8 +134,6 @@ struct BuilderBlockLayout<Content: View>: View {
     // 4. Apply visual and layout modifiers
     return
       scrollableView
-      .padding(padding)
-      .frame(minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight)
       .padding(margin)  //margin
       .cornerRadius(borderRadius)
   }
@@ -135,9 +163,9 @@ struct BuilderBlockLayout<Content: View>: View {
       || alignItems == "center"
     {
       return .center
-    } else if marginsLeft == "auto" || justify == "flex-start" || alignItems == "flex-start" {
+    } else if marginsRight == "auto" || justify == "flex-start" || alignItems == "flex-start" {
       return .leading
-    } else if marginsRight == "auto" || justify == "flex-end" || alignItems == "flex-end" {
+    } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {   
       return .trailing
     }
     return .center
