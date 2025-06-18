@@ -96,6 +96,8 @@ struct BuilderBlockLayout<Content: View>: View {
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
               alignment: frameAlignment
+            ).builderBackground(responsiveStyles: responsiveStyles).builderBackground(
+              responsiveStyles: responsiveStyles
             ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
         }
       } else {
@@ -121,7 +123,7 @@ struct BuilderBlockLayout<Content: View>: View {
               .frame(
                 minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
                 alignment: .center
-              ).background(.blue).builderBorder(
+              ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
                 properties: BorderProperties(responsiveStyles: responsiveStyles))
             if marginRight == "auto" { Spacer() }
           }.frame(maxWidth: .infinity)

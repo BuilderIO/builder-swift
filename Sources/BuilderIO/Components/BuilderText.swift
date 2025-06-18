@@ -20,7 +20,7 @@ struct BuilderText: BuilderViewProtocol {
 
     HTMLTextView(
       html: wrapHtmlWithStyledDiv(styleDictionary: responsiveStyles ?? [:], htmlString: text ?? "")
-    ).responsiveStylesBuilderView(responsiveStyles: responsiveStyles ?? [:])
+    )
   }
 
   func wrapHtmlWithStyledDiv(styleDictionary: [String: String], htmlString: String) -> String {
