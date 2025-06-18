@@ -115,15 +115,12 @@ struct BuilderBlockLayout<Content: View>: View {
           }
 
         HStack {
-          if marginLeft == "auto" { Spacer() }
           content().padding(padding)
             .frame(
-              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-              alignment: .leading
+              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight
             ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
               properties: BorderProperties(responsiveStyles: responsiveStyles))
-          if marginRight == "auto" { Spacer() }
-        }
+        }.frame(maxWidth: .infinity, alignment: frameAlignment)
 
       }
     }
