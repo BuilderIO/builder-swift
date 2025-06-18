@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftyJSON
+import WebKit
 
 struct BuilderText: BuilderViewProtocol {
   var block: BuilderBlockModel
@@ -18,7 +19,8 @@ struct BuilderText: BuilderViewProtocol {
   var body: some View {
 
     HTMLTextView(
-      html: wrapHtmlWithStyledDiv(styleDictionary: responsiveStyles ?? [:], htmlString: text ?? ""))
+      html: wrapHtmlWithStyledDiv(styleDictionary: responsiveStyles ?? [:], htmlString: text ?? "")
+    ).responsiveStylesBuilderView(responsiveStyles: responsiveStyles ?? [:])
   }
 
   func wrapHtmlWithStyledDiv(styleDictionary: [String: String], htmlString: String) -> String {
@@ -43,11 +45,17 @@ struct BuilderText: BuilderViewProtocol {
         cssKey = "color"
       case "lineHeight":
         cssKey = "line-height"
+      case "textAlign":
+        cssKey = "text-align"
       default:
         continue
       }
       cssProperties.append("\(cssKey): \(value);")
     }
+
+    cssProperties.append("margin: 0; padding: 0;")
+    cssProperties.append("display: block;")
+    cssProperties.append("box-sizing: border-box;")
 
     let inlineCssStyle = cssProperties.joined(separator: " ")
 
@@ -55,7 +63,8 @@ struct BuilderText: BuilderViewProtocol {
       return htmlString
     }
 
-    let finalHtmlString = "<div style=\"\(inlineCssStyle)\">\(htmlString)</div>"
+    //extra trailing p tags
+    let finalHtmlString = "<div style=\"\(inlineCssStyle)\">\(htmlString)</div><p></p>"
 
     return finalHtmlString
   }
@@ -85,7 +94,8 @@ struct HTMLTextView: View {
       let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit)
     {
 
-      Text(swiftUIAttributedString)
+      //Correction for extra spacing present when working with attributed strings html. Overcome by adding a trailing <p> tag which will be of fixed height
+      Text(swiftUIAttributedString).padding(.bottom, -24)
 
     } else {
       Text("Failed to render HTML")
@@ -106,7 +116,7 @@ struct BuilderText_Previews: PreviewProvider {
              "component": {
                "name": "Text",
               "options": {
-                "text": "<h1><strong>Right<em> </em></strong><em>Align</em><strong><em> </em></strong><strong style=\\\"color: rgb(144, 19, 254);\\\"><em><u>Text</u></em></strong></h1>"
+                "text": "<h1><strong>Right<em> </em></strong><em>Align</em><strong><em> </em></strong><strong style=\\\"color: rgb(144, 19, 254);\\\"><em><u>Text</u></em></strong></h1><p> This is a paragraph with some content that will determine the height dynamically. This text should wrap to multiple lines if the width is constrained.</p>"
               },
                "isRSC": null
              },

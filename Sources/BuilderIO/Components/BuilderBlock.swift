@@ -97,8 +97,6 @@ struct BuilderBlockLayout<Content: View>: View {
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
               alignment: frameAlignment
             ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
-            .padding(margin)  //margin
-            .cornerRadius(borderRadius)
         }
       } else {
 
@@ -115,17 +113,16 @@ struct BuilderBlockLayout<Content: View>: View {
           }
 
         VStack(
-          alignment: .leading, spacing: spacing
+          alignment: vStackAlignment, spacing: spacing
         ) {
           HStack {
             if marginLeft == "auto" { Spacer() }
             content().padding(padding)
               .frame(
                 minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-                alignment: frameAlignment
-              ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
-              .padding(margin)  //margin
-              .cornerRadius(borderRadius)
+                alignment: .center
+              ).background(.blue).builderBorder(
+                properties: BorderProperties(responsiveStyles: responsiveStyles))
             if marginRight == "auto" { Spacer() }
           }.frame(maxWidth: .infinity)
 
@@ -146,7 +143,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
     // 4. Apply visual and layout modifiers
     return
-      scrollableView
+      scrollableView.padding(margin)  //margin
 
   }
 
@@ -159,11 +156,19 @@ struct BuilderBlockLayout<Content: View>: View {
 
   func extractEdgeInsets(for insetType: String, from styles: [String: String]) -> EdgeInsets {
 
+    var borderWidth: CGFloat = 2
+
+    if let widthString = responsiveStyles["borderWidth"],
+      let value = Double(widthString.replacingOccurrences(of: "px", with: ""))
+    {
+      borderWidth += CGFloat(value)
+    }
+
     return EdgeInsets(
-      top: extractPixels(styles["\(insetType)Top"]) ?? 0,
-      leading: extractPixels(styles["\(insetType)Left"]) ?? 0,
-      bottom: extractPixels(styles["\(insetType)Bottom"]) ?? 0,
-      trailing: extractPixels(styles["\(insetType)Right"]) ?? 0
+      top: (extractPixels(styles["\(insetType)Top"]) ?? 0) + borderWidth,
+      leading: (extractPixels(styles["\(insetType)Left"]) ?? 0) + borderWidth,
+      bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + borderWidth,
+      trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + borderWidth
     )
   }
 
