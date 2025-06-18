@@ -111,24 +111,20 @@ struct BuilderBlockLayout<Content: View>: View {
           case .leading: .leading
           case .center: .center
           case .trailing: .trailing
-          default: .center
+          default: .leading
           }
 
-        VStack(
-          alignment: vStackAlignment, spacing: spacing
-        ) {
-          HStack {
-            if marginLeft == "auto" { Spacer() }
-            content().padding(padding)
-              .frame(
-                minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-                alignment: .center
-              ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
-                properties: BorderProperties(responsiveStyles: responsiveStyles))
-            if marginRight == "auto" { Spacer() }
-          }.frame(maxWidth: .infinity)
-
+        HStack {
+          if marginLeft == "auto" { Spacer() }
+          content().padding(padding)
+            .frame(
+              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+              alignment: .leading
+            ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
+              properties: BorderProperties(responsiveStyles: responsiveStyles))
+          if marginRight == "auto" { Spacer() }
         }
+
       }
     }
 
