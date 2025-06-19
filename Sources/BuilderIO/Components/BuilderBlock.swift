@@ -41,7 +41,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
     // 1. Extract basic layout parameters
     let direction = responsiveStyles["flexDirection"] ?? "column"
-    let wrap = responsiveStyles["flexWrap"] == "wrap"
+    let wrap = responsiveStyles["flexWrap"] == "wrap" && direction == "row"
     let scroll = responsiveStyles["overflow"] == "auto" && direction == "row"
 
     let justify = responsiveStyles["justifyContent"]
@@ -68,15 +68,15 @@ struct BuilderBlockLayout<Content: View>: View {
       if wrap {
         LazyVGrid(
           columns: [
-            GridItem(
-              .flexible(minimum: minWidth ?? 0, maximum: maxWidth ?? .infinity), spacing: spacing)
+            GridItem(.adaptive(minimum: 50), spacing: spacing)  // Spacing between columns (0 for tight fit like image)
           ],
-          alignment: BuilderBlockLayout<Content>.horizontalAlignment(
-            marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
-            alignItems: alignItems),
           spacing: spacing,
           content: content
-        )
+        ).frame(maxWidth: maxWidth).padding(padding).builderBackground(
+          responsiveStyles: responsiveStyles
+        ).builderBackground(
+          responsiveStyles: responsiveStyles
+        ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
       } else if direction == "row" {
         let hStackAlignment = BuilderBlockLayout<Content>.verticalAlignment(
           justify: justify, alignItems: alignItems)
@@ -104,7 +104,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
         let vStackAlignment = BuilderBlockLayout<Content>.horizontalAlignment(
           marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
-          alignItems: alignItems)
+          alignItems: alignItems, responsiveStyles: responsiveStyles)
 
         let frameAlignment: Alignment =
           switch vStackAlignment {
@@ -113,15 +113,15 @@ struct BuilderBlockLayout<Content: View>: View {
           case .trailing: .trailing
           default: .leading
           }
-
-        HStack {
+        VStack {
           content().padding(padding)
             .frame(
-              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight
+              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+              alignment: frameAlignment
             ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
-              properties: BorderProperties(responsiveStyles: responsiveStyles))
+              properties: BorderProperties(responsiveStyles: responsiveStyles)
+            )
         }.frame(maxWidth: .infinity, alignment: frameAlignment)
-
       }
     }
 
@@ -168,8 +168,24 @@ struct BuilderBlockLayout<Content: View>: View {
   }
 
   static func horizontalAlignment(
-    marginsLeft: String?, marginsRight: String?, justify: String?, alignItems: String?
+    marginsLeft: String?, marginsRight: String?, justify: String?, alignItems: String?,
+    responsiveStyles: [String: String]
   ) -> HorizontalAlignment {
+
+    if let textAlign = responsiveStyles["textAlign"] {
+      switch textAlign {
+      case "center":
+        return .center
+      case "left", "start":  // "start" is also a common value in some contexts
+        return .leading
+      case "right", "end":  // "end" is also a common value
+        return .trailing
+      case "justify":
+        break  // Fall through to next checks
+      default:
+        break  // Unknown textAlign value, fall through
+      }
+    }
 
     if (marginsLeft == "auto" && marginsRight == "auto") || justify == "center"
       || alignItems == "center"
@@ -180,7 +196,7 @@ struct BuilderBlockLayout<Content: View>: View {
     } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {
       return .trailing
     }
-    return .center
+    return .leading
   }
 
   static func verticalAlignment(justify: String?, alignItems: String?) -> VerticalAlignment {
