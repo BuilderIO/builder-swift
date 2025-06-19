@@ -25,7 +25,7 @@ struct BuilderImage: BuilderViewProtocol {
                 case .empty:
                     ProgressView()
                 case .success(let image):
-                    image.resizable()
+                    image.resizable().scaledToFill()
                         .clipped().zIndex(0)
                         .if((children?.count ?? 0) > 0) { view in
                             view.overlay(content: {
