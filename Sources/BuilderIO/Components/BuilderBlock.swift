@@ -49,9 +49,12 @@ struct BuilderBlockLayout<Content: View>: View {
 
     let marginLeft = responsiveStyles["marginLeft"]?.lowercased()
     let marginRight = responsiveStyles["marginRight"]?.lowercased()
+    let marginTop = responsiveStyles["marginTop"]?.lowercased()
+    let marginBottom = responsiveStyles["marginBottom"]?.lowercased()
 
     let spacing = extractPixels(responsiveStyles["gap"]) ?? 0
-    let padding = extractEdgeInsets(for: "padding", from: responsiveStyles)
+    let padding = extractEdgeInsets(
+      for: "padding", from: responsiveStyles, with: getBorderWidth(from: responsiveStyles))
     let margin = extractEdgeInsets(for: "margin", from: responsiveStyles)
 
     let minHeight = extractPixels(responsiveStyles["minHeight"])
@@ -114,6 +117,8 @@ struct BuilderBlockLayout<Content: View>: View {
           default: .leading
           }
         VStack {
+          if marginTop == "auto" { Spacer() }
+
           content().padding(padding)
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
@@ -121,7 +126,9 @@ struct BuilderBlockLayout<Content: View>: View {
             ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
               properties: BorderProperties(responsiveStyles: responsiveStyles)
             )
-        }.frame(maxWidth: .infinity, alignment: frameAlignment)
+
+          if marginBottom == "auto" { Spacer() }
+        }.frame(maxWidth: .infinity, alignment: frameAlignment).border(Color.red)
       }
     }
 
@@ -149,21 +156,26 @@ struct BuilderBlockLayout<Content: View>: View {
     return CGFloat(number)
   }
 
-  func extractEdgeInsets(for insetType: String, from styles: [String: String]) -> EdgeInsets {
-
-    var borderWidth: CGFloat = 2
-
+  func getBorderWidth(from styles: [String: String]) -> CGFloat {
+    var borderWidth: CGFloat = 0
     if let widthString = responsiveStyles["borderWidth"],
       let value = Double(widthString.replacingOccurrences(of: "px", with: ""))
     {
       borderWidth += CGFloat(value)
     }
 
+    return borderWidth
+  }
+
+  func extractEdgeInsets(
+    for insetType: String, from styles: [String: String], with bufferWidth: CGFloat = 0
+  ) -> EdgeInsets {
+
     return EdgeInsets(
-      top: (extractPixels(styles["\(insetType)Top"]) ?? 0) + borderWidth,
-      leading: (extractPixels(styles["\(insetType)Left"]) ?? 0) + borderWidth,
-      bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + borderWidth,
-      trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + borderWidth
+      top: (extractPixels(styles["\(insetType)Top"]) ?? 0) + bufferWidth,
+      leading: (extractPixels(styles["\(insetType)Left"]) ?? 0) + bufferWidth,
+      bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + bufferWidth,
+      trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + bufferWidth
     )
   }
 
@@ -196,7 +208,7 @@ struct BuilderBlockLayout<Content: View>: View {
     } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {
       return .trailing
     }
-    return .leading
+    return .center
   }
 
   static func verticalAlignment(justify: String?, alignItems: String?) -> VerticalAlignment {
