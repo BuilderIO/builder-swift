@@ -41,7 +41,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
     // 1. Extract basic layout parameters
     let direction = responsiveStyles["flexDirection"] ?? "column"
-    let wrap = responsiveStyles["flexWrap"] == "wrap"
+    let wrap = responsiveStyles["flexWrap"] == "wrap" && direction == "row"
     let scroll = responsiveStyles["overflow"] == "auto" && direction == "row"
 
     let justify = responsiveStyles["justifyContent"]
@@ -57,7 +57,9 @@ struct BuilderBlockLayout<Content: View>: View {
     let minHeight = extractPixels(responsiveStyles["minHeight"])
     let maxHeight = extractPixels(responsiveStyles["maxHeight"])
     let minWidth = extractPixels(responsiveStyles["minWidth"])
-    let maxWidth = extractPixels(responsiveStyles["maxWidth"]) ?? .infinity
+    let maxWidth =
+      extractPixels(responsiveStyles["maxWidth"])
+      ?? ((marginLeft == "auto" || marginRight == "auto") ? nil : .infinity)
 
     let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
 
@@ -66,14 +68,15 @@ struct BuilderBlockLayout<Content: View>: View {
       if wrap {
         LazyVGrid(
           columns: [
-            GridItem(.flexible(minimum: minWidth ?? 0, maximum: maxWidth), spacing: spacing)
+            GridItem(.adaptive(minimum: 50), spacing: spacing)  // Spacing between columns (0 for tight fit like image)
           ],
-          alignment: BuilderBlockLayout<Content>.horizontalAlignment(
-            marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
-            alignItems: alignItems),
           spacing: spacing,
           content: content
-        )
+        ).frame(maxWidth: maxWidth).padding(padding).builderBackground(
+          responsiveStyles: responsiveStyles
+        ).builderBackground(
+          responsiveStyles: responsiveStyles
+        ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
       } else if direction == "row" {
         let hStackAlignment = BuilderBlockLayout<Content>.verticalAlignment(
           justify: justify, alignItems: alignItems)
@@ -92,31 +95,33 @@ struct BuilderBlockLayout<Content: View>: View {
           content().padding(padding)
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-              alignment: frameAlignment)
+              alignment: frameAlignment
+            ).builderBackground(responsiveStyles: responsiveStyles).builderBackground(
+              responsiveStyles: responsiveStyles
+            ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
         }
       } else {
 
         let vStackAlignment = BuilderBlockLayout<Content>.horizontalAlignment(
           marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
-          alignItems: alignItems)
+          alignItems: alignItems, responsiveStyles: responsiveStyles)
 
         let frameAlignment: Alignment =
           switch vStackAlignment {
           case .leading: .leading
           case .center: .center
           case .trailing: .trailing
-          default: .center
+          default: .leading
           }
-
-        VStack(
-          alignment: vStackAlignment, spacing: spacing
-        ) {
-
+        VStack {
           content().padding(padding)
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-              alignment: frameAlignment)
-        }
+              alignment: frameAlignment
+            ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
+              properties: BorderProperties(responsiveStyles: responsiveStyles)
+            )
+        }.frame(maxWidth: .infinity, alignment: frameAlignment)
       }
     }
 
@@ -133,9 +138,8 @@ struct BuilderBlockLayout<Content: View>: View {
 
     // 4. Apply visual and layout modifiers
     return
-      scrollableView
-      .padding(margin)  //margin
-      .cornerRadius(borderRadius)
+      scrollableView.padding(margin)  //margin
+
   }
 
   func extractPixels(_ value: String?) -> CGFloat? {
@@ -147,17 +151,41 @@ struct BuilderBlockLayout<Content: View>: View {
 
   func extractEdgeInsets(for insetType: String, from styles: [String: String]) -> EdgeInsets {
 
+    var borderWidth: CGFloat = 2
+
+    if let widthString = responsiveStyles["borderWidth"],
+      let value = Double(widthString.replacingOccurrences(of: "px", with: ""))
+    {
+      borderWidth += CGFloat(value)
+    }
+
     return EdgeInsets(
-      top: extractPixels(styles["\(insetType)Top"]) ?? 0,
-      leading: extractPixels(styles["\(insetType)Left"]) ?? 0,
-      bottom: extractPixels(styles["\(insetType)Bottom"]) ?? 0,
-      trailing: extractPixels(styles["\(insetType)Right"]) ?? 0
+      top: (extractPixels(styles["\(insetType)Top"]) ?? 0) + borderWidth,
+      leading: (extractPixels(styles["\(insetType)Left"]) ?? 0) + borderWidth,
+      bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + borderWidth,
+      trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + borderWidth
     )
   }
 
   static func horizontalAlignment(
-    marginsLeft: String?, marginsRight: String?, justify: String?, alignItems: String?
+    marginsLeft: String?, marginsRight: String?, justify: String?, alignItems: String?,
+    responsiveStyles: [String: String]
   ) -> HorizontalAlignment {
+
+    if let textAlign = responsiveStyles["textAlign"] {
+      switch textAlign {
+      case "center":
+        return .center
+      case "left", "start":  // "start" is also a common value in some contexts
+        return .leading
+      case "right", "end":  // "end" is also a common value
+        return .trailing
+      case "justify":
+        break  // Fall through to next checks
+      default:
+        break  // Unknown textAlign value, fall through
+      }
+    }
 
     if (marginsLeft == "auto" && marginsRight == "auto") || justify == "center"
       || alignItems == "center"
@@ -165,10 +193,10 @@ struct BuilderBlockLayout<Content: View>: View {
       return .center
     } else if marginsRight == "auto" || justify == "flex-start" || alignItems == "flex-start" {
       return .leading
-    } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {   
+    } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {
       return .trailing
     }
-    return .center
+    return .leading
   }
 
   static func verticalAlignment(justify: String?, alignItems: String?) -> VerticalAlignment {

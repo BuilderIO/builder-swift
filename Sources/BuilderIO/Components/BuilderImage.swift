@@ -39,7 +39,7 @@ struct BuilderImage: BuilderViewProtocol {
       @unknown default:
         EmptyView()
       }
-    }.responsiveStylesBuilderView(responsiveStyles: self.responsiveStyles ?? [:], isText: false)
+    }
 
   }
 }
