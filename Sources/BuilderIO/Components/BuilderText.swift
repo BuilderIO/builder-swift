@@ -1,6 +1,5 @@
 import SwiftUI
 import SwiftyJSON
-import WebKit
 
 struct BuilderText: BuilderViewProtocol {
   var block: BuilderBlockModel
