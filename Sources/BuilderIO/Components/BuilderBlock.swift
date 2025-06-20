@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftyJSON
 
 //BuilderBlock forms the out layout container for all components mimicking Blocks from response. As blocks can have layout direction of either horizontal or vertical a check is made and layout selected.
 
