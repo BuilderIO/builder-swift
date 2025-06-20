@@ -1,6 +1,4 @@
-import Foundation
 import SwiftUI
-import SwiftyJSON
 
 //BuilderComponentRegistry single instance factory for building preregistered components
 class BuilderComponentRegistry {
