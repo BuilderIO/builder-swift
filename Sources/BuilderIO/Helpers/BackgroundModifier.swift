@@ -6,7 +6,7 @@ struct BackgroundModifier: ViewModifier {
   func body(content: Content) -> some View {
 
     if let hexColor = responsiveStyles["backgroundColor"],
-      let color = Color(rgbaString: hexColor)
+      let color = Color(string: hexColor)
     {
       content.background(color)
     } else {

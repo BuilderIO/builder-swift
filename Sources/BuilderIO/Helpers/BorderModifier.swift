@@ -21,7 +21,7 @@ struct BorderProperties {
 
     // Parse color
     if let colorString = responsiveStyles["borderColor"],
-      let parsedColor = Color(rgbaString: colorString)
+      let parsedColor = Color(string: colorString)
     {
       self.color = parsedColor
     } else {

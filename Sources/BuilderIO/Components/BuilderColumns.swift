@@ -26,24 +26,18 @@ struct BuilderColumns: BuilderViewProtocol {
       self.columns = []
     }
 
-    self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
     self.space = block.component?.options?["space"].doubleValue ?? 0
   }
 
   var body: some View {
-    let hasBackground = responsiveStyles?["backgroundColor"] != nil
-    let backgroundColor = CSSStyleUtil.getColor(value: responsiveStyles?["backgroundColor"])
 
     VStack(spacing: space) {
       ForEach(columns.indices, id: \.self) { index in
+        Spacer()
         BuilderBlock(blocks: columns[index].blocks)
+        Spacer()
       }
+
     }
-    .padding(
-      CSSStyleUtil.getBoxStyle(boxStyleProperty: "padding", finalStyles: responsiveStyles ?? [:])
-    )
-    .background(hasBackground ? backgroundColor : nil)
-    .padding(
-      CSSStyleUtil.getBoxStyle(boxStyleProperty: "margin", finalStyles: responsiveStyles ?? [:]))
   }
 }
