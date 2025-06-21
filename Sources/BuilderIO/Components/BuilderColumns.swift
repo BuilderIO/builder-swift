@@ -33,9 +33,7 @@ struct BuilderColumns: BuilderViewProtocol {
 
     VStack(spacing: space) {
       ForEach(columns.indices, id: \.self) { index in
-        Spacer()
         BuilderBlock(blocks: columns[index].blocks)
-        Spacer()
       }
 
     }

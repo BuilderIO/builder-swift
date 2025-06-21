@@ -45,6 +45,8 @@ struct BuilderText: BuilderViewProtocol {
         cssKey = "line-height"
       case "textAlign":
         cssKey = "text-align"
+      case "fontStyle":
+        cssKey = "font-style"
       default:
         continue
       }

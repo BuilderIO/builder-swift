@@ -80,7 +80,7 @@ struct BuilderBlockLayout<Content: View>: View {
           responsiveStyles: responsiveStyles
         ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
       } else if direction == "row" {
-        let hStackAlignment = BuilderBlockLayout<Content>.verticalAlignment(
+        let hStackAlignment = CSSAlignments.verticalAlignment(
           justify: justify, alignItems: alignItems)
 
         let frameAlignment: Alignment =
@@ -104,7 +104,7 @@ struct BuilderBlockLayout<Content: View>: View {
         }
       } else {
 
-        let vStackAlignment = BuilderBlockLayout<Content>.horizontalAlignment(
+        let vStackAlignment = CSSAlignments.horizontalAlignment(
           marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
           alignItems: alignItems, responsiveStyles: responsiveStyles)
 
@@ -176,50 +176,6 @@ struct BuilderBlockLayout<Content: View>: View {
       bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + bufferWidth,
       trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + bufferWidth
     )
-  }
-
-  static func horizontalAlignment(
-    marginsLeft: String?, marginsRight: String?, justify: String?, alignItems: String?,
-    responsiveStyles: [String: String]
-  ) -> HorizontalAlignment {
-
-    if let textAlign = responsiveStyles["textAlign"] {
-      switch textAlign {
-      case "center":
-        return .center
-      case "left", "start":  // "start" is also a common value in some contexts
-        return .leading
-      case "right", "end":  // "end" is also a common value
-        return .trailing
-      case "justify":
-        break  // Fall through to next checks
-      default:
-        break  // Unknown textAlign value, fall through
-      }
-    }
-
-    if (marginsLeft == "auto" && marginsRight == "auto") || justify == "center"
-      || alignItems == "center"
-    {
-      return .center
-    } else if marginsRight == "auto" || justify == "flex-start" || alignItems == "flex-start" {
-      return .leading
-    } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {
-      return .trailing
-    }
-    return .leading
-  }
-
-  static func verticalAlignment(justify: String?, alignItems: String?) -> VerticalAlignment {
-
-    if justify == "center" || alignItems == "center" {
-      return .center
-    } else if justify == "flex-start" || alignItems == "flex-start" {
-      return .top
-    } else if justify == "flex-end" || alignItems == "flex-end" {
-      return .bottom
-    }
-    return .center
   }
 
 }
