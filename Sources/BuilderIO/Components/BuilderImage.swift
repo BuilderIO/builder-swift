@@ -1,43 +1,43 @@
 import SwiftUI
-import SwiftyJSON
 
 struct BuilderImage: BuilderViewProtocol {
   var componentType: BuilderComponentType = .image
 
   var block: BuilderBlockModel
-  var responsiveStyles: [String: String]?
-  var aspectRatio: CGSize?
+  var children: [BuilderBlockModel]?
 
   var imageURL: URL?
 
+  @State private var imageLoadedSuccessfully: Bool = false
+
   init(block: BuilderBlockModel) {
     self.block = block
-    self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
     self.imageURL = URL(string: block.component?.options?["image"].string ?? "")
-
-    if let ratio = block.component?.options?["aspectRatio"].doubleValue {
-      self.aspectRatio = CGSize(width: ratio, height: 1)
-    } else {
-      self.aspectRatio = nil
-    }
-
+    self.children = block.children
   }
 
   var body: some View {
-    AsyncImage(url: imageURL) { phase in
-      switch phase {
-      case .empty:
-        ProgressView()
-      case .success(let image):
-        image
-          .resizable()
-          .if(aspectRatio != nil) { view in
-            view.aspectRatio(self.aspectRatio!, contentMode: .fit)
-          }
-      case .failure:
-        Color.gray
-      @unknown default:
-        EmptyView()
+    // Create a ZStack to layer the image and its children
+    ZStack {
+      AsyncImage(url: imageURL) { phase in
+        switch phase {
+        case .empty:
+          ProgressView()
+        case .success(let image):
+          image.resizable().scaledToFill()
+            .clipped().zIndex(0)
+            .if((children?.count ?? 0) > 0) { view in
+              view.overlay(content: {
+                if let children = children {
+                  BuilderBlock(blocks: children).zIndex(1)
+                }
+              })
+            }
+        case .failure:
+          Color.gray
+        @unknown default:
+          EmptyView()
+        }
       }
     }
 

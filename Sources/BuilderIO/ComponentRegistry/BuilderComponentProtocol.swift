@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftyJSON
 
 protocol BuilderViewProtocol: View {
   var componentType: BuilderComponentType { get }
