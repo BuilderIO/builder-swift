@@ -15,10 +15,22 @@ struct BuilderText: BuilderViewProtocol {
   }
 
   var body: some View {
-
     HTMLTextView(
-      html: wrapHtmlWithStyledDiv(styleDictionary: responsiveStyles ?? [:], htmlString: text ?? "")
+      html: wrapHtmlWithStyledDiv(styleDictionary: responsiveStyles ?? [:], htmlString: text ?? ""),
+      htmlPlainText: getTextWithoutHtml(text ?? "")
     )
+  }
+
+  func getTextWithoutHtml(_ text: String) -> String {
+    if let regex = try? NSRegularExpression(pattern: "<.*?>") {  // TODO: handle decimals
+      let newString = regex.stringByReplacingMatches(
+        in: text, options: .withTransparentBounds, range: NSMakeRange(0, text.count),
+        withTemplate: "")
+
+      return newString
+    }
+
+    return ""
   }
 
   func wrapHtmlWithStyledDiv(styleDictionary: [String: String], htmlString: String) -> String {
@@ -73,33 +85,53 @@ struct BuilderText: BuilderViewProtocol {
 
 struct HTMLTextView: View {
   let html: String
+  @State private var attributedString: AttributedString? = nil
+  @State private var errorInProcessing: Bool?
+
+  let htmlPlainText: String
 
   var body: some View {
     Group {
-      contentView
+      if let attributedString = attributedString {
+        Text(attributedString)
+          .padding(.bottom, -24)
+      } else if let errorInProcessing = errorInProcessing {
+        Text(htmlPlainText)
+      } else {
+        ProgressView("")
+      }
+    }
+    .task(id: html) {
+      processHTML()
     }
   }
 
-  @ViewBuilder
-  private var contentView: some View {
-    if let data = html.data(using: .utf8),
-      let nsAttributedString = try? NSAttributedString(
+  private func processHTML() {
+    attributedString = nil  // Clear previous attributed string
+    errorInProcessing = nil
+    guard let data = html.data(using: .utf8) else {
+      return
+    }
+
+    do {
+      let nsAttributedString = try NSAttributedString(
         data: data,
         options: [
           .documentType: NSAttributedString.DocumentType.html,
           .characterEncoding: String.Encoding.utf8.rawValue,
         ],
         documentAttributes: nil
-      ),
-      let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit)
-    {
-
-      //Correction for extra spacing present when working with attributed strings html. Overcome by adding a trailing <p> tag which will be of fixed height
-      Text(swiftUIAttributedString).padding(.bottom, -24)
-
-    } else {
-      Text("Failed to render HTML")
-        .foregroundColor(.red)
+      )
+      // Perform this conversion on a background thread if it's very large
+      // or if there are many HTMLTextViews.
+      if let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit)
+      {
+        self.attributedString = swiftUIAttributedString
+      } else {
+        errorInProcessing = true
+      }
+    } catch {
+      errorInProcessing = true
     }
   }
 }

@@ -32,8 +32,8 @@ struct BuilderColumns: BuilderViewProtocol {
   var body: some View {
 
     VStack(spacing: space) {
-      ForEach(columns.indices, id: \.self) { index in
-        BuilderBlock(blocks: columns[index].blocks)
+      ForEach(columns) { column in
+        BuilderBlock(blocks: column.blocks)
       }
 
     }
