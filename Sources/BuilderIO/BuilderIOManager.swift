@@ -18,7 +18,6 @@ public final class BuilderIOManager: ObservableObject {
   /// Call once during app launch
   public static func configure(apiKey: String) {
     guard shared == nil else {
-      print("⚠️ BuilderIOManager is already configured.")
       return
     }
     shared = BuilderIOManager(apiKey: apiKey)
