@@ -11,6 +11,7 @@ public struct BuilderBlockModel: Codable, Identifiable {
   var actions: JSON? = [:]
   var code: JSON? = [:]
   var meta: JSON? = [:]
+  var linkUrl: String? = nil
 }
 
 public struct BuilderBlockComponent: Codable {

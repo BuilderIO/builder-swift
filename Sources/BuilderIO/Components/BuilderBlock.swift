@@ -21,14 +21,15 @@ struct BuilderBlock: View {
       //Only checking links for now, can be expanded to cover events in the future
       let isTappable =
         component?.name == BuilderComponentType.coreButton.rawValue
-        || !(component?.options?["Link"].isEmpty ?? true)
+        || !(component?.options?["Link"].isEmpty ?? true) || !(child.linkUrl?.isEmpty ?? true)
 
       let builderAction: BuilderAction? =
         (isTappable)
         ? BuilderAction(
           componentId: child.id,
           options: child.component?.options,
-          eventActions: child.actions) : nil
+          eventActions: child.actions,
+          linkURL: child.linkUrl) : nil
 
       BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction) {
         if let component = child.component {

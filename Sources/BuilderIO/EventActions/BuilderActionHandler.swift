@@ -16,7 +16,9 @@ public class BuilderActionManager: ObservableObject {
 
   public func handleButtonPress(builderAction: BuilderAction) {
 
-    if let options = builderAction.options, let linkString = options["link"].string {
+    var url: String? = builderAction.options?["link"].string ?? builderAction.linkURL
+
+    if let linkString = url {
       // 2. Attempt to create a URL from the link string
       if let url = URL(string: linkString) {
         // 3. Open the URL in an external browser
@@ -39,13 +41,15 @@ public class BuilderActionManager: ObservableObject {
 
 public class BuilderAction {
   let componentId: String
+  let linkURL: String?
   let options: JSON?
   let eventActions: JSON?
 
-  public init(componentId: String, options: JSON?, eventActions: JSON?) {
+  public init(componentId: String, options: JSON?, eventActions: JSON?, linkURL: String? = nil) {
     self.componentId = componentId
     self.options = options
     self.eventActions = eventActions
+    self.linkURL = linkURL
   }
 }
 
