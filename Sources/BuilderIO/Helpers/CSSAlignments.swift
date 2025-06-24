@@ -2,7 +2,7 @@ import SwiftUICore
 
 class CSSAlignments {
 
-  static func textAlignment(responsiveStyles: [String: String]) -> HorizontalAlignment {
+  static func textAlignment(responsiveStyles: [String: String]) -> TextAlignment {
     if let textAlign = responsiveStyles["textAlign"] {
       switch textAlign {
       case "center":
@@ -36,7 +36,7 @@ class CSSAlignments {
       return .trailing
     }
 
-    return textAlignment(responsiveStyles: responsiveStyles)
+    return textAlignment(responsiveStyles: responsiveStyles).toHorizontalAlignment
   }
 
   static func verticalAlignment(justify: String?, alignItems: String?) -> VerticalAlignment {
@@ -51,4 +51,19 @@ class CSSAlignments {
     return .center
   }
 
+}
+
+extension TextAlignment {
+  var toHorizontalAlignment: HorizontalAlignment {
+    switch self {
+    case .leading:
+      return .leading
+    case .center:
+      return .center
+    case .trailing:
+      return .trailing
+    default:
+      return .leading  // Or .center, choose what makes sense for your layout
+    }
+  }
 }

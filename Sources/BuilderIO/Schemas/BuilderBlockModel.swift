@@ -8,6 +8,9 @@ public struct BuilderBlockModel: Codable, Identifiable {
   var children: [BuilderBlockModel]? = []
   var component: BuilderBlockComponent? = nil
   var responsiveStyles: BuilderBlockResponsiveStyles? = BuilderBlockResponsiveStyles()  // for inner style of the component
+  var actions: JSON? = [:]
+  var code: JSON? = [:]
+  var meta: JSON? = [:]
 }
 
 public struct BuilderBlockComponent: Codable {

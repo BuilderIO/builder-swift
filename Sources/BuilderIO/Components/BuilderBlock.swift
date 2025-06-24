@@ -16,8 +16,21 @@ struct BuilderBlock: View {
 
     ForEach(blocks) { child in
       let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
+      let component = child.component
 
-      BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:]) {
+      //Only checking links for now, can be expanded to cover events in the future
+      let isTappable =
+        component?.name == BuilderComponentType.coreButton.rawValue
+        || !(component?.options?["Link"].isEmpty ?? true)
+
+      let builderAction: BuilderAction? =
+        (isTappable)
+        ? BuilderAction(
+          componentId: child.id,
+          options: child.component?.options,
+          eventActions: child.actions) : nil
+
+      BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction) {
         if let component = child.component {
           BuilderComponentRegistry.shared.view(for: child)
         } else if let children = child.children, !children.isEmpty {
@@ -35,6 +48,9 @@ struct BuilderBlock: View {
 
 struct BuilderBlockLayout<Content: View>: View {
   let responsiveStyles: [String: String]
+  let builderAction: BuilderAction?
+  @Environment(\.buttonActionManager) private var buttonActionManager
+
   @ViewBuilder let content: () -> Content
 
   var body: some View {
@@ -119,13 +135,23 @@ struct BuilderBlockLayout<Content: View>: View {
         VStack {
           if marginTop == "auto" { Spacer() }
 
-          content().padding(padding)
+          let componentView: some View = content().padding(padding)
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
               alignment: frameAlignment
             ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
               properties: BorderProperties(responsiveStyles: responsiveStyles)
             )
+
+          if let builderAction = builderAction {
+            Button {
+              buttonActionManager?.handleButtonPress(builderAction: builderAction)
+            } label: {
+              componentView
+            }
+          } else {
+            componentView
+          }
 
           if marginBottom == "auto" { Spacer() }
         }.frame(maxWidth: .infinity, alignment: frameAlignment)
