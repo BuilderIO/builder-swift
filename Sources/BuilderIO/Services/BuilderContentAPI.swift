@@ -11,14 +11,10 @@ public struct BuilderContentAPI {
   public static func getContent(
     model: String,
     apiKey: String,
-    url: String,
+    url: String? = nil,
     locale: String? = nil,
     preview: String? = nil
   ) async -> BuilderContent? {
-
-    guard let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
-      return nil
-    }
 
     var str = "https://cdn.builder.io/api/v3/content/\(model)"
 
@@ -33,7 +29,15 @@ public struct BuilderContentAPI {
       str += "/\(localPreview)"
     }
 
-    str += "?apiKey=\(apiKey)&url=\(encodedUrl)"
+    str += "?apiKey=\(apiKey)"
+
+    if let url = url, !url.isEmpty {
+      guard let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+      else {
+        return nil
+      }
+      str += "&url=\(encodedUrl)"
+    }
 
     if let locale = useLocale, !locale.isEmpty {
       str += "&locale=\(locale)"
@@ -74,8 +78,6 @@ public struct BuilderContentAPI {
       }
 
       let decoder = JSONDecoder()
-      // If Builder.io sends snake_case keys (e.g., "my_field"), you might need this:
-      // decoder.keyDecodingStrategy = .convertFromSnakeCase
 
       if let localPreview = usePreview, !localPreview.isEmpty {
         os_log(
@@ -91,14 +93,14 @@ public struct BuilderContentAPI {
         } else {
           os_log(
             "BuilderContentAPI: Content list results were empty for %{public}@", log: .default,
-            type: .info, url)
+            type: .info, url ?? "")
           return nil
         }
       }
     } catch {
       os_log(
         "BuilderContentAPI: Decoding error for %{public}@: %{public}@",
-        log: .default, type: .error, url, error.localizedDescription)
+        log: .default, type: .error, url ?? "", error.localizedDescription)
       return nil
     }
   }

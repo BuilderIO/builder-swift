@@ -23,12 +23,16 @@ public final class BuilderIOManager: ObservableObject {
     shared = BuilderIOManager(apiKey: apiKey)
   }
 
-  public func fetchBuilderPageContent(url: String) async -> Result<BuilderContent, Error> {
+  public func fetchBuilderContent(model: String = "page", url: String? = nil) async -> Result<
+    BuilderContent, Error
+  > {
     do {
+      let resolvedUrl = url ?? ""
+
       if let content = await BuilderContentAPI.getContent(
-        model: "page",
+        model: model,
         apiKey: apiKey,
-        url: url,
+        url: resolvedUrl,
         locale: "",
         preview: ""
       ) {
@@ -39,7 +43,8 @@ public final class BuilderIOManager: ObservableObject {
             domain: "BuilderIOManager",
             code: 404,
             userInfo: [NSLocalizedDescriptionKey: "No content found for the given URL."]
-          ))
+          )
+        )
       }
     } catch {
       return .failure(error)
