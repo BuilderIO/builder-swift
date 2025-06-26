@@ -178,7 +178,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
   func extractPixels(_ value: String?) -> CGFloat? {
     guard let value = value?.replacingOccurrences(of: "px", with: ""),
-          let number = Int(value)
+      let number = Int(value)
     else { return nil }
     return CGFloat(number)
   }
@@ -204,7 +204,7 @@ struct BuilderBlockLayout<Content: View>: View {
       bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + bufferWidth,
       trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + bufferWidth
     )
-      return edgeInsets
+    return edgeInsets
   }
 
 }

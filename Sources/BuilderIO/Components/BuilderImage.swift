@@ -36,15 +36,15 @@ struct BuilderImage: BuilderViewProtocol {
           .aspectRatio(self.aspectRatio ?? 1, contentMode: .fill)
           .clipped()
           .overlay(
-              Group {
-                if let children = children, !children.isEmpty {
-                    VStack {
-                        BuilderBlock(blocks: children)
-                    }
-                } else {
-                    EmptyView()
+            Group {
+              if let children = children, !children.isEmpty {
+                VStack {
+                  BuilderBlock(blocks: children)
                 }
+              } else {
+                EmptyView()
               }
+            }
           )
 
       case .failure:

@@ -22,6 +22,6 @@ struct BuilderEmptyView: BuilderViewProtocol {
   }
 
   var body: some View {
-      EmptyView().padding(0)
+    EmptyView().padding(0)
   }
 }
