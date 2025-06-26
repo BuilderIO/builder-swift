@@ -30,18 +30,23 @@ struct BuilderImage: BuilderViewProtocol {
       case .empty:
         ProgressView()
       case .success(let image):
-        ZStack {
-          image
-            .resizable()
-            .aspectRatio(1 / (self.aspectRatio ?? 1), contentMode: .fill)
-            .clipped()
-            .zIndex(0)
 
-          if let children = children, !children.isEmpty {
-            BuilderBlock(blocks: children)
-              .zIndex(1)
-          }
-        }
+        image
+          .resizable()
+          .aspectRatio(self.aspectRatio ?? 1, contentMode: .fill)
+          .clipped()
+          .overlay(
+              Group {
+                if let children = children, !children.isEmpty {
+                    VStack {
+                        BuilderBlock(blocks: children)
+                    }
+                } else {
+                    EmptyView()
+                }
+              }
+          )
+
       case .failure:
         Color.gray
       @unknown default:

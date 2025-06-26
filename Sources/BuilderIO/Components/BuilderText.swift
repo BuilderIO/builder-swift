@@ -38,10 +38,12 @@ struct BuilderText: BuilderViewProtocol {
     guard !styleDictionary.isEmpty else {
       return htmlString
     }
-
+    var addDefaultFontSize = true
     // 1. Convert the dictionary to a CSS style string
     var cssProperties: [String] = []
+
     for (key, value) in styleDictionary {
+      var cssValue = value
       // Convert Swift-style/camelCase keys to CSS-style (kebab-case) keys
       let cssKey: String
       switch key {
@@ -49,6 +51,7 @@ struct BuilderText: BuilderViewProtocol {
         cssKey = "font-family"
       case "fontSize":
         cssKey = "font-size"
+        addDefaultFontSize = false
       case "fontWeight":
         cssKey = "font-weight"
       case "color":
@@ -62,7 +65,11 @@ struct BuilderText: BuilderViewProtocol {
       default:
         continue
       }
-      cssProperties.append("\(cssKey): \(value);")
+      cssProperties.append("\(cssKey): \(cssValue);")
+    }
+
+    if addDefaultFontSize {
+      cssProperties.append("font-size: 16px;")
     }
 
     cssProperties.append("margin: 0; padding: 0;")

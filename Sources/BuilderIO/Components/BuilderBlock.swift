@@ -37,7 +37,7 @@ struct BuilderBlock: View {
         } else if let children = child.children, !children.isEmpty {
           BuilderBlock(blocks: children)
         } else {
-          Spacer()
+          EmptyView()
         }
       }
 
@@ -178,7 +178,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
   func extractPixels(_ value: String?) -> CGFloat? {
     guard let value = value?.replacingOccurrences(of: "px", with: ""),
-      let number = Double(value)
+          let number = Int(value)
     else { return nil }
     return CGFloat(number)
   }
@@ -198,12 +198,13 @@ struct BuilderBlockLayout<Content: View>: View {
     for insetType: String, from styles: [String: String], with bufferWidth: CGFloat = 0
   ) -> EdgeInsets {
 
-    return EdgeInsets(
+    let edgeInsets = EdgeInsets(
       top: (extractPixels(styles["\(insetType)Top"]) ?? 0) + bufferWidth,
       leading: (extractPixels(styles["\(insetType)Left"]) ?? 0) + bufferWidth,
       bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + bufferWidth,
       trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + bufferWidth
     )
+      return edgeInsets
   }
 
 }
