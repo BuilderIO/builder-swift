@@ -44,7 +44,7 @@ public struct BuilderIOPage: View {
   func loadPageContent() async {
     if !viewModel.isLoading {
       print("Calling fetchBuilderPageContent from .task for URL: \(url)")
-        await viewModel.fetchBuilderContent(model:model, url: url)
+      await viewModel.fetchBuilderContent(model: model, url: url)
     } else if viewModel.isLoading {
       print("Already loading content for URL: \(url). Not re-fetching.")
     }

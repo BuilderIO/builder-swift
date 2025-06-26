@@ -20,10 +20,10 @@ struct BuilderSection: BuilderViewProtocol {
   }
 
   var body: some View {
-    LazyVStack {
-      if let children = children {
-        BuilderBlock(blocks: children)
-      }
-    }.frame(maxWidth: maxWidth ?? .infinity)
+    if let children = children {
+      BuilderBlock(blocks: children)
+    } else {
+      EmptyView()
+    }
   }
 }
