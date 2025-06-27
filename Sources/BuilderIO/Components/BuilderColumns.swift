@@ -9,6 +9,7 @@ struct BuilderColumns: BuilderViewProtocol {
   var columns: [BuilderContentData]
   var space: CGFloat = 0
   var responsiveStyles: [String: String]?
+    var stackColumns:Bool = true
 
   init(block: BuilderBlockModel) {
     self.block = block
@@ -27,14 +28,19 @@ struct BuilderColumns: BuilderViewProtocol {
     }
 
     self.space = block.component?.options?["space"].doubleValue ?? 0
+    self.stackColumns = !(block.component?.options?["stackColumnsAt"] == "never"  ?? false)
+
   }
 
   var body: some View {
 
-    VStack(spacing: space) {
+      
+      
+      VStack(alignment: .leading, spacing: space) {
+        
       ForEach(columns) { column in
-        BuilderBlock(blocks: column.blocks)
-      }
+          BuilderBlock(blocks: column.blocks)
+      }.border(.green)
 
     }
   }
