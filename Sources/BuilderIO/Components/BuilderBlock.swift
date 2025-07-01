@@ -30,14 +30,18 @@ struct BuilderBlock: View {
           options: child.component?.options,
           eventActions: child.actions,
           linkURL: child.linkUrl) : nil
-
-      BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction) {
-        if let component = child.component {
-          BuilderComponentRegistry.shared.view(for: child)
-        } else if let children = child.children, !children.isEmpty {
-          BuilderBlock(blocks: children)
-        } else {
-          EmptyView()
+      if responsiveStyles["display"] == "none" {
+        EmptyView()
+      } else {
+        BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction)
+        {
+          if let component = child.component {
+            BuilderComponentRegistry.shared.view(for: child)
+          } else if let children = child.children, !children.isEmpty {
+            BuilderBlock(blocks: children)
+          } else {
+            EmptyView()
+          }
         }
       }
 

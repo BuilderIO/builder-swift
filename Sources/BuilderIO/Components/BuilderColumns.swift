@@ -41,8 +41,8 @@ struct BuilderColumns: BuilderViewProtocol {
     } else {
       if stackColumns {
         let columnsForLayout = reverseColumnsWhenStacked ? columns.reversed() : columns
-        ForEach(columnsForLayout) { column in
-          VStack(spacing: space) {
+        VStack(spacing: space) {
+          ForEach(columnsForLayout) { column in
             BuilderBlock(blocks: column.blocks)
           }
         }
