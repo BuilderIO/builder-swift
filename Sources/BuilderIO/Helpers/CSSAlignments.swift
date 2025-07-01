@@ -23,11 +23,12 @@ class CSSAlignments {
 
   static func horizontalAlignment(
     marginsLeft: String?, marginsRight: String?, justify: String?, alignItems: String?,
+    alignSelf: String?,
     responsiveStyles: [String: String]
   ) -> HorizontalAlignment {
 
     if (marginsLeft == "auto" && marginsRight == "auto") || justify == "center"
-      || alignItems == "center"
+      || alignItems == "center" || alignSelf == "center"
     {
       return .center
     } else if marginsRight == "auto" || justify == "flex-start" || alignItems == "flex-start" {

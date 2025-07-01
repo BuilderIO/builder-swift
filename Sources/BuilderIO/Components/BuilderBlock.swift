@@ -73,6 +73,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
     let justify = responsiveStyles["justifyContent"]
     let alignItems = responsiveStyles["alignItems"]
+    let alignSelf = responsiveStyles["alignSelf"]
 
     let marginLeft = responsiveStyles["marginLeft"]?.lowercased()
     let marginRight = responsiveStyles["marginRight"]?.lowercased()
@@ -89,7 +90,8 @@ struct BuilderBlockLayout<Content: View>: View {
     let minWidth = extractPixels(responsiveStyles["minWidth"])
     let maxWidth =
       extractPixels(responsiveStyles["maxWidth"])
-      ?? ((marginLeft == "auto" || marginRight == "auto") ? nil : .infinity)
+      ?? ((marginLeft == "auto" || marginRight == "auto" || alignSelf == "center")
+        ? nil : .infinity)
 
     let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
 
@@ -134,7 +136,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
         let vStackAlignment = CSSAlignments.horizontalAlignment(
           marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
-          alignItems: alignItems, responsiveStyles: responsiveStyles)
+          alignItems: alignItems, alignSelf: alignSelf, responsiveStyles: responsiveStyles)
 
         let frameAlignment: Alignment =
           switch vStackAlignment {

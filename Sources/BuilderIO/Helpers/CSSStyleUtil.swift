@@ -1,6 +1,5 @@
 import Foundation
 
-
 class CSSStyleUtil {
   /*
    Takes the responsive styles from Builder blocks response, and
