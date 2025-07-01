@@ -33,9 +33,13 @@ struct BuilderBlock: View {
       if responsiveStyles["display"] == "none" {
         EmptyView()
       } else {
-        BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction)
-        {
-          if let component = child.component {
+
+        let component = child.component
+        BuilderBlockLayout(
+          responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
+          layoutComponent: component == nil
+        ) {
+          if let component = component {
             BuilderComponentRegistry.shared.view(for: child)
           } else if let children = child.children, !children.isEmpty {
             BuilderBlock(blocks: children)
@@ -54,6 +58,8 @@ struct BuilderBlock: View {
 struct BuilderBlockLayout<Content: View>: View {
   let responsiveStyles: [String: String]
   let builderAction: BuilderAction?
+  let layoutComponent: Bool
+
   @Environment(\.buttonActionManager) private var buttonActionManager
 
   @ViewBuilder let content: () -> Content
@@ -120,7 +126,7 @@ struct BuilderBlockLayout<Content: View>: View {
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
               alignment: frameAlignment
-            ).builderBackground(responsiveStyles: responsiveStyles).builderBackground(
+            ).builderBackground(
               responsiveStyles: responsiveStyles
             ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
         }
@@ -176,7 +182,11 @@ struct BuilderBlockLayout<Content: View>: View {
 
     // 4. Apply visual and layout modifiers
     return
-      scrollableView.padding(margin)  //margin
+      scrollableView
+      .if(layoutComponent) { view in
+        view.builderBackground(responsiveStyles: responsiveStyles)
+      }
+      .padding(margin)  //margin
 
   }
 
