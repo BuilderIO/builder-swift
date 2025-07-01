@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 struct BuilderText: BuilderViewProtocol {
   var block: BuilderBlockModel
 
@@ -35,6 +36,7 @@ struct BuilderText: BuilderViewProtocol {
 
 }
 
+@MainActor
 struct HTMLTextView: View {
   let html: String
   @State private var attributedString: AttributedString? = nil

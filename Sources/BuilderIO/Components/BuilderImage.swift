@@ -18,7 +18,7 @@ struct BuilderImage: BuilderViewProtocol {
     self.block = block
     self.imageURL = URL(string: block.component?.options?["image"].string ?? "")
     if let ratio = block.component?.options?["aspectRatio"].float {
-      self.aspectRatio = CGFloat(ratio)
+      self.aspectRatio = CGFloat(1 / ratio)
     }
     self.children = block.children
   }
@@ -33,7 +33,7 @@ struct BuilderImage: BuilderViewProtocol {
 
         image
           .resizable()
-          .aspectRatio(self.aspectRatio ?? 1, contentMode: .fill)
+          .aspectRatio(self.aspectRatio ?? 1, contentMode: .fit)
           .clipped()
           .overlay(
             Group {
