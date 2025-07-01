@@ -75,11 +75,9 @@ struct HorizontalColumnLayout: View {
         }
 
         .containerRelativeFrame(.horizontal) { length, axis in
-          print(length)
           if let columWidth = column.width, columWidth > 0 {
 
             let columdimension = (length * (columWidth / 100.0)) - (space / 2)
-            print(columdimension)
             return columdimension
           } else {
             return (length / CGFloat(columns.count)) - (space / 2)
