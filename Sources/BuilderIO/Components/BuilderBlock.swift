@@ -87,6 +87,8 @@ struct BuilderBlockLayout<Content: View>: View {
 
     let minHeight = extractPixels(responsiveStyles["minHeight"])
     let maxHeight = extractPixels(responsiveStyles["maxHeight"])
+    let width = extractPixels(responsiveStyles["width"])
+
     let minWidth = extractPixels(responsiveStyles["minWidth"])
     let maxWidth =
       extractPixels(responsiveStyles["maxWidth"])
@@ -149,10 +151,15 @@ struct BuilderBlockLayout<Content: View>: View {
           if marginTop == "auto" { Spacer() }
 
           let componentView: some View = content().padding(padding)
-            .frame(
-              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-              alignment: frameAlignment
-            ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
+            .if(width != nil) { view in
+              view.frame(width: width, alignment: frameAlignment)
+            }
+            .if(width == nil) { view in
+              view.frame(
+                minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+                alignment: frameAlignment
+              )
+            }.builderBackground(responsiveStyles: responsiveStyles).builderBorder(
               properties: BorderProperties(responsiveStyles: responsiveStyles)
             )
 
