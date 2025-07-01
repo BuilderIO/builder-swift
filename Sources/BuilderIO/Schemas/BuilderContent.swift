@@ -14,21 +14,26 @@ public struct BuilderContentData: Codable, Identifiable {  // Add Identifiable a
 
   public var blocks: [BuilderBlockModel] = []  // Ensure BuilderBlockModel conforms to Equatable
 
+  public var width: Double? = nil  // Optional width for the content block
+
   // Custom init(from decoder:) - required because of 'id'
   public init(from decoder: Decoder) throws {
     self.id = UUID()  // Generate a UUID when decoded
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.blocks = try container.decodeIfPresent([BuilderBlockModel].self, forKey: .blocks) ?? []
+    self.width = try container.decodeIfPresent(Double.self, forKey: .width) ?? nil
   }
 
   // Custom init for manual creation
-  public init(blocks: [BuilderBlockModel]) {
+  public init(blocks: [BuilderBlockModel], width: Double? = nil) {
     self.id = UUID()
     self.blocks = blocks
+    self.width = width
   }
 
   enum CodingKeys: String, CodingKey {
     case blocks
+    case width
   }
 
   // Equatable conformance (synthesized if all properties are Equatable)

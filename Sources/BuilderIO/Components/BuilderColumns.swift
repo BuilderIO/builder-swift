@@ -9,7 +9,8 @@ struct BuilderColumns: BuilderViewProtocol {
   var columns: [BuilderContentData]
   var space: CGFloat = 0
   var responsiveStyles: [String: String]?
-    var stackColumns:Bool = true
+  var stackColumns: Bool = true
+  var reverseColumnsWhenStacked: Bool = false
 
   init(block: BuilderBlockModel) {
     self.block = block
@@ -28,20 +29,62 @@ struct BuilderColumns: BuilderViewProtocol {
     }
 
     self.space = block.component?.options?["space"].doubleValue ?? 0
-    self.stackColumns = !(block.component?.options?["stackColumnsAt"] == "never"  ?? false)
+    self.stackColumns = !(block.component?.options?["stackColumnsAt"] == "never" ?? false)
+    self.reverseColumnsWhenStacked = block.component?.options?["reverseColumnsWhenStacked"].boolValue ?? false
 
   }
 
   var body: some View {
+    if columns.isEmpty {
+      EmptyView()
+    } else {
+      if stackColumns {
+          let columnsForLayout = reverseColumnsWhenStacked ? columns.reversed() : columns
+          ForEach(columnsForLayout) { column in
+          VStack(spacing: space) {
+            BuilderBlock(blocks: column.blocks)
+          }
+        } 
+      } else {
+          ScrollView(.horizontal) {
+              HorizontalColumnLayout(columns: columns,space: space)
+          }
+          .scrollDisabled(true)
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          
+      }
+    }
+  }
+}
 
-      
-      
-      VStack(alignment: .leading, spacing: space) {
-        
+struct HorizontalColumnLayout: View {
+  let columns: [BuilderContentData]
+  var space: CGFloat = 0
+
+  var body: some View {
+    HStack(spacing: space) {
+        // Add some spacing between columns
       ForEach(columns) { column in
-          BuilderBlock(blocks: column.blocks)
-      }.border(.green)
-
+        VStack {
+          if column.blocks.isEmpty {
+            EmptyView()
+          } else {
+            BuilderBlock(blocks: column.blocks)
+          }
+        }
+        
+        .containerRelativeFrame(.horizontal) { length, axis in
+            print(length)
+            if let columWidth = column.width, columWidth > 0 {
+           
+                let columdimension = (length * (columWidth / 100.0)) - (space/2)
+                    print(columdimension)
+                    return columdimension
+                } else {
+                    return (length / CGFloat(columns.count)) - (space/2)
+                }
+        }
+      }
     }
   }
 }
