@@ -16,8 +16,8 @@ struct BuilderText: BuilderViewProtocol {
 
   var body: some View {
     HTMLTextView(
-      html: wrapHtmlWithStyledDiv(styleDictionary: responsiveStyles ?? [:], htmlString: text ?? ""),
-      htmlPlainText: getTextWithoutHtml(text ?? "")
+      html: text ?? "", htmlPlainText: getTextWithoutHtml(text ?? ""),
+      responsiveStyles: responsiveStyles
     )
   }
 
@@ -33,11 +33,66 @@ struct BuilderText: BuilderViewProtocol {
     return ""
   }
 
+}
+
+struct HTMLTextView: View {
+  let html: String
+  @State private var attributedString: AttributedString? = nil
+  @State private var errorInProcessing: Bool?
+
+  let htmlPlainText: String
+  var responsiveStyles: [String: String]?
+
+  var body: some View {
+    Group {
+      if let attributedString = attributedString {
+        Text(attributedString)
+          .padding(.bottom, -24)
+      } else if let errorInProcessing = errorInProcessing {
+        Text(htmlPlainText)
+      } else {
+        ProgressView("")
+      }
+    }
+    .task(id: html) {
+      let wrappedHTML = wrapHtmlWithStyledDiv(
+        styleDictionary: responsiveStyles ?? [:], htmlString: html ?? "")
+
+      processHTML(wrappedHTML: wrappedHTML)
+    }
+  }
+
+  private func processHTML(wrappedHTML: String) {
+    attributedString = nil  // Clear previous attributed string
+    errorInProcessing = nil
+    guard let data = wrappedHTML.data(using: .utf8) else {
+      return
+    }
+
+    do {
+      let nsAttributedString = try NSAttributedString(
+        data: data,
+        options: [
+          .documentType: NSAttributedString.DocumentType.html,
+          .characterEncoding: String.Encoding.utf8.rawValue,
+        ],
+        documentAttributes: nil
+      )
+      // Perform this conversion on a background thread if it's very large
+      // or if there are many HTMLTextViews.
+      if let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit)
+      {
+        self.attributedString = swiftUIAttributedString
+      } else {
+        errorInProcessing = true
+      }
+    } catch {
+      errorInProcessing = true
+    }
+  }
+
   func wrapHtmlWithStyledDiv(styleDictionary: [String: String], htmlString: String) -> String {
 
-    guard !styleDictionary.isEmpty else {
-      return htmlString
-    }
     var addDefaultFontSize = true
     // 1. Convert the dictionary to a CSS style string
     var cssProperties: [String] = []
@@ -77,70 +132,35 @@ struct BuilderText: BuilderViewProtocol {
     cssProperties.append("box-sizing: border-box;")
 
     let inlineCssStyle = cssProperties.joined(separator: " ")
-
-    guard !inlineCssStyle.isEmpty else {
-      return htmlString
-    }
-
     //extra trailing p tags
-    let finalHtmlString = "<div style=\"\(inlineCssStyle)\">\(htmlString)</div><p></p>"
+
+    var finalHtmlString: String
+
+    if startsWithPTag(htmlString) {
+      finalHtmlString = "<div style=\"\(inlineCssStyle)\">\(htmlString)</div><p></p>"
+    } else {
+      finalHtmlString = "<div style=\"\(inlineCssStyle)\"><p>\(htmlString)</p></div><p></p>"
+    }
 
     return finalHtmlString
   }
 
-}
+  func startsWithPTag(_ text: String) -> Bool {
 
-struct HTMLTextView: View {
-  let html: String
-  @State private var attributedString: AttributedString? = nil
-  @State private var errorInProcessing: Bool?
-
-  let htmlPlainText: String
-
-  var body: some View {
-    Group {
-      if let attributedString = attributedString {
-        Text(attributedString)
-          .padding(.bottom, -24)
-      } else if let errorInProcessing = errorInProcessing {
-        Text(htmlPlainText)
-      } else {
-        ProgressView("")
-      }
-    }
-    .task(id: html) {
-      processHTML()
-    }
-  }
-
-  private func processHTML() {
-    attributedString = nil  // Clear previous attributed string
-    errorInProcessing = nil
-    guard let data = html.data(using: .utf8) else {
-      return
-    }
+    let pTagPattern = #"^\s*<p(\s+[^>]*?)?>"#
 
     do {
-      let nsAttributedString = try NSAttributedString(
-        data: data,
-        options: [
-          .documentType: NSAttributedString.DocumentType.html,
-          .characterEncoding: String.Encoding.utf8.rawValue,
-        ],
-        documentAttributes: nil
-      )
-      // Perform this conversion on a background thread if it's very large
-      // or if there are many HTMLTextViews.
-      if let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit)
-      {
-        self.attributedString = swiftUIAttributedString
-      } else {
-        errorInProcessing = true
-      }
+      // .caseInsensitive ensures that <P> also matches <p>
+      let regex = try NSRegularExpression(pattern: pTagPattern, options: .caseInsensitive)
+      let range = NSRange(location: 0, length: text.utf16.count)
+
+      // A match is found if `firstMatch` returns a result.
+      return regex.firstMatch(in: text, options: [], range: range) != nil
     } catch {
-      errorInProcessing = true
+      return false
     }
   }
+
 }
 
 struct BuilderText_Previews: PreviewProvider {
