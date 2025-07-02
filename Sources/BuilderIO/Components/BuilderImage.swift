@@ -9,6 +9,8 @@ struct BuilderImage: BuilderViewProtocol {
   var imageURL: URL?
   var aspectRatio: CGFloat? = nil
   var lockAspectRatio: Bool = false
+  var contentMode: ContentMode = .fit
+
   //  var height: CGFloat? = nil
   //  var width: CGFloat? = nil
 
@@ -21,6 +23,7 @@ struct BuilderImage: BuilderViewProtocol {
       self.aspectRatio = CGFloat(1 / ratio)
     }
     self.children = block.children
+    self.contentMode = block.component?.options?["backgroundSize"] == "cover" ? .fill : .fit
   }
 
   var body: some View {
@@ -33,7 +36,7 @@ struct BuilderImage: BuilderViewProtocol {
 
         image
           .resizable()
-          .aspectRatio(self.aspectRatio ?? 1, contentMode: .fit)
+          .aspectRatio(self.aspectRatio ?? 1, contentMode: .fill)
           .clipped()
           .overlay(
             Group {

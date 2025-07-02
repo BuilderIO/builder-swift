@@ -67,4 +67,18 @@ extension TextAlignment {
       return .leading  // Or .center, choose what makes sense for your layout
     }
   }
+
+  var toAlignment: Alignment {
+    switch self {
+    case .leading:
+      return .leading
+    case .center:
+      return .center
+    case .trailing:
+      return .trailing
+    default:
+      return .leading  // Or .center, choose what makes sense for your layout
+    }
+  }
+
 }
