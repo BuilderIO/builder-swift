@@ -6,11 +6,12 @@ public struct BuilderIOPage: View {
   let url: String
   let model: String
 
-  @StateObject private var viewModel = BuilderIOViewModel()
+  @StateObject private var viewModel: BuilderIOViewModel
 
-  public init(url: String, model: String = "page") {
+  public init(apiKey: String, url: String, model: String = "page") {
     self.url = url
     self.model = model
+    _viewModel = StateObject(wrappedValue: BuilderIOViewModel(apiKey: apiKey))
   }
 
   public var body: some View {
@@ -26,7 +27,7 @@ public struct BuilderIOPage: View {
         }
         .onAppear {
           if !BuilderContentAPI.isPreviewing() {
-            BuilderIOManager.shared.sendTrackingPixel()  // Use the tracker instance
+            viewModel.sendTrackingPixel()
           }
         }
         .refreshable {

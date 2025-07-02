@@ -2,25 +2,16 @@ import SwiftUI
 
 @MainActor
 public final class BuilderIOManager: ObservableObject {
-  public static private(set) var shared: BuilderIOManager!
 
-  public let apiKey: String
+  private let apiKey: String
   private static var registered = false
 
-  private init(apiKey: String) {
+  init(apiKey: String) {
     self.apiKey = apiKey
     if !Self.registered {
       BuilderComponentRegistry.shared.initialize()
       Self.registered = true
     }
-  }
-
-  /// Call once during app launch
-  public static func configure(apiKey: String) {
-    guard shared == nil else {
-      return
-    }
-    shared = BuilderIOManager(apiKey: apiKey)
   }
 
   public func fetchBuilderContent(model: String = "page", url: String? = nil) async -> Result<

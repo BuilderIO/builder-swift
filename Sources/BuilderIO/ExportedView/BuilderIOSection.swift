@@ -5,10 +5,11 @@ public struct BuilderIOSection: View {
 
   let model: String
 
-  @StateObject private var viewModel = BuilderIOViewModel()
+  @StateObject private var viewModel: BuilderIOViewModel
 
-  public init(model: String) {
+  public init(apiKey: String, model: String) {
     self.model = model
+    _viewModel = StateObject(wrappedValue: BuilderIOViewModel(apiKey: apiKey))
   }
 
   public var body: some View {
@@ -23,7 +24,7 @@ public struct BuilderIOSection: View {
           BuilderBlock(blocks: builderContent.data.blocks)
             .onAppear {
               if !BuilderContentAPI.isPreviewing() {
-                BuilderIOManager.shared.sendTrackingPixel()  // Use the tracker instance
+                viewModel.sendTrackingPixel()  // Use the tracker instance
               }
             }
         }
