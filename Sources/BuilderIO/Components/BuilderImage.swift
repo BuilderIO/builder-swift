@@ -22,7 +22,9 @@ struct BuilderImage: BuilderViewProtocol {
     }
     self.children = block.children
     self.contentMode = block.component?.options?["backgroundSize"] == "cover" ? .fill : .fit
-    self.fitContent = (block.component?.options?["fitContent"].boolValue ?? false) && !(block.children?.isEmpty ?? true)
+    self.fitContent =
+      (block.component?.options?["fitContent"].boolValue ?? false)
+      && !(block.children?.isEmpty ?? true)
 
   }
 
