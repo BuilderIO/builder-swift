@@ -1,7 +1,6 @@
 import SwiftUI
 
-@MainActor
-public final class BuilderIOManager: ObservableObject {
+public final class BuilderIOManager {
 
   private let apiKey: String
   private static var registered = false
