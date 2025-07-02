@@ -41,7 +41,7 @@ struct BuilderImage: BuilderViewProtocol {
           .overlay(
             Group {
               if let children = children, !children.isEmpty {
-                VStack {
+                VStack(spacing: 0) {
                   BuilderBlock(blocks: children)
                 }
               } else {

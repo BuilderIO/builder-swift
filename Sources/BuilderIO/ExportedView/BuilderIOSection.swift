@@ -19,7 +19,7 @@ public struct BuilderIOSection: View {
         Text("Error: \(errorMessage)")
           .foregroundColor(.red)
       } else if let builderContent = viewModel.builderContent {
-        VStack {
+        VStack(spacing: 0) {
           BuilderBlock(blocks: builderContent.data.blocks)
             .onAppear {
               if !BuilderContentAPI.isPreviewing() {
