@@ -146,7 +146,7 @@ struct BuilderBlockLayout<Content: View>: View {
           case .trailing: .trailing
           default: .leading
           }
-          VStack(spacing: 0) {
+        VStack(spacing: 0) {
           if marginTop == "auto" { Spacer() }
 
           let componentView: some View = content().padding(padding)
