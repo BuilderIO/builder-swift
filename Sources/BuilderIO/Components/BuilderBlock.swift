@@ -2,6 +2,7 @@ import SwiftUI
 
 //BuilderBlock forms the out layout container for all components mimicking Blocks from response. As blocks can have layout direction of either horizontal or vertical a check is made and layout selected.
 
+@MainActor
 struct BuilderBlock: View {
 
   var blocks: [BuilderBlockModel]
@@ -13,16 +14,37 @@ struct BuilderBlock: View {
 
   var body: some View {
 
-    ForEach(Array(blocks.enumerated()), id: \.offset) { index, child in
+    ForEach(blocks) { child in
       let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
+      let component = child.component
 
-      BuilderBlockLayout(responsiveStyles: responsiveStyles ?? [:]) {
-        if let component = child.component {
-          BuilderComponentRegistry.shared.view(for: child)
-        } else if let children = child.children, !children.isEmpty {
-          BuilderBlock(blocks: children)
-        } else {
-          Spacer()
+      //Only checking links for now, can be expanded to cover events in the future
+      let isTappable =
+        component?.name == BuilderComponentType.coreButton.rawValue
+        || !(component?.options?["Link"].isEmpty ?? true) || !(child.linkUrl?.isEmpty ?? true)
+
+      let builderAction: BuilderAction? =
+        (isTappable)
+        ? BuilderAction(
+          componentId: child.id,
+          options: child.component?.options,
+          eventActions: child.actions,
+          linkURL: child.linkUrl) : nil
+      if responsiveStyles["display"] == "none" {
+        EmptyView()
+      } else {
+
+        BuilderBlockLayout(
+          responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
+          component: component
+        ) {
+          if let component = component {
+            BuilderComponentRegistry.shared.view(for: child)
+          } else if let children = child.children, !children.isEmpty {
+            BuilderBlock(blocks: children)
+          } else {
+            EmptyView()
+          }
         }
       }
 
@@ -34,6 +56,11 @@ struct BuilderBlock: View {
 
 struct BuilderBlockLayout<Content: View>: View {
   let responsiveStyles: [String: String]
+  let builderAction: BuilderAction?
+  let component: BuilderBlockComponent?
+
+  @Environment(\.buttonActionManager) private var buttonActionManager
+
   @ViewBuilder let content: () -> Content
 
   var body: some View {
@@ -45,6 +72,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
     let justify = responsiveStyles["justifyContent"]
     let alignItems = responsiveStyles["alignItems"]
+    let alignSelf = responsiveStyles["alignSelf"]
 
     let marginLeft = responsiveStyles["marginLeft"]?.lowercased()
     let marginRight = responsiveStyles["marginRight"]?.lowercased()
@@ -58,10 +86,13 @@ struct BuilderBlockLayout<Content: View>: View {
 
     let minHeight = extractPixels(responsiveStyles["minHeight"])
     let maxHeight = extractPixels(responsiveStyles["maxHeight"])
+    let width = extractPixels(responsiveStyles["width"])
+
     let minWidth = extractPixels(responsiveStyles["minWidth"])
     let maxWidth =
       extractPixels(responsiveStyles["maxWidth"])
-      ?? ((marginLeft == "auto" || marginRight == "auto") ? nil : .infinity)
+      ?? ((marginLeft == "auto" || marginRight == "auto" || alignSelf == "center")
+        ? nil : .infinity)
 
     let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
 
@@ -80,7 +111,7 @@ struct BuilderBlockLayout<Content: View>: View {
           responsiveStyles: responsiveStyles
         ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
       } else if direction == "row" {
-        let hStackAlignment = BuilderBlockLayout<Content>.verticalAlignment(
+        let hStackAlignment = CSSAlignments.verticalAlignment(
           justify: justify, alignItems: alignItems)
 
         let frameAlignment: Alignment =
@@ -98,15 +129,15 @@ struct BuilderBlockLayout<Content: View>: View {
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
               alignment: frameAlignment
-            ).builderBackground(responsiveStyles: responsiveStyles).builderBackground(
+            ).builderBackground(
               responsiveStyles: responsiveStyles
             ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
         }
       } else {
 
-        let vStackAlignment = BuilderBlockLayout<Content>.horizontalAlignment(
+        let vStackAlignment = CSSAlignments.horizontalAlignment(
           marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
-          alignItems: alignItems, responsiveStyles: responsiveStyles)
+          alignItems: alignItems, alignSelf: alignSelf, responsiveStyles: responsiveStyles)
 
         let frameAlignment: Alignment =
           switch vStackAlignment {
@@ -115,19 +146,43 @@ struct BuilderBlockLayout<Content: View>: View {
           case .trailing: .trailing
           default: .leading
           }
-        VStack {
+        VStack(spacing: 0) {
           if marginTop == "auto" { Spacer() }
 
-          content().padding(padding)
-            .frame(
-              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-              alignment: frameAlignment
-            ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
-              properties: BorderProperties(responsiveStyles: responsiveStyles)
-            )
+          let componentView: some View = content().padding(padding)
+            .if(width != nil) { view in
+              view.frame(
+                width: width,
+                alignment: (component?.name == BuilderComponentType.text.rawValue)
+                  ? (CSSAlignments.textAlignment(responsiveStyles: responsiveStyles)).toAlignment
+                  : .center
+              ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
+                properties: BorderProperties(responsiveStyles: responsiveStyles)
+              )
+            }
+            .if(width == nil) { view in
+              view.frame(
+                minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
+                alignment: (component?.name == BuilderComponentType.text.rawValue)
+                  ? (CSSAlignments.textAlignment(responsiveStyles: responsiveStyles)).toAlignment
+                  : .center
+              ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
+                properties: BorderProperties(responsiveStyles: responsiveStyles)
+              )
+            }
+
+          if let builderAction = builderAction {
+            Button {
+              buttonActionManager?.handleButtonPress(builderAction: builderAction)
+            } label: {
+              componentView
+            }
+          } else {
+            componentView
+          }
 
           if marginBottom == "auto" { Spacer() }
-        }.frame(maxWidth: .infinity, alignment: frameAlignment)
+        }.frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
       }
     }
 
@@ -144,13 +199,17 @@ struct BuilderBlockLayout<Content: View>: View {
 
     // 4. Apply visual and layout modifiers
     return
-      scrollableView.padding(margin)  //margin
+      scrollableView
+      .if(component == nil) { view in
+        view.builderBackground(responsiveStyles: responsiveStyles)
+      }
+      .padding(margin)  //margin
 
   }
 
   func extractPixels(_ value: String?) -> CGFloat? {
     guard let value = value?.replacingOccurrences(of: "px", with: ""),
-      let number = Double(value)
+      let number = Int(value)
     else { return nil }
     return CGFloat(number)
   }
@@ -170,56 +229,13 @@ struct BuilderBlockLayout<Content: View>: View {
     for insetType: String, from styles: [String: String], with bufferWidth: CGFloat = 0
   ) -> EdgeInsets {
 
-    return EdgeInsets(
+    let edgeInsets = EdgeInsets(
       top: (extractPixels(styles["\(insetType)Top"]) ?? 0) + bufferWidth,
       leading: (extractPixels(styles["\(insetType)Left"]) ?? 0) + bufferWidth,
       bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + bufferWidth,
       trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + bufferWidth
     )
-  }
-
-  static func horizontalAlignment(
-    marginsLeft: String?, marginsRight: String?, justify: String?, alignItems: String?,
-    responsiveStyles: [String: String]
-  ) -> HorizontalAlignment {
-
-    if let textAlign = responsiveStyles["textAlign"] {
-      switch textAlign {
-      case "center":
-        return .center
-      case "left", "start":  // "start" is also a common value in some contexts
-        return .leading
-      case "right", "end":  // "end" is also a common value
-        return .trailing
-      case "justify":
-        break  // Fall through to next checks
-      default:
-        break  // Unknown textAlign value, fall through
-      }
-    }
-
-    if (marginsLeft == "auto" && marginsRight == "auto") || justify == "center"
-      || alignItems == "center"
-    {
-      return .center
-    } else if marginsRight == "auto" || justify == "flex-start" || alignItems == "flex-start" {
-      return .leading
-    } else if marginsLeft == "auto" || justify == "flex-end" || alignItems == "flex-end" {
-      return .trailing
-    }
-    return .leading
-  }
-
-  static func verticalAlignment(justify: String?, alignItems: String?) -> VerticalAlignment {
-
-    if justify == "center" || alignItems == "center" {
-      return .center
-    } else if justify == "flex-start" || alignItems == "flex-start" {
-      return .top
-    } else if justify == "flex-end" || alignItems == "flex-end" {
-      return .bottom
-    }
-    return .center
+    return edgeInsets
   }
 
 }

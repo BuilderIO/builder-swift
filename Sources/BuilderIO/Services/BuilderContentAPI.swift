@@ -4,32 +4,40 @@ import os
 public struct BuilderContentAPI {
 
   public static func isPreviewing() -> Bool {
-    // Assuming we are only using appetize for previewing in
-    // the content editor for now
     let isAppetize = UserDefaults.standard.bool(forKey: "isAppetize")
     return isAppetize
   }
 
   public static func getContent(
-    model: String, apiKey: String, url: String, locale: String? = nil, preview: String? = nil,
-    callback: @escaping ((BuilderContent?) -> Void)
-  ) {
-    let encodedUrl = String(
-      describing: url.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)
+    model: String,
+    apiKey: String,
+    url: String? = nil,
+    locale: String? = nil,
+    preview: String? = nil
+  ) async -> BuilderContent? {
+
     var str = "https://cdn.builder.io/api/v3/content/\(model)"
 
     let overrideLocale = UserDefaults.standard.string(forKey: "builderLocale")
     let overridePreviewContent = UserDefaults.standard.string(forKey: "builderContentId")
-    print("override preview content", overridePreviewContent ?? "no override")
 
     let useLocale = overrideLocale ?? locale
     let usePreview = overridePreviewContent ?? preview
 
+    // Append content ID if it's a specific preview ID
     if let localPreview = usePreview, !localPreview.isEmpty {
       str += "/\(localPreview)"
-      print("LOCAL PREVIEW YES!")
     }
-    str += "?apiKey=\(apiKey)&url=\(encodedUrl)"
+
+    str += "?apiKey=\(apiKey)"
+
+    if let url = url, !url.isEmpty {
+      guard let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+      else {
+        return nil
+      }
+      str += "&url=\(encodedUrl)"
+    }
 
     if let locale = useLocale, !locale.isEmpty {
       str += "&locale=\(locale)"
@@ -37,40 +45,63 @@ public struct BuilderContentAPI {
 
     if let localPreview = usePreview, !localPreview.isEmpty {
       str += "&preview=true"
-      str += "&cachebust=true"
-      str += "&cachebuster=\(Float.random(in: 1..<10))"
+      str += "&cachebust=true"  // Consider if this is strictly needed or can be dynamic
+      // Using a timestamp instead of random float for better debuggability and consistency
+      str += "&cachebuster=\(Date().timeIntervalSince1970)"
     }
 
-    let url = URL(string: str)!
+    guard let finalURL = URL(string: str) else {
+      return nil
+    }
 
     let session =
-      !(usePreview ?? "").isEmpty ? URLSession(configuration: .ephemeral) : URLSession.shared
-    print("Fetching URL = \(url)")
-    let task = session.dataTask(with: url) { (data, response, error) in
-      guard let data = data else {
-        callback(nil)
-        return
+      !(usePreview ?? "").isEmpty
+      ? URLSession(configuration: .ephemeral)  // For preview, ephemeral is good
+      : URLSession.shared  // For live content, shared is fine (can utilize cache)
+
+    os_log(
+      "BuilderContentAPI: Fetching URL = %{public}@", log: .default, type: .info,
+      finalURL.absoluteString)
+
+    do {
+      let (data, response) = try await session.data(from: finalURL)
+
+      // Basic HTTP status code check
+      if let httpResponse = response as? HTTPURLResponse,
+        !(200..<300).contains(httpResponse.statusCode)
+      {
+        let errorData = String(data: data, encoding: .utf8) ?? "No error data"
+        os_log(
+          "BuilderContentAPI: HTTP Error %{public}d: %{public}@",
+          log: .default, type: .error, httpResponse.statusCode, errorData)
+        return nil
       }
+
       let decoder = JSONDecoder()
-      let jsonString = String(data: data, encoding: .utf8)!
-      do {
-        if let localPreview = usePreview, !localPreview.isEmpty {
-          print("Fetched FROM LOCAL PREVIEW = \(url)")
 
-          let content = try decoder.decode(BuilderContent.self, from: Data(jsonString.utf8))
-          callback(content)
+      if let localPreview = usePreview, !localPreview.isEmpty {
+        os_log(
+          "BuilderContentAPI: Decoding single content for preview.", log: .default, type: .debug)
+        let content = try decoder.decode(BuilderContent.self, from: data)
+        return content
+      } else {
+        os_log(
+          "BuilderContentAPI: Decoding content list for live content.", log: .default, type: .debug)
+        let contentList = try decoder.decode(BuilderContentList.self, from: data)
+        if let firstContent = contentList.results.first {
+          return firstContent
         } else {
-          let content = try decoder.decode(BuilderContentList.self, from: Data(jsonString.utf8))
-          if content.results.count > 0 {
-            callback(content.results[0])
-          }
+          os_log(
+            "BuilderContentAPI: Content list results were empty for %{public}@", log: .default,
+            type: .info, url ?? "")
+          return nil
         }
-      } catch {
-        print(error)
-        callback(nil)
       }
+    } catch {
+      os_log(
+        "BuilderContentAPI: Decoding error for %{public}@: %{public}@",
+        log: .default, type: .error, url ?? "", error.localizedDescription)
+      return nil
     }
-
-    task.resume()
   }
 }

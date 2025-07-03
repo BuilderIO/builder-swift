@@ -25,7 +25,9 @@ class BuilderComponentRegistry {
   func initialize() {
     register(type: .text, viewClass: BuilderText.self)
     register(type: .image, viewClass: BuilderImage.self)
+    register(type: .coreButton, viewClass: BuilderButton.self)
     register(type: .columns, viewClass: BuilderColumns.self)
+    register(type: .section, viewClass: BuilderSection.self)
   }
 
   //Register Custom component
