@@ -37,7 +37,12 @@ public class BuilderComponentRegistry {
       }
   }
     
-    public func registerComponent(name:String,) {
+  public func registerCustomComponent(componentType:BuilderComponentType, componentView:any BuilderViewProtocol.Type) {
+      registry[componentType] = componentView
+  }
+  
+  public func registerCustomComponentInEditor(componentDTO:BuilderCustomComponent, apiKey:String) {
+    
   }
 
 }

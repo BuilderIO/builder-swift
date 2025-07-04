@@ -104,4 +104,58 @@ public struct BuilderContentAPI {
       return nil
     }
   }
+  
+  static func registerCustomComponentInEditor(component: BuilderCustomComponent, apiKey: String, sessionId: String, sessionToken: String) async -> Bool {
+    let overrideUrl = UserDefaults.standard.string(forKey: "builderRemoteUrl")
+    let urlString = overrideUrl ?? "https://cdn.builder.io/api/v1/remote-sessions/\(sessionId)"
+    
+    guard var components = URLComponents(string: urlString) else {
+      print("Error: Bad URL components.")
+      return false // Indicate failure due to bad URL
+    }
+    
+    components.queryItems = [
+      URLQueryItem(name: "apiKey", value: apiKey),
+      URLQueryItem(name: "sessionToken", value: sessionToken)
+    ]
+    
+    guard let url = components.url else {
+      print("Error: Could not form URL.")
+      return false // Indicate failure due to bad URL
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    do {
+      let jsonData = try JSONEncoder().encode(component)
+      request.httpBody = jsonData
+    } catch {
+      print("Error serializing JSON data: \(error)")
+      return false // Indicate failure due to JSON serialization error
+    }
+    
+    do {
+      let (data, response) = try await URLSession.shared.data(for: request)
+      
+      if let httpResponse = response as? HTTPURLResponse {
+        if !(200...299).contains(httpResponse.statusCode) {
+          print("Server error with status code: \(httpResponse.statusCode). Response: \(String(data: data, encoding: .utf8) ?? "N/A")")
+          return false // Indicate failure due to non-success status code
+        }
+      }
+      
+      print("Successfully registered component. Response data size: \(data.count) bytes")
+      return true // Indicate success
+    } catch {
+      print("Network or unexpected error during registration: \(error)")
+      return false // Indicate failure for any other network/URLSession error
+    }
+  }
+
+  
+  
+  
+  
 }
