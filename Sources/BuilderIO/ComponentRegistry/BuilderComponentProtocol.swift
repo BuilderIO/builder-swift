@@ -6,6 +6,10 @@ public protocol BuilderViewProtocol: View {
   init(block: BuilderBlockModel)
 }
 
+public protocol BuilderCustomComponentViewProtocol: BuilderViewProtocol {
+  static var builderCustomComponent: BuilderCustomComponent { get }
+}
+
 extension BuilderViewProtocol {
   func getFinalStyle(responsiveStyles: BuilderBlockResponsiveStyles?) -> [String: String] {
     return CSSStyleUtil.getFinalStyle(responsiveStyles: responsiveStyles)
