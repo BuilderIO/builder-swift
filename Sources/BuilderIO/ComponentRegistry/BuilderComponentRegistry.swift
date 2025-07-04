@@ -32,17 +32,20 @@ public class BuilderComponentRegistry {
 
   //Register Custom component
   func register(type: BuilderComponentType, viewClass: any BuilderViewProtocol.Type) {
-      if(registry[type] == nil) {
-          registry[type] = viewClass
-      }
+    if registry[type] == nil {
+      registry[type] = viewClass
+    }
   }
-    
-  public func registerCustomComponent(componentType:BuilderComponentType, componentView:any BuilderViewProtocol.Type) {
-      registry[componentType] = componentView
+
+  public func registerCustomComponent(
+    componentType: BuilderComponentType, componentView: any BuilderViewProtocol.Type
+  ) {
+    registry[componentType] = componentView
   }
-  
-  public func registerCustomComponentInEditor(componentDTO:BuilderCustomComponent, apiKey:String) {
-    
+
+  public func registerCustomComponentInEditor(componentDTO: BuilderCustomComponent, apiKey: String)
+  {
+
   }
 
 }
