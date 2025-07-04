@@ -1,7 +1,7 @@
 import SwiftUI
 
 public protocol BuilderViewProtocol: View {
-  var componentType: BuilderComponentType { get }
+  static var componentType: BuilderComponentType { get }
   var block: BuilderBlockModel { get }
   init(block: BuilderBlockModel)
 }
@@ -13,9 +13,9 @@ extension BuilderViewProtocol {
 }
 
 struct BuilderEmptyView: BuilderViewProtocol {
-  var block: BuilderBlockModel
+  static let componentType: BuilderComponentType = .empty
 
-  var componentType: BuilderComponentType = .empty
+  var block: BuilderBlockModel
 
   init(block: BuilderBlockModel) {
     self.block = block

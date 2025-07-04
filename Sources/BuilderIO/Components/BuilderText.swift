@@ -4,7 +4,7 @@ import SwiftUI
 struct BuilderText: BuilderViewProtocol {
   var block: BuilderBlockModel
 
-  var componentType: BuilderComponentType = .text
+  static let componentType: BuilderComponentType = .text
 
   var responsiveStyles: [String: String]?
   var text: String?

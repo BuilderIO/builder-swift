@@ -23,11 +23,11 @@ public class BuilderComponentRegistry {
 
   //Register default components
   func initialize() {
-    register(type: .text, viewClass: BuilderText.self)
-    register(type: .image, viewClass: BuilderImage.self)
-    register(type: .coreButton, viewClass: BuilderButton.self)
-    register(type: .columns, viewClass: BuilderColumns.self)
-    register(type: .section, viewClass: BuilderSection.self)
+    register(type: BuilderText.componentType, viewClass: BuilderText.self)
+    register(type: BuilderImage.componentType, viewClass: BuilderImage.self)
+    register(type: BuilderButton.componentType, viewClass: BuilderButton.self)
+    register(type: BuilderColumns.componentType, viewClass: BuilderColumns.self)
+    register(type: BuilderSection.componentType, viewClass: BuilderSection.self)
   }
 
   //Register Custom component
@@ -37,10 +37,8 @@ public class BuilderComponentRegistry {
     }
   }
 
-  public func registerCustomComponent(
-    componentType: BuilderComponentType, componentView: any BuilderViewProtocol.Type
-  ) {
-    registry[componentType] = componentView
+  public func registerCustomComponent(componentView: any BuilderViewProtocol.Type) {
+    registry[componentView.componentType] = componentView
   }
 
   public func registerCustomComponentInEditor(componentDTO: BuilderCustomComponent, apiKey: String)

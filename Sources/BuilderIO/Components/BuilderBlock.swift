@@ -6,7 +6,7 @@ import SwiftUI
 struct BuilderBlock: View {
 
   var blocks: [BuilderBlockModel]
-  var componentType: BuilderComponentType = .box
+  static let componentType: BuilderComponentType = .box
 
   init(blocks: [BuilderBlockModel]) {
     self.blocks = blocks

@@ -3,7 +3,7 @@ import SwiftUI
 //Wrapped Text Click event handle externally at the layout level
 struct BuilderButton: BuilderViewProtocol {
 
-  var componentType: BuilderComponentType = .coreButton
+  static let componentType: BuilderComponentType = .coreButton
 
   var block: BuilderBlockModel
 

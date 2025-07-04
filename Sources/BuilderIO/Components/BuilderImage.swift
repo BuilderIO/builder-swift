@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BuilderImage: BuilderViewProtocol {
-  var componentType: BuilderComponentType = .image
+  static let componentType: BuilderComponentType = .image
 
   var block: BuilderBlockModel
   var children: [BuilderBlockModel]?
