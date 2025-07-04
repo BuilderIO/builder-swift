@@ -1,8 +1,8 @@
 import SwiftUI
 
 //BuilderComponentRegistry single instance factory for building preregistered components
-class BuilderComponentRegistry {
-  static let shared = BuilderComponentRegistry()
+public class BuilderComponentRegistry {
+  public static let shared = BuilderComponentRegistry()
 
   //Component Registry
   private var registry: [BuilderComponentType: any BuilderViewProtocol.Type] = [:]
@@ -32,7 +32,12 @@ class BuilderComponentRegistry {
 
   //Register Custom component
   func register(type: BuilderComponentType, viewClass: any BuilderViewProtocol.Type) {
-    registry[type] = viewClass
+      if(registry[type] == nil) {
+          registry[type] = viewClass
+      }
+  }
+    
+    public func registerComponent(name:String,) {
   }
 
 }

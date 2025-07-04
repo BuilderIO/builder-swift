@@ -1,6 +1,6 @@
 import SwiftUI
 
-protocol BuilderViewProtocol: View {
+public protocol BuilderViewProtocol: View {
   var componentType: BuilderComponentType { get }
   var block: BuilderBlockModel { get }
   init(block: BuilderBlockModel)

@@ -1,4 +1,4 @@
-struct BuilderComponentType: Equatable, Hashable {
+public struct BuilderComponentType: Equatable, Hashable {
   let rawValue: String
 
   static let text = BuilderComponentType(rawValue: "Text")
@@ -10,7 +10,7 @@ struct BuilderComponentType: Equatable, Hashable {
   static let empty = BuilderComponentType(rawValue: "Empty")
 
   // Add new types dynamically
-  static func custom(_ name: String) -> BuilderComponentType {
+  public static func custom(_ name: String) -> BuilderComponentType {
     return BuilderComponentType(rawValue: name)
   }
 
