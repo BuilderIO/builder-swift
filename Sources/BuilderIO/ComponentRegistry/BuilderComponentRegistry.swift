@@ -41,20 +41,21 @@ public class BuilderComponentRegistry {
     componentView: any BuilderViewProtocol.Type, apiKey: String? = nil
   ) {
     registry[componentView.componentType] = componentView
-    
+
     if componentView is any BuilderCustomComponentViewProtocol.Type, let apiKey = apiKey {
-      
+
       let sessionId = UserDefaults.standard.string(forKey: "builderSessionId")
       let sessionToken = UserDefaults.standard.string(forKey: "builderSessionToken")
-      
+
       if let sessionId = sessionId, let sessionToken = sessionToken {
-        
+
         let componentDTO = (componentView as! any BuilderCustomComponentViewProtocol.Type)
           .builderCustomComponent
-        
+
         Task {
           await BuilderContentAPI.registerCustomComponentInEditor(
-            component: componentDTO, apiKey: apiKey, sessionId: sessionId, sessionToken: sessionToken)
+            component: componentDTO, apiKey: apiKey, sessionId: sessionId,
+            sessionToken: sessionToken)
         }
       }
     }
