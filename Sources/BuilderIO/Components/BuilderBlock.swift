@@ -43,7 +43,7 @@ struct BuilderBlock: View {
           } else if let children = child.children, !children.isEmpty {
             BuilderBlock(blocks: children)
           } else {
-            EmptyView()
+            Rectangle().fill(Color.clear)
           }
         }
       }
@@ -87,6 +87,7 @@ struct BuilderBlockLayout<Content: View>: View {
     let minHeight = extractPixels(responsiveStyles["minHeight"])
     let maxHeight = extractPixels(responsiveStyles["maxHeight"])
     let width = extractPixels(responsiveStyles["width"])
+    let height = extractPixels(responsiveStyles["height"])
 
     let minWidth = extractPixels(responsiveStyles["minWidth"])
     let maxWidth =
@@ -153,6 +154,7 @@ struct BuilderBlockLayout<Content: View>: View {
             .if(width != nil) { view in
               view.frame(
                 width: width,
+                height: height ?? minHeight ?? nil,
                 alignment: (component?.name == BuilderComponentType.text.rawValue)
                   ? (CSSAlignments.textAlignment(responsiveStyles: responsiveStyles)).toAlignment
                   : .center
