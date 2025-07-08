@@ -182,7 +182,10 @@ struct BuilderBlockLayout<Content: View>: View {
           }
 
           if marginBottom == "auto" { Spacer() }
-        }.frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
+        }.if(frameAlignment == .center && component == nil) { view in
+          view.fixedSize(horizontal: true, vertical: false)
+        }
+        .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
       }
     }
 
