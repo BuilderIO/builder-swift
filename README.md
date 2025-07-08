@@ -25,9 +25,9 @@ import BuilderIO
 ```
 ---
 
-## Render Content
+### Render Content
 
-### Render a Full Page
+#### Render a Full Page
 
 Use `BuilderIOPage` to render a full page from a given Builder URL:
 
@@ -35,7 +35,7 @@ Use `BuilderIOPage` to render a full page from a given Builder URL:
 BuilderIOPage(apiKey: "<YOUR_BUILDER_API_KEY>", url: "/YOUR_TARGET_URL")
 ```
 
-#### Example:
+###### Example:
 
 ```swift
 var body: some View {
@@ -49,7 +49,7 @@ You can optionally specify the `model` if you're not using the default `"page"` 
 
 ---
 
-### Render a Section
+#### Render a Section
 
 Use `BuilderIOSection` to render content meant to be embedded in an existing layout:
 
@@ -57,7 +57,7 @@ Use `BuilderIOSection` to render content meant to be embedded in an existing lay
 BuilderIOSection(apiKey: "<YOUR_BUILDER_API_KEY>", model: "YOUR_MODEL_NAME")
 ```
 
-#### Example:
+##### Example:
 
 ```swift
 VStack {
@@ -111,7 +111,7 @@ This setup enables **real-time editing** and **custom component preview** within
 
 ---
 
-## Handle Preview Updates from the WebApp
+#### Handle Preview Updates from the WebApp
 
 To handle live preview updates:
 
@@ -122,7 +122,7 @@ This supports a **live editing workflow** without the need for rebuilding or red
 
 ---
 
-## Fetch Content (Raw Data)
+### Fetch Content (Raw Data)
 
 To fetch Builder content manually (e.g., for preview, caching, or custom rendering), use:
 
@@ -144,23 +144,24 @@ https://github.com/aarondemelo/BuilderIOExample
 
 ## Current Support
 
-| Builder Component | Color | Margin / Padding | Horizontal Alignment | Click Support |
-|------------------|:-----:|:----------------:|:--------------------:|:-------------:|
-| **Button**        | ✅    | ✅                | ✅                    | ✅             |
-| **Text**          | ✅    | ✅                | ✅                    | ✅             |
-| **Image**         | ✅    | ✅                | ✅                    | ✅             |
-| **Columns**       | ✅    | ✅                | ✅                    | ✅             |
-| **Video**         | 🏗    | 🏗                | 🏗                    | 🏗             |
+| Builder Component     | Color | Margin / Padding   | Horizontal Alignment    | Click Support |  Unsupported Features |
+|-----------------------|:-----:|:-----------------:|:----------------------:|:--------------:|
+| **Button**            | ✅    | ✅                | ✅                    | ✅             | 
+| **Text**              | ✅    | ✅                | ✅                    | ✅             | 
+| **Image**             | ✅    | ✅                | ✅                    | ✅             | Image Position, Lock Aspect Ratio
+| **Columns**           | ✅    | ✅                | ✅                    | ✅             |  
+| **Sections**          | ✅    | ✅                | ✅                    | ✅             | Lazy Load
+| **Custom**            | ✅    | ✅                | ✅                    | ✅             |
+| **Video**             | 🏗    | 🏗                | 🏗                    | 🏗             |  
+
+
+**Unsupported**
+JS Code Execution, Data Binding, API Data
 
 ---
 
-### Supported Layout Features
-
-- **Flex Layout (HStack / VStack)**: Column layouts are mapped to `HStack` on wider viewports, and `VStack` for narrow screens (responsive support).
-- **Padding and Margin**: Builder's spacing properties are translated to SwiftUI `.padding()` and `.padding(.horizontal/.vertical)` modifiers.
-- **Text Alignment**: `textAlign` styles map to `.multilineTextAlignment(.leading/.center/.trailing)` in `Text`.
-- **Color and Styling**: `backgroundColor`, `textColor`, and other style properties are supported where applicable.
-- **Actions**: Click actions (`open link`, `custom`, etc.) are routed through a configurable handler.
+#### Unsupported in Layouts
+- Grid Layout with variable sized components
 
 
 ## Contributing
