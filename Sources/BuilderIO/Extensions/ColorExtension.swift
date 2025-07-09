@@ -13,7 +13,7 @@ extension Color {
   /// - RGBA: "rgba(r, g, b, a)", "rgb(r, g, b)"
   /// - Hex: "#RRGGBB", "#RGB", "#RRGGBBAA", "#RGBA"
   /// - Named Colors: "red", "blue", "green", "white", "black", "gray", "clear" (and more can be added)
-  init?(string: String) {
+  public init?(string: String) {
     let cleanedString = string.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
 
     // MARK: - 1. Try to parse RGBA string
@@ -113,11 +113,11 @@ extension Color {
     }
   }
 
-  func darker(by percentage: CGFloat = 30) -> Color {
+  public func darker(by percentage: CGFloat = 30) -> Color {
     adjust(brightnessDelta: -percentage / 100.0)
   }
 
-  func lighter(by percentage: CGFloat = 30) -> Color {
+  public func lighter(by percentage: CGFloat = 30) -> Color {
     adjust(brightnessDelta: percentage / 100.0)
   }
 

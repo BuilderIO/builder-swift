@@ -33,6 +33,14 @@ public struct BuilderIOPage: View {
         .refreshable {
           await loadPageContent()
         }
+        //When running in Appetize.io, shake event will reload the content
+        .onReceive(NotificationCenter.default.publisher(for: .deviceDidShakeNotification)) { _ in
+          if isPreviewing() {
+            Task {
+              await loadPageContent()
+            }
+          }
+        }
       } else {
         Text("No remote content available.")
       }
@@ -50,4 +58,10 @@ public struct BuilderIOPage: View {
       print("Already loading content for URL: \(url). Not re-fetching.")
     }
   }
+
+  func isPreviewing() -> Bool {
+    let isAppetize = UserDefaults.standard.bool(forKey: "isAppetize")
+    return isAppetize
+  }
+
 }

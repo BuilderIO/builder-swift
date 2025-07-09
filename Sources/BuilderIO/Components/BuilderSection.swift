@@ -4,7 +4,7 @@ import SwiftyJSON
 
 struct BuilderSection: BuilderViewProtocol {
 
-  var componentType: BuilderComponentType = .section
+  static let componentType: BuilderComponentType = .section
   var children: [BuilderBlockModel]?
   var block: BuilderBlockModel
   var lazyLoad: Bool = false

@@ -6,7 +6,7 @@ import SwiftUI
 struct BuilderBlock: View {
 
   var blocks: [BuilderBlockModel]
-  var componentType: BuilderComponentType = .box
+  static let componentType: BuilderComponentType = .box
 
   init(blocks: [BuilderBlockModel]) {
     self.blocks = blocks
@@ -43,7 +43,7 @@ struct BuilderBlock: View {
           } else if let children = child.children, !children.isEmpty {
             BuilderBlock(blocks: children)
           } else {
-            EmptyView()
+            Rectangle().fill(Color.clear)
           }
         }
       }
@@ -87,6 +87,7 @@ struct BuilderBlockLayout<Content: View>: View {
     let minHeight = extractPixels(responsiveStyles["minHeight"])
     let maxHeight = extractPixels(responsiveStyles["maxHeight"])
     let width = extractPixels(responsiveStyles["width"])
+    let height = extractPixels(responsiveStyles["height"])
 
     let minWidth = extractPixels(responsiveStyles["minWidth"])
     let maxWidth =
@@ -153,6 +154,7 @@ struct BuilderBlockLayout<Content: View>: View {
             .if(width != nil) { view in
               view.frame(
                 width: width,
+                height: height ?? minHeight ?? nil,
                 alignment: (component?.name == BuilderComponentType.text.rawValue)
                   ? (CSSAlignments.textAlignment(responsiveStyles: responsiveStyles)).toAlignment
                   : .center
@@ -182,7 +184,10 @@ struct BuilderBlockLayout<Content: View>: View {
           }
 
           if marginBottom == "auto" { Spacer() }
-        }.frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
+        }.if(frameAlignment == .center && component == nil) { view in
+          view.fixedSize(horizontal: true, vertical: false)
+        }
+        .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
       }
     }
 

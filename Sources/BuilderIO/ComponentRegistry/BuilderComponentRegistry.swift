@@ -1,8 +1,8 @@
 import SwiftUI
 
 //BuilderComponentRegistry single instance factory for building preregistered components
-class BuilderComponentRegistry {
-  static let shared = BuilderComponentRegistry()
+public class BuilderComponentRegistry {
+  public static let shared = BuilderComponentRegistry()
 
   //Component Registry
   private var registry: [BuilderComponentType: any BuilderViewProtocol.Type] = [:]
@@ -23,16 +23,42 @@ class BuilderComponentRegistry {
 
   //Register default components
   func initialize() {
-    register(type: .text, viewClass: BuilderText.self)
-    register(type: .image, viewClass: BuilderImage.self)
-    register(type: .coreButton, viewClass: BuilderButton.self)
-    register(type: .columns, viewClass: BuilderColumns.self)
-    register(type: .section, viewClass: BuilderSection.self)
+    register(type: BuilderText.componentType, viewClass: BuilderText.self)
+    register(type: BuilderImage.componentType, viewClass: BuilderImage.self)
+    register(type: BuilderButton.componentType, viewClass: BuilderButton.self)
+    register(type: BuilderColumns.componentType, viewClass: BuilderColumns.self)
+    register(type: BuilderSection.componentType, viewClass: BuilderSection.self)
+  }
+
+  private func register(type: BuilderComponentType, viewClass: any BuilderViewProtocol.Type) {
+    if registry[type] == nil {
+      registry[type] = viewClass
+    }
   }
 
   //Register Custom component
-  func register(type: BuilderComponentType, viewClass: any BuilderViewProtocol.Type) {
-    registry[type] = viewClass
+  public func registerCustomComponent(
+    componentView: any BuilderViewProtocol.Type, apiKey: String? = nil
+  ) {
+    registry[componentView.componentType] = componentView
+
+    if componentView is any BuilderCustomComponentViewProtocol.Type, let apiKey = apiKey {
+
+      let sessionId = UserDefaults.standard.string(forKey: "builderSessionId")
+      let sessionToken = UserDefaults.standard.string(forKey: "builderSessionToken")
+
+      if let sessionId = sessionId, let sessionToken = sessionToken {
+
+        let componentDTO = (componentView as! any BuilderCustomComponentViewProtocol.Type)
+          .builderCustomComponent
+
+        Task {
+          await BuilderContentAPI.registerCustomComponentInEditor(
+            component: componentDTO, apiKey: apiKey, sessionId: sessionId,
+            sessionToken: sessionToken)
+        }
+      }
+    }
   }
 
 }

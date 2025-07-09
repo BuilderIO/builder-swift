@@ -3,7 +3,7 @@ import SwiftUI
 import SwiftyJSON
 
 struct BuilderColumns: BuilderViewProtocol {
-  var componentType: BuilderComponentType = .columns
+  static let componentType: BuilderComponentType = .columns
   var block: BuilderBlockModel
 
   var columns: [BuilderContentData]
