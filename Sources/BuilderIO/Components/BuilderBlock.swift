@@ -59,7 +59,7 @@ struct BuilderBlockLayout<Content: View>: View {
   let builderAction: BuilderAction?
   let component: BuilderBlockComponent?
 
-  @Environment(\.buttonActionManager) private var buttonActionManager
+  @EnvironmentObject var buttonActionManager: BuilderActionManager
 
   @ViewBuilder let content: () -> Content
 
@@ -175,7 +175,7 @@ struct BuilderBlockLayout<Content: View>: View {
 
           if let builderAction = builderAction {
             Button {
-              buttonActionManager?.handleButtonPress(builderAction: builderAction)
+              buttonActionManager.handleButtonPress(builderAction: builderAction)
             } label: {
               componentView
             }

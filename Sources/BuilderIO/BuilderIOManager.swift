@@ -13,6 +13,10 @@ public final class BuilderIOManager {
     }
   }
 
+  func getApiKey() -> String {
+    return apiKey
+  }
+
   public func fetchBuilderContent(model: String = "page", url: String? = nil) async -> Result<
     BuilderContent, Error
   > {

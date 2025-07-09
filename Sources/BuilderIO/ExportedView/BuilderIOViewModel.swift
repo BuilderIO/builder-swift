@@ -11,6 +11,10 @@ public final class BuilderIOViewModel: ObservableObject {
     self.builderIOManager = BuilderIOManager(apiKey: apiKey)
   }
 
+  func getApiKey() -> String {
+    return self.builderIOManager.getApiKey()
+  }
+
   /// Fetches the Builder.io page content for a given URL.
   /// Manages loading, content, and error states.
   public func fetchBuilderContent(model: String = "page", url: String = "") async {
