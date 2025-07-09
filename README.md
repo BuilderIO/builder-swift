@@ -144,16 +144,15 @@ https://github.com/aarondemelo/BuilderIOExample
 
 ## Current Support
 
-| Builder Component     | Color | Margin / Padding   | Horizontal Alignment    | Click Support |  Unsupported Features |
-|-----------------------|:-----:|:-----------------:|:----------------------:|:--------------:|
-| **Button**            | ✅    | ✅                | ✅                    | ✅             | 
-| **Text**              | ✅    | ✅                | ✅                    | ✅             | 
-| **Image**             | ✅    | ✅                | ✅                    | ✅             | Image Position, Lock Aspect Ratio
-| **Columns**           | ✅    | ✅                | ✅                    | ✅             |  
-| **Sections**          | ✅    | ✅                | ✅                    | ✅             | Lazy Load
-| **Custom**            | ✅    | ✅                | ✅                    | ✅             |
-| **Video**             | 🏗    | 🏗                | 🏗                    | 🏗             |  
-
+| Builder Component | Color | Margin / Padding | Horizontal Alignment | Click Support |      Unsupported Features       |
+|-------------------|:-----:|:----------------:|:--------------------:|:-------------:|:-------------------------------:|
+| **Button**        |  ✅   |        ✅         |          ✅           |      ✅       |                                 |
+| **Text**          |  ✅   |        ✅         |          ✅           |      ✅       |                                 |
+| **Image**         |  ✅   |        ✅         |          ✅           |      ✅       | Image Position, Lock Aspect Ratio |
+| **Columns**       |  ✅   |        ✅         |          ✅           |      ✅       |                                 |
+| **Sections**      |  ✅   |        ✅         |          ✅           |      ✅       | Lazy Load                      |
+| **Custom**        |  ✅   |        ✅         |          ✅           |      ✅       |                                 |
+| **Video**         |  🏗   |        🏗         |          🏗           |      🏗       |                                 |
 
 **Unsupported**
 JS Code Execution, Data Binding, API Data
