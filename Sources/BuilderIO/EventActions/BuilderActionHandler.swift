@@ -24,14 +24,11 @@ public class BuilderActionManager: ObservableObject {
     var url: String? = builderAction.options?["link"].string ?? builderAction.linkURL
 
     if let linkString = url {
-      // 2. Attempt to create a URL from the link string
       if let url = URL(string: linkString) {
-        // 3. Open the URL in an external browser
 
         if url.scheme == customNavigationScheme {
           let model = url.host ?? "page"
           let pagePath = "\(url.path)" + (!(url.query?.isEmpty ?? true) ? "?\(url.query)" : "")
-          //self.navigationTarget = NavigationTarget(model: model, url: pagePath)
           path.append(NavigationTarget(model: model, url: pagePath))
 
         } else {
@@ -43,7 +40,7 @@ public class BuilderActionManager: ObservableObject {
             }
           }
         }
-        return  // Exit the function as we've handled the link
+        return
       } else {
         print("Invalid URL string: \(linkString)")
       }

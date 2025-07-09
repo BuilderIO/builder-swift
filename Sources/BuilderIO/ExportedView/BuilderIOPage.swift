@@ -54,10 +54,7 @@ public struct BuilderIOPage: View {
         await loadPageContent()
       }
       .navigationDestination(for: NavigationTarget.self) { target in
-        // Create a new BuilderIOPage with the model and URL from the navigation target
         BuilderIOPage(apiKey: viewModel.getApiKey(), url: target.url, model: target.model)
-          // Pass the existing button action manager down to the new page's environment
-          // using .environmentObject to ensure it's available to nested views.
           .environmentObject(buttonActionManager)
       }
     }
@@ -70,9 +67,6 @@ public struct BuilderIOPage: View {
     } else if viewModel.isLoading {
       print("Already loading content for URL: \(url). Not re-fetching.")
     }
-
-    //$activeNavigationTarget.wrappedValue = nil
-    // buttonActionManager?.navigationTarget = nil
 
   }
 
