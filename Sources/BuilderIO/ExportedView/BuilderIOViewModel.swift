@@ -5,15 +5,6 @@ public final class BuilderIOViewModel: ObservableObject {
   @Published public var builderContent: BuilderContent?
   @Published public var isLoading: Bool = false
   @Published public var errorMessage: String?
-  private var builderIOManager: BuilderIOManager
-
-  public init(apiKey: String) {
-    self.builderIOManager = BuilderIOManager(apiKey: apiKey)
-  }
-
-  func getApiKey() -> String {
-    return self.builderIOManager.getApiKey()
-  }
 
   /// Fetches the Builder.io page content for a given URL.
   /// Manages loading, content, and error states.
@@ -25,7 +16,7 @@ public final class BuilderIOViewModel: ObservableObject {
 
     do {
       // Await the content fetching
-      let result = await self.builderIOManager.fetchBuilderContent(model: model, url: url)
+      let result = await BuilderIOManager.shared.fetchBuilderContent(model: model, url: url)
       switch result {
 
       case .success(let fetchedContent):
@@ -44,6 +35,6 @@ public final class BuilderIOViewModel: ObservableObject {
   }
 
   public func sendTrackingPixel() {
-    self.builderIOManager.sendTrackingPixel()
+    BuilderIOManager.shared.sendTrackingPixel()
   }
 }

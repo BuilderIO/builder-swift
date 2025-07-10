@@ -9,7 +9,7 @@ public struct BuilderIOSection: View {
 
   public init(apiKey: String, model: String) {
     self.model = model
-    _viewModel = StateObject(wrappedValue: BuilderIOViewModel(apiKey: apiKey))
+    _viewModel = StateObject(wrappedValue: BuilderIOViewModel())
   }
 
   public var body: some View {

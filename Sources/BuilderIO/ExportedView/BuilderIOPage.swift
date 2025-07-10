@@ -12,10 +12,10 @@ public struct BuilderIOPage: View {
 
   @State private var activeNavigationTarget: NavigationTarget? = nil
 
-  public init(apiKey: String, url: String, model: String = "page") {
+  public init(url: String, model: String = "page") {
     self.url = url
     self.model = model
-    _viewModel = StateObject(wrappedValue: BuilderIOViewModel(apiKey: apiKey))
+    _viewModel = StateObject(wrappedValue: BuilderIOViewModel())
   }
 
   public var body: some View {
@@ -54,7 +54,7 @@ public struct BuilderIOPage: View {
         await loadPageContent()
       }
       .navigationDestination(for: NavigationTarget.self) { target in
-        BuilderIOPage(apiKey: viewModel.getApiKey(), url: target.url, model: target.model)
+        BuilderIOPage(url: target.url, model: target.model)
           .environmentObject(buttonActionManager)
       }
     }
