@@ -41,6 +41,7 @@ struct HTMLTextView: View {
   let html: String
   @State private var attributedString: AttributedString? = nil
   @State private var errorInProcessing: Bool?
+  @State private var hasProcessed = false
 
   let htmlPlainText: String
   var responsiveStyles: [String: String]?
@@ -55,13 +56,15 @@ struct HTMLTextView: View {
       } else {
         ProgressView("")
       }
-    }.onAppear {
-      Task {
-        let wrappedHTML = wrapHtmlWithStyledDiv(
-          styleDictionary: responsiveStyles ?? [:], htmlString: html ?? "")
+    }.task {
+      guard !hasProcessed else { return }
+      hasProcessed = true
 
-        await processHTMLInBackground(wrappedHTML: wrappedHTML)
-      }
+      let wrappedHTML = wrapHtmlWithStyledDiv(
+        styleDictionary: responsiveStyles ?? [:], htmlString: html ?? "")
+
+      await processHTMLInBackground(wrappedHTML: wrappedHTML)
+
     }
 
   }
