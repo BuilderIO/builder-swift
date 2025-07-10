@@ -14,6 +14,8 @@ public final class BuilderIOManager {
   private static var _shared: BuilderIOManager?
 
   private let apiKey: String
+  public let customNavigationScheme: String
+
   private static var registered = false
 
   public static func configure(apiKey: String) {
@@ -27,8 +29,10 @@ public final class BuilderIOManager {
 
   // MARK: - Private Initialization
 
-  private init(apiKey: String) {
+  private init(apiKey: String, customNavigationScheme: String = "builderio") {
     self.apiKey = apiKey
+    self.customNavigationScheme = customNavigationScheme
+
     if !Self.registered {
       BuilderComponentRegistry.shared.initialize()
       Self.registered = true
@@ -39,6 +43,10 @@ public final class BuilderIOManager {
 
   public func getApiKey() -> String {
     return apiKey
+  }
+
+  func getCustomNavigationScheme() -> String {
+    return customNavigationScheme
   }
 
   public func fetchBuilderContent(model: String = "page", url: String? = nil) async -> Result<

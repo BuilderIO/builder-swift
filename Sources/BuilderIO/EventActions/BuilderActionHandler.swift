@@ -5,15 +5,10 @@ public typealias BuilderActionHandler = (BuilderAction) -> Void
 
 public class BuilderActionManager: ObservableObject {
   public var actionHandler: BuilderActionHandler?
-  public let customNavigationScheme: String
 
   @Published public var path = NavigationPath()
 
-  //<CUSTOM_SCHEME>://<MODEL_NAME>/<PAGE_URL>?<OPTIONAL_PARAMETERS>
-  //"builderio://page/my-awesome-page
-  public init(customNavigationScheme: String = "builderio") {
-    self.customNavigationScheme = customNavigationScheme
-  }
+  public init() {}
 
   public func setHandler(_ handler: @escaping BuilderActionHandler) {
     self.actionHandler = handler
@@ -23,10 +18,12 @@ public class BuilderActionManager: ObservableObject {
 
     var url: String? = builderAction.options?["link"].string ?? builderAction.linkURL
 
+    //<CUSTOM_SCHEME>://<MODEL_NAME>/<PAGE_URL>?<OPTIONAL_PARAMETERS>
+    //"builderio://page/my-awesome-page
     if let linkString = url {
       if let url = URL(string: linkString) {
 
-        if url.scheme == customNavigationScheme {
+        if url.scheme == BuilderIOManager.shared.getCustomNavigationScheme() {
           let model = url.host ?? "page"
           let pagePath = "\(url.path)" + (!(url.query?.isEmpty ?? true) ? "?\(url.query)" : "")
           path.append(NavigationTarget(model: model, url: pagePath))
@@ -86,19 +83,17 @@ extension EnvironmentValues {
   }
 }
 
-public struct NavigationTarget: Identifiable, Hashable {
-  public let id = UUID()  // Unique ID for Identifiable conformance
+public struct NavigationTarget: Hashable {
   let model: String  // The Builder.io model name for the destination page
   let url: String  // The URL path for the destination page
 
   public func hash(into hasher: inout Hasher) {
-    hasher.combine(id)  // Ensure ID is part of the hash
     hasher.combine(model)
     hasher.combine(url)
   }
 
   public static func == (lhs: NavigationTarget, rhs: NavigationTarget) -> Bool {
     // Ensure ID is part of the equality check
-    lhs.id == rhs.id && lhs.model == rhs.model && lhs.url == rhs.url
+    lhs.model == rhs.model && lhs.url == rhs.url
   }
 }

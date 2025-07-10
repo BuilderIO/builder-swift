@@ -55,41 +55,72 @@ struct HTMLTextView: View {
       } else {
         ProgressView("")
       }
-    }
-    .task(id: html) {
-      let wrappedHTML = wrapHtmlWithStyledDiv(
-        styleDictionary: responsiveStyles ?? [:], htmlString: html ?? "")
+    }.onAppear {
+      Task {
+        let wrappedHTML = wrapHtmlWithStyledDiv(
+          styleDictionary: responsiveStyles ?? [:], htmlString: html ?? "")
 
-      processHTML(wrappedHTML: wrappedHTML)
+        await processHTMLInBackground(wrappedHTML: wrappedHTML)
+      }
+    }
+
+  }
+
+  private func processHTMLInBackground(wrappedHTML: String) async {
+    attributedString = nil  // Clear current state on MainActor
+    errorInProcessing = nil  // Clear current state on MainActor
+
+    do {
+      // Perform the heavy work on a background thread using Task.detached
+      let resultAttributedString = try await Task.detached(priority: .userInitiated) {
+        guard let data = wrappedHTML.data(using: .utf8) else {
+          throw HTMLProcessingError.dataConversionFailed
+        }
+
+        let nsAttributedString = try NSAttributedString(
+          data: data,
+          options: [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue,
+          ],
+          documentAttributes: nil
+        )
+
+        // Conversion to AttributedString can happen here, or if very slow,
+        // you could return NSAttributedString and convert on the MainActor
+        // just before assigning. For most cases, this is fine within detached.
+        guard
+          let swiftUIAttributedString = try? AttributedString(
+            nsAttributedString, including: \.uiKit)
+        else {
+          throw HTMLProcessingError.attributedStringConversionFailed
+        }
+        return swiftUIAttributedString
+      }.value  // Await the result from the background task
+
+      // Once the background task completes, update @State properties on the MainActor
+      // (SwiftUI automatically marshals this for @State properties within @MainActor context)
+      self.attributedString = resultAttributedString
+      self.errorInProcessing = nil  // Clear error if successful
+
+    } catch {
+      print("HTML Processing Error: \(error.localizedDescription)")
+      // Update error state on MainActor
+      self.errorInProcessing = true
+      self.attributedString = nil  // Ensure attributedString is nil on error
     }
   }
 
-  private func processHTML(wrappedHTML: String) {
-    attributedString = nil  // Clear previous attributed string
-    errorInProcessing = nil
-    guard let data = wrappedHTML.data(using: .utf8) else {
-      return
-    }
-
-    do {
-      let nsAttributedString = try NSAttributedString(
-        data: data,
-        options: [
-          .documentType: NSAttributedString.DocumentType.html,
-          .characterEncoding: String.Encoding.utf8.rawValue,
-        ],
-        documentAttributes: nil
-      )
-      // Perform this conversion on a background thread if it's very large
-      // or if there are many HTMLTextViews.
-      if let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit)
-      {
-        self.attributedString = swiftUIAttributedString
-      } else {
-        errorInProcessing = true
+  // Define a custom error for clarity
+  enum HTMLProcessingError: Error, LocalizedError {
+    case dataConversionFailed
+    case attributedStringConversionFailed
+    var errorDescription: String? {
+      switch self {
+      case .dataConversionFailed: return "Failed to convert HTML string to data."
+      case .attributedStringConversionFailed:
+        return "Failed to convert NSAttributedString to AttributedString."
       }
-    } catch {
-      errorInProcessing = true
     }
   }
 
