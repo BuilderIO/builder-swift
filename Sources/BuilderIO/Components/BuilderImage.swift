@@ -11,7 +11,6 @@ struct BuilderImage: BuilderViewProtocol {
   var lockAspectRatio: Bool = false
   var contentMode: ContentMode = .fit
   var fitContent: Bool = false
-  var trueAspectRatio: CGFloat? = nil
 
   @State private var imageLoadedSuccessfully: Bool = false
 
@@ -21,12 +20,7 @@ struct BuilderImage: BuilderViewProtocol {
     if let ratio = block.component?.options?["aspectRatio"].float {
       self.aspectRatio = CGFloat(1 / ratio)
     }
-    if let trueWidth = block.component?.options?["width"].float,
-       let trueHeight = block.component?.options?["height"].float {
 
-      trueAspectRatio = CGFloat(trueWidth / trueHeight)
-    }
-    
     self.children = block.children
     self.contentMode = block.component?.options?["backgroundSize"] == "cover" ? .fill : .fit
     self.fitContent =
@@ -67,11 +61,7 @@ struct BuilderImage: BuilderViewProtocol {
             .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
             .background(
               image.resizable()
-                .if(self.contentMode == .fill) { view in
-                  view.aspectRatio(contentMode: .fill)
-                } .if(self.contentMode == .fit) { view in
-                  view.scaledToFit()
-                }
+                .aspectRatio(contentMode: self.contentMode)
                 .clipped()
             )
             .overlay(
