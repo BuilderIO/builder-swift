@@ -35,25 +35,44 @@ struct BuilderImage: BuilderViewProtocol {
       case .empty:
         ProgressView()
       case .success(let image):
-
-        image
-          .resizable()
-          .if(!fitContent) { view in
-            view.aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
-          }
-          .clipped()
-          .overlay(
-            Group {
-              if let children = children, !children.isEmpty {
+        if(false) {
+          Group {
+            if let children = children, !children.isEmpty {
                 VStack(spacing: 0) {
-                  BuilderBlock(blocks: children)
+                  Spacer()
+                  BuilderBlock(blocks: children).fixedSize(horizontal: true, vertical: true)
+                  Spacer()
                 }
-              } else {
-                EmptyView()
-              }
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+              .padding(0)
+              .background(
+                image.resizable()
+                  .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
+                  .clipped()
+              )
+            } else {
+              EmptyView()
             }
-          )
-
+          }
+          
+        } else {
+          image
+            .resizable()
+            .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
+            .clipped()
+            .overlay(
+              Group {
+                if let children = children, !children.isEmpty {
+                  VStack(spacing: 0) {
+                    BuilderBlock(blocks: children).fixedSize(horizontal: true, vertical: true)
+                  }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                  EmptyView()
+                }
+              }
+            )
+        }
+        
       case .failure:
         Color.gray
       @unknown default:
