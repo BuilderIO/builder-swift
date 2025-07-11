@@ -40,7 +40,7 @@ struct BuilderImage: BuilderViewProtocol {
             if let children = children, !children.isEmpty {
               VStack(spacing: 0) {
                 Spacer()
-                BuilderBlock(blocks: children).fixedSize(horizontal: true, vertical: true)
+                BuilderBlock(blocks: children).fixedSize(horizontal: false, vertical: true)
                 Spacer()
               }
               .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -59,8 +59,12 @@ struct BuilderImage: BuilderViewProtocol {
           Spacer()
             .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
             .background(
-              image.resizable().aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
-                .fixedSize(horizontal: true, vertical: false)
+              image.resizable()
+                .if(self.contentMode == .fill) { view in
+                    view.aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
+                } .if(self.contentMode == .fit) { view in
+                  view.scaledToFill().fixedSize(horizontal: false, vertical: false)
+                }
                 .clipped()
             )
             .overlay(
