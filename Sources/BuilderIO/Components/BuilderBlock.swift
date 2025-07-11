@@ -108,8 +108,6 @@ struct BuilderBlockLayout<Content: View>: View {
           content: content
         ).frame(maxWidth: maxWidth).padding(padding).builderBackground(
           responsiveStyles: responsiveStyles
-        ).builderBackground(
-          responsiveStyles: responsiveStyles
         ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
       } else if direction == "row" {
         let hStackAlignment = CSSAlignments.verticalAlignment(
@@ -151,7 +149,7 @@ struct BuilderBlockLayout<Content: View>: View {
           if marginTop == "auto" { Spacer() }
 
           let componentView: some View = content().padding(padding)
-            .if(width != nil) { view in
+            .if(width != nil || height != nil) { view in
               view.frame(
                 width: width,
                 height: height ?? minHeight ?? nil,
