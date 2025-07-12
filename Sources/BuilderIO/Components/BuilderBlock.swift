@@ -14,42 +14,45 @@ struct BuilderBlock: View {
 
   var body: some View {
 
-    ForEach(blocks) { child in
-      let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
-      let component = child.component
+    VStack(spacing: 0) {
 
-      //Only checking links for now, can be expanded to cover events in the future
-      let isTappable =
-        component?.name == BuilderComponentType.coreButton.rawValue
-        || !(component?.options?["Link"].isEmpty ?? true) || !(child.linkUrl?.isEmpty ?? true)
+      ForEach(blocks) { child in
+        let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
+        let component = child.component
 
-      let builderAction: BuilderAction? =
-        (isTappable)
-        ? BuilderAction(
-          componentId: child.id,
-          options: child.component?.options,
-          eventActions: child.actions,
-          linkURL: child.linkUrl) : nil
-      if responsiveStyles["display"] == "none" {
-        EmptyView()
-      } else {
+        //Only checking links for now, can be expanded to cover events in the future
+        let isTappable =
+          component?.name == BuilderComponentType.coreButton.rawValue
+          || !(component?.options?["Link"].isEmpty ?? true) || !(child.linkUrl?.isEmpty ?? true)
 
-        BuilderBlockLayout(
-          responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
-          component: component
-        ) {
-          if let component = component {
-            BuilderComponentRegistry.shared.view(for: child)
-          } else if let children = child.children, !children.isEmpty {
-            BuilderBlock(blocks: children)
-          } else {
-            Rectangle().fill(Color.clear)
+        let builderAction: BuilderAction? =
+          (isTappable)
+          ? BuilderAction(
+            componentId: child.id,
+            options: child.component?.options,
+            eventActions: child.actions,
+            linkURL: child.linkUrl) : nil
+        if responsiveStyles["display"] == "none" {
+          EmptyView()
+        } else {
+
+          BuilderBlockLayout(
+            responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
+            component: component
+          ) {
+            if let component = component {
+              BuilderComponentRegistry.shared.view(for: child)
+            } else if let children = child.children, !children.isEmpty {
+              BuilderBlock(blocks: children)
+            } else {
+              Rectangle().fill(Color.clear)
+            }
           }
         }
+
       }
 
     }
-
   }
 
 }
