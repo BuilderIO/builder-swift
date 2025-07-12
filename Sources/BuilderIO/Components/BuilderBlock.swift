@@ -16,48 +16,39 @@ struct BuilderBlock: View {
 
   var body: some View {
 
-    let layout =
-      alignVertically
-      ? AnyLayout(VStackLayout(spacing: 0))
-      : AnyLayout(HStackLayout(spacing: 0))
+    ForEach(blocks) { child in
+      let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
+      let component = child.component
 
-    layout {
+      //Only checking links for now, can be expanded to cover events in the future
+      let isTappable =
+        component?.name == BuilderComponentType.coreButton.rawValue
+        || !(component?.options?["Link"].isEmpty ?? true) || !(child.linkUrl?.isEmpty ?? true)
 
-      ForEach(blocks) { child in
-        let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
-        let component = child.component
+      let builderAction: BuilderAction? =
+        (isTappable)
+        ? BuilderAction(
+          componentId: child.id,
+          options: child.component?.options,
+          eventActions: child.actions,
+          linkURL: child.linkUrl) : nil
+      if responsiveStyles["display"] == "none" {
+        EmptyView()
+      } else {
 
-        //Only checking links for now, can be expanded to cover events in the future
-        let isTappable =
-          component?.name == BuilderComponentType.coreButton.rawValue
-          || !(component?.options?["Link"].isEmpty ?? true) || !(child.linkUrl?.isEmpty ?? true)
-
-        let builderAction: BuilderAction? =
-          (isTappable)
-          ? BuilderAction(
-            componentId: child.id,
-            options: child.component?.options,
-            eventActions: child.actions,
-            linkURL: child.linkUrl) : nil
-        if responsiveStyles["display"] == "none" {
-          EmptyView()
-        } else {
-
-          BuilderBlockLayout(
-            responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
-            component: component
-          ) { alignVerticallyInLayout in  // Renamed parameter to avoid confusion
-            if let component = component {
-              BuilderComponentRegistry.shared.view(for: child)
-            } else if let children = child.children, !children.isEmpty {
-              // Pass the alignVertically from the current block's context
-              BuilderBlock(blocks: children, alignVertically: alignVerticallyInLayout ?? true)
-            } else {
-              Rectangle().fill(Color.clear)
-            }
+        BuilderBlockLayout(
+          responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
+          component: component
+        ) { alignVerticallyInLayout in  // Renamed parameter to avoid confusion
+          if let component = component {
+            BuilderComponentRegistry.shared.view(for: child)
+          } else if let children = child.children, !children.isEmpty {
+            // Pass the alignVertically from the current block's context
+            BuilderBlock(blocks: children, alignVertically: alignVerticallyInLayout ?? true)
+          } else {
+            Rectangle().fill(Color.clear)
           }
         }
-
       }
 
     }
@@ -141,12 +132,12 @@ struct BuilderBlockLayout<Content: View>: View {
           alignment: hStackAlignment, spacing: spacing
         ) {
           // Call content with the determined alignment for its children
-          content(false)
+          content(true)
             .padding(padding)
-            .frame(
-              minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
-              alignment: frameAlignment
-            )
+            .if(frameAlignment == .center && component == nil) { view in
+              view.fixedSize(horizontal: true, vertical: false)
+            }
+            .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
             .builderBackground(responsiveStyles: responsiveStyles)
             .builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
         }
@@ -181,7 +172,7 @@ struct BuilderBlockLayout<Content: View>: View {
                 properties: BorderProperties(responsiveStyles: responsiveStyles)
               )
             }
-            .if(width == nil) { view in
+            .if(width == nil && height == nil) { view in
               view.frame(
                 minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
                 alignment: (component?.name == BuilderComponentType.text.rawValue)
