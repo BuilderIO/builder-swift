@@ -40,9 +40,11 @@ class CSSAlignments {
     return textAlignment(responsiveStyles: responsiveStyles).toHorizontalAlignment
   }
 
-  static func verticalAlignment(justify: String?, alignItems: String?) -> VerticalAlignment {
+  static func verticalAlignment(justify: String?, alignItems: String?, alignSelf: String?)
+    -> VerticalAlignment
+  {
 
-    if justify == "center" || alignItems == "center" {
+    if justify == "center" || alignItems == "center" || alignSelf == "center" {
       return .center
     } else if justify == "flex-start" || alignItems == "flex-start" {
       return .top

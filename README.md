@@ -19,29 +19,39 @@ To integrate the Builder Swift SDK into your iOS App:
 2. Point to the `main` branch to always receive the latest SDK updates.
 
 3. Import the SDK wherever you need to access its functionality:
-
 ```swift
 import BuilderIO
+
 ```
+
+4. Besure to call BuilderIOManager.configure pass in your APIKey and optional custom navigation scheme
+
+```swift
+BuilderIOManager.configure(apiKey: <YOUR_BUILDER_API_KEY>, customNavigationScheme: "builderio")
+
+```
+
+custom navigation scheme  <CUSTOM_SCHEME>://<MODEL_NAME>/<PAGE_URL>?<OPTIONAL_PARAMETERS> enables navigation within the native SDK between builder pages.
+
 ---
 
 ### Render Content
 
 #### Render a Full Page
 
-Use `BuilderIOPage` to render a full page from a given Builder URL:
+Use `BuilderIOPage` to render a full page from a given Builder URL and Optional evne handler to process onlick events for components.
 
 ```swift
-BuilderIOPage(apiKey: "<YOUR_BUILDER_API_KEY>", url: "/YOUR_TARGET_URL")
+BuilderIOPage(url: "/YOUR_TARGET_URL", onClickEventHandler: { builderAction in
+            print("Handle Event Action")
+          })
 ```
 
 ###### Example:
 
 ```swift
 var body: some View {
-    NavigationStack {
-        BuilderIOPage(apiKey: "<YOUR_BUILDER_API_KEY>", url: "/YOUR_TARGET_URL")
-    }
+        BuilderIOPage(url: "/YOUR_TARGET_URL")
 }
 ```
 
@@ -51,18 +61,31 @@ You can optionally specify the `model` if you're not using the default `"page"` 
 
 #### Render a Section
 
-Use `BuilderIOSection` to render content meant to be embedded in an existing layout:
+Use `BuilderIOContentView` to render content (section views) meant to be embedded in an existing layout:
+Compuslory to register environment action handler to handle click events 
 
 ```swift
-BuilderIOSection(apiKey: "<YOUR_BUILDER_API_KEY>", model: "YOUR_MODEL_NAME")
+BuilderIOContentView(model: "YOUR_MODEL_NAME")
 ```
 
 ##### Example:
 
 ```swift
-VStack {
-    BuilderIOSection(apiKey: "<YOUR_BUILDER_API_KEY>", model: "YOUR_MODEL_NAME")
-}
+ @StateObject private var buttonActionManager = BuilderActionManager()
+  
+  var body: some View {
+    
+    BuilderIOContentView(model: "hero-section")
+      .environmentObject(buttonActionManager)
+      .onAppear {
+        // Set the action handler
+        buttonActionManager.setHandler { builderAction in
+          print("Handle Event Action")
+        }
+      }
+    
+    
+  }
 ```
 
 ---
@@ -72,8 +95,7 @@ VStack {
 To intercept and handle clicks (e.g., for `button` components), you can override the default behavior using `buttonActionManager`:
 
 ```swift
-BuilderIOPage(apiKey: "<YOUR_BUILDER_API_KEY>", url: "/YOUR_TARGET_URL")
-    .environment(\.buttonActionManager, buttonActionManager)
+BuilderIOPage(url: "/YOUR_TARGET_URL"
     .onAppear {
         buttonActionManager.setHandler { builderAction in
             // Handle your custom action here
@@ -90,8 +112,7 @@ You can register your own custom SwiftUI views to be rendered by Builder using:
 
 ```swift
 BuilderComponentRegistry.shared.registerCustomComponent(
-    componentView: MyCustomComponent.self,
-    apiKey: "<YOUR_BUILDER_API_KEY>"
+    componentView: MyCustomComponent.self
 )
 ```
 
@@ -127,7 +148,7 @@ This supports a **live editing workflow** without the need for rebuilding or red
 To fetch Builder content manually (e.g., for preview, caching, or custom rendering), use:
 
 ```swift
-BuilderIOManager(apiKey: "<YOUR_BUILDER_API_KEY>")
+BuilderIOManager.shared
     .fetchBuilderContent(model: "YOUR_MODEL_NAME", url: "/YOUR_TARGET_URL")
 ```
 

@@ -21,9 +21,11 @@ struct BuilderSection: BuilderViewProtocol {
 
   var body: some View {
     if let children = children {
-      BuilderBlock(blocks: children)
+      VStack(spacing: 0) {
+        BuilderBlock(blocks: children)
+      }
     } else {
-      EmptyView()
+      Rectangle().fill(Color.clear)
     }
   }
 }

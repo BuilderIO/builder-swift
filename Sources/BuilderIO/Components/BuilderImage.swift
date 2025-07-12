@@ -20,6 +20,7 @@ struct BuilderImage: BuilderViewProtocol {
     if let ratio = block.component?.options?["aspectRatio"].float {
       self.aspectRatio = CGFloat(1 / ratio)
     }
+
     self.children = block.children
     self.contentMode = block.component?.options?["backgroundSize"] == "cover" ? .fill : .fit
     self.fitContent =
@@ -35,24 +36,46 @@ struct BuilderImage: BuilderViewProtocol {
       case .empty:
         ProgressView()
       case .success(let image):
-
-        image
-          .resizable()
-          .if(!fitContent) { view in
-            view.aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
-          }
-          .clipped()
-          .overlay(
-            Group {
-              if let children = children, !children.isEmpty {
-                VStack(spacing: 0) {
-                  BuilderBlock(blocks: children)
-                }
-              } else {
-                EmptyView()
+        if fitContent {
+          Group {
+            if let children = children, !children.isEmpty {
+              VStack(spacing: 0) {
+                Spacer()
+                BuilderBlock(blocks: children).fixedSize(horizontal: false, vertical: true)
+                Spacer()
               }
+              .frame(maxWidth: .infinity, maxHeight: .infinity)
+              .padding(0)
+              .background(
+                image.resizable()
+                  .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
+                  .clipped()
+              )
+            } else {
+              EmptyView()
             }
-          )
+          }
+
+        } else {
+          Rectangle().fill(Color.clear)
+            .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
+            .background(
+              image.resizable()
+                .aspectRatio(contentMode: self.contentMode)
+                .clipped()
+            )
+            .overlay(
+              Group {
+                if let children = children, !children.isEmpty {
+                  VStack(spacing: 0) {
+                    BuilderBlock(blocks: children).fixedSize(horizontal: true, vertical: true)
+                  }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                  EmptyView()
+                }
+              }
+            )
+        }
 
       case .failure:
         Color.gray
