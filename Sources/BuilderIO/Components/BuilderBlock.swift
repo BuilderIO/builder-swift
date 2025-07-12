@@ -6,15 +6,22 @@ import SwiftUI
 struct BuilderBlock: View {
 
   var blocks: [BuilderBlockModel]
+  let alignVertically: Bool
   static let componentType: BuilderComponentType = .box
 
-  init(blocks: [BuilderBlockModel]) {
+  init(blocks: [BuilderBlockModel], alignVertically: Bool = true) {
     self.blocks = blocks
+    self.alignVertically = alignVertically
   }
 
   var body: some View {
 
-    VStack(spacing: 0) {
+    let layout =
+      alignVertically
+      ? AnyLayout(VStackLayout(spacing: 0))
+      : AnyLayout(HStackLayout(spacing: 0))
+
+    layout {
 
       ForEach(blocks) { child in
         let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
@@ -39,11 +46,12 @@ struct BuilderBlock: View {
           BuilderBlockLayout(
             responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
             component: component
-          ) {
+          ) { alignVerticallyInLayout in  // Renamed parameter to avoid confusion
             if let component = component {
               BuilderComponentRegistry.shared.view(for: child)
             } else if let children = child.children, !children.isEmpty {
-              BuilderBlock(blocks: children)
+              // Pass the alignVertically from the current block's context
+              BuilderBlock(blocks: children, alignVertically: alignVerticallyInLayout ?? true)
             } else {
               Rectangle().fill(Color.clear)
             }
@@ -64,7 +72,8 @@ struct BuilderBlockLayout<Content: View>: View {
 
   @EnvironmentObject var buttonActionManager: BuilderActionManager
 
-  @ViewBuilder let content: () -> Content
+  // The content closure now takes an optional Bool, which represents the alignment for nested blocks.
+  @ViewBuilder let content: (_ alignVertically: Bool?) -> Content
 
   var body: some View {
 
@@ -107,11 +116,15 @@ struct BuilderBlockLayout<Content: View>: View {
           columns: [
             GridItem(.adaptive(minimum: 50), spacing: spacing)  // Spacing between columns (0 for tight fit like image)
           ],
-          spacing: spacing,
-          content: content
-        ).frame(maxWidth: maxWidth).padding(padding).builderBackground(
-          responsiveStyles: responsiveStyles
-        ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
+          spacing: spacing
+        ) {
+          // Call content with the determined alignment for its children
+          content(false)
+        }
+        .frame(maxWidth: maxWidth)
+        .padding(padding)
+        .builderBackground(responsiveStyles: responsiveStyles)
+        .builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
       } else if direction == "row" {
         let hStackAlignment = CSSAlignments.verticalAlignment(
           justify: justify, alignItems: alignItems)
@@ -127,15 +140,17 @@ struct BuilderBlockLayout<Content: View>: View {
         HStack(
           alignment: hStackAlignment, spacing: spacing
         ) {
-          content().padding(padding)
+          // Call content with the determined alignment for its children
+          content(false)
+            .padding(padding)
             .frame(
               minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
               alignment: frameAlignment
-            ).builderBackground(
-              responsiveStyles: responsiveStyles
-            ).builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
+            )
+            .builderBackground(responsiveStyles: responsiveStyles)
+            .builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
         }
-      } else {
+      } else {  // Default to VStack (column direction)
 
         let vStackAlignment = CSSAlignments.horizontalAlignment(
           marginsLeft: marginLeft, marginsRight: marginRight, justify: justify,
@@ -151,7 +166,8 @@ struct BuilderBlockLayout<Content: View>: View {
         VStack(spacing: 0) {
           if marginTop == "auto" { Spacer() }
 
-          let componentView: some View = content().padding(padding)
+          let componentView: some View = content(true)  // Call content with the determined alignment
+            .padding(padding)
             .if(width != nil || height != nil) { view in
               view.frame(
                 width: width,
@@ -159,7 +175,9 @@ struct BuilderBlockLayout<Content: View>: View {
                 alignment: (component?.name == BuilderComponentType.text.rawValue)
                   ? (CSSAlignments.textAlignment(responsiveStyles: responsiveStyles)).toAlignment
                   : .center
-              ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
+              )
+              .builderBackground(responsiveStyles: responsiveStyles)
+              .builderBorder(
                 properties: BorderProperties(responsiveStyles: responsiveStyles)
               )
             }
@@ -169,7 +187,9 @@ struct BuilderBlockLayout<Content: View>: View {
                 alignment: (component?.name == BuilderComponentType.text.rawValue)
                   ? (CSSAlignments.textAlignment(responsiveStyles: responsiveStyles)).toAlignment
                   : .center
-              ).builderBackground(responsiveStyles: responsiveStyles).builderBorder(
+              )
+              .builderBackground(responsiveStyles: responsiveStyles)
+              .builderBorder(
                 properties: BorderProperties(responsiveStyles: responsiveStyles)
               )
             }
@@ -185,7 +205,8 @@ struct BuilderBlockLayout<Content: View>: View {
           }
 
           if marginBottom == "auto" { Spacer() }
-        }.if(frameAlignment == .center && component == nil) { view in
+        }
+        .if(frameAlignment == .center && component == nil) { view in
           view.fixedSize(horizontal: true, vertical: false)
         }
         .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
