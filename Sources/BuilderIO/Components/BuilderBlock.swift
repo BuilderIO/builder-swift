@@ -118,7 +118,7 @@ struct BuilderBlockLayout<Content: View>: View {
         .builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
       } else if direction == "row" {
         let hStackAlignment = CSSAlignments.verticalAlignment(
-          justify: justify, alignItems: alignItems)
+          justify: justify, alignItems: alignItems, alignSelf: alignSelf)
 
         let frameAlignment: Alignment =
           switch hStackAlignment {
@@ -129,15 +129,16 @@ struct BuilderBlockLayout<Content: View>: View {
           }
 
         HStack(
-          alignment: hStackAlignment, spacing: spacing
+          spacing: spacing
         ) {
           // Call content with the determined alignment for its children
           content(true)
             .padding(padding)
             .if(frameAlignment == .center && component == nil) { view in
-              view.fixedSize(horizontal: true, vertical: false)
+              view.fixedSize(
+                horizontal: responsiveStyles["width"] == "100%" ? false : true, vertical: false)
             }
-            .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
+            .frame(maxWidth: maxWidth, maxHeight: maxHeight, alignment: frameAlignment)
             .builderBackground(responsiveStyles: responsiveStyles)
             .builderBorder(properties: BorderProperties(responsiveStyles: responsiveStyles))
         }
@@ -200,7 +201,7 @@ struct BuilderBlockLayout<Content: View>: View {
         .if(frameAlignment == .center && component == nil) { view in
           view.fixedSize(horizontal: true, vertical: false)
         }
-        .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
+        .frame(maxWidth: .infinity, alignment: frameAlignment)
       }
     }
 
