@@ -147,12 +147,6 @@ struct HTMLTextView: View {
         cssKey = "font-weight"
       case "color":
         cssKey = "color"
-      case "lineHeight":
-        cssKey = "line-height"
-      case "textAlign":
-        cssKey = "text-align"
-      case "fontStyle":
-        cssKey = "font-style"
       default:
         continue
       }
@@ -163,16 +157,13 @@ struct HTMLTextView: View {
       cssProperties.append("font-size: 16px;")
     }
 
-    cssProperties.append("margin: 0; padding: 0;")
-    cssProperties.append("display: block;")
-    cssProperties.append("box-sizing: border-box;")
 
     let inlineCssStyle = cssProperties.joined(separator: " ")
     //extra trailing p tags
 
     var finalHtmlString: String
 
-    if startsWithPTag(htmlString) {
+    if wrappedInTags(htmlString) {
       finalHtmlString = "<div style=\"\(inlineCssStyle)\">\(htmlString)</div><p></p>"
     } else {
       finalHtmlString = "<div style=\"\(inlineCssStyle)\"><p>\(htmlString)</p></div><p></p>"
@@ -181,18 +172,18 @@ struct HTMLTextView: View {
     return finalHtmlString
   }
 
-  func startsWithPTag(_ text: String) -> Bool {
+  func wrappedInTags(_ text: String) -> Bool {
 
-    let pTagPattern = #"^\s*<p(\s+[^>]*?)?>"#
+    let pattern = #"^\s*<[^>]+>.*<\/[^>]+>\s*$"#
 
     do {
-      // .caseInsensitive ensures that <P> also matches <p>
-      let regex = try NSRegularExpression(pattern: pTagPattern, options: .caseInsensitive)
+  
+      let regex = try NSRegularExpression(pattern: pattern, options: .dotMatchesLineSeparators)
       let range = NSRange(location: 0, length: text.utf16.count)
 
-      // A match is found if `firstMatch` returns a result.
       return regex.firstMatch(in: text, options: [], range: range) != nil
     } catch {
+      print("Error creating regex: \(error)")  // Log the error for debugging
       return false
     }
   }
