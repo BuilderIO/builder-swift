@@ -160,19 +160,6 @@ struct BuilderBlockLayout<Content: View>: View {
 
           let componentView: some View = content(true)  // Call content with the determined alignment
             .padding(padding)
-            .if(width != nil || height != nil) { view in
-              view.frame(
-                width: width,
-                height: height ?? minHeight ?? nil,
-                alignment: (component?.name == BuilderComponentType.text.rawValue)
-                  ? (CSSAlignments.textAlignment(responsiveStyles: responsiveStyles)).toAlignment
-                  : .center
-              )
-              .builderBackground(responsiveStyles: responsiveStyles)
-              .builderBorder(
-                properties: BorderProperties(responsiveStyles: responsiveStyles)
-              )
-            }
             .if(width == nil && height == nil) { view in
               view.frame(
                 minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight,
@@ -184,6 +171,21 @@ struct BuilderBlockLayout<Content: View>: View {
               .builderBorder(
                 properties: BorderProperties(responsiveStyles: responsiveStyles)
               )
+            }
+            .if(width == nil && height != nil) { view in
+              view.frame(maxWidth: .infinity)
+            }
+            .if(width != nil || height != nil) { view in
+              view.frame(
+                width: width,
+                height: height ?? minHeight ?? nil,
+                alignment: (component?.name == BuilderComponentType.text.rawValue)
+                  ? (CSSAlignments.textAlignment(responsiveStyles: responsiveStyles)).toAlignment
+                  : .center
+              ).builderBackground(responsiveStyles: responsiveStyles)
+                .builderBorder(
+                  properties: BorderProperties(responsiveStyles: responsiveStyles)
+                )
             }
 
           if let builderAction = builderAction {
@@ -201,7 +203,7 @@ struct BuilderBlockLayout<Content: View>: View {
         .if(frameAlignment == .center && component == nil) { view in
           view.fixedSize(horizontal: true, vertical: false)
         }
-        .frame(maxWidth: .infinity, alignment: frameAlignment)
+        .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
       }
     }
 
