@@ -46,6 +46,8 @@ struct HTMLTextView: View {
   let htmlPlainText: String
   var responsiveStyles: [String: String]?
 
+  @Environment(\.colorScheme) var colorScheme
+
   var body: some View {
     Group {
       if let attributedString = attributedString {
@@ -61,7 +63,9 @@ struct HTMLTextView: View {
       hasProcessed = true
 
       let wrappedHTML = wrapHtmlWithStyledDiv(
-        styleDictionary: responsiveStyles ?? [:], htmlString: html ?? "")
+        styleDictionary: responsiveStyles ?? [:],
+        htmlString: html ?? "",
+        colorScheme: colorScheme)
 
       await processHTMLInBackground(wrappedHTML: wrappedHTML)
 
@@ -128,9 +132,13 @@ struct HTMLTextView: View {
     }
   }
 
-  func wrapHtmlWithStyledDiv(styleDictionary: [String: String], htmlString: String) -> String {
+  func wrapHtmlWithStyledDiv(
+    styleDictionary: [String: String], htmlString: String, colorScheme: ColorScheme
+  ) -> String {
 
     var addDefaultFontSize = true
+    var addDefaultColor = true
+
     // 1. Convert the dictionary to a CSS style string
     var cssProperties: [String] = []
 
@@ -148,6 +156,7 @@ struct HTMLTextView: View {
         cssKey = "font-weight"
       case "color":
         cssKey = "color"
+        addDefaultColor = false
       default:
         continue
       }
@@ -156,6 +165,18 @@ struct HTMLTextView: View {
 
     if addDefaultFontSize {
       cssProperties.append("font-size: 16px;")
+    }
+
+    if addDefaultColor {
+      let defaultTextColor: String
+      if colorScheme == .dark {
+        // For dark mode, default text is usually light
+        defaultTextColor = "#FFFFFF"  // White
+      } else {
+        // For light mode, default text is usually dark
+        defaultTextColor = "#000000"  // Black
+      }
+      cssProperties.append("color: \(defaultTextColor);")
     }
 
     let inlineCssStyle = cssProperties.joined(separator: " ")
