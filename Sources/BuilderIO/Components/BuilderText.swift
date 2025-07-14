@@ -74,43 +74,44 @@ struct HTMLTextView: View {
     errorInProcessing = nil  // Clear current state on MainActor
 
     do {
-      // Perform the heavy work on a background thread using Task.detached
-      let resultAttributedString = try await Task.detached(priority: .userInitiated) {
+      // Prepare data on a background thread if it's a heavy operation (e.g., large string)
+      let data = try await Task.detached(priority: .userInitiated) {
         guard let data = wrappedHTML.data(using: .utf8) else {
           throw HTMLProcessingError.dataConversionFailed
         }
+        return data
+      }.value
 
-        let nsAttributedString = try NSAttributedString(
-          data: data,
-          options: [
-            .documentType: NSAttributedString.DocumentType.html,
-            .characterEncoding: String.Encoding.utf8.rawValue,
-          ],
-          documentAttributes: nil
-        )
+      // Perform the NSAttributedString conversion on the MainActor
+      await MainActor.run {
+        do {
+          let nsAttributedString = try NSAttributedString(
+            data: data,
+            options: [
+              .documentType: NSAttributedString.DocumentType.html,
+              .characterEncoding: String.Encoding.utf8.rawValue,
+            ],
+            documentAttributes: nil
+          )
 
-        // Conversion to AttributedString can happen here, or if very slow,
-        // you could return NSAttributedString and convert on the MainActor
-        // just before assigning. For most cases, this is fine within detached.
-        guard
-          let swiftUIAttributedString = try? AttributedString(
-            nsAttributedString, including: \.uiKit)
-        else {
-          throw HTMLProcessingError.attributedStringConversionFailed
+          guard
+            let swiftUIAttributedString = try? AttributedString(
+              nsAttributedString, including: \.uiKit)
+          else {
+            throw HTMLProcessingError.attributedStringConversionFailed
+          }
+          self.attributedString = swiftUIAttributedString
+          self.errorInProcessing = nil  // Clear error if successful
+        } catch {
+          print("HTML Processing Error (MainActor): \(error.localizedDescription)")
+          self.errorInProcessing = true
+          self.attributedString = nil  // Ensure attributedString is nil on error
         }
-        return swiftUIAttributedString
-      }.value  // Await the result from the background task
-
-      // Once the background task completes, update @State properties on the MainActor
-      // (SwiftUI automatically marshals this for @State properties within @MainActor context)
-      self.attributedString = resultAttributedString
-      self.errorInProcessing = nil  // Clear error if successful
-
+      }
     } catch {
       print("HTML Processing Error: \(error.localizedDescription)")
-      // Update error state on MainActor
       self.errorInProcessing = true
-      self.attributedString = nil  // Ensure attributedString is nil on error
+      self.attributedString = nil
     }
   }
 
@@ -157,7 +158,6 @@ struct HTMLTextView: View {
       cssProperties.append("font-size: 16px;")
     }
 
-
     let inlineCssStyle = cssProperties.joined(separator: " ")
     //extra trailing p tags
 
@@ -177,7 +177,7 @@ struct HTMLTextView: View {
     let pattern = #"^\s*<[^>]+>.*<\/[^>]+>\s*$"#
 
     do {
-  
+
       let regex = try NSRegularExpression(pattern: pattern, options: .dotMatchesLineSeparators)
       let range = NSRange(location: 0, length: text.utf16.count)
 
