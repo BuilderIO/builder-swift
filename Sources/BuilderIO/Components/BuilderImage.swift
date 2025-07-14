@@ -67,9 +67,7 @@ struct BuilderImage: BuilderViewProtocol {
             .overlay(
               Group {
                 if let children = children, !children.isEmpty {
-                  VStack(spacing: 0) {
-                    BuilderBlock(blocks: children).fixedSize(horizontal: true, vertical: true)
-                  }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                  BuilderBlock(blocks: children)
                 } else {
                   EmptyView()
                 }

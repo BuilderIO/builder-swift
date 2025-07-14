@@ -188,15 +188,21 @@ struct BuilderBlockLayout<Content: View>: View {
               buttonActionManager.handleButtonPress(builderAction: builderAction)
             } label: {
               componentView
+                .if(marginTop == "auto" || marginBottom == "auto") { view in
+                  view.fixedSize(horizontal: false, vertical: true)
+                }
             }
           } else {
             componentView
+              .if(marginTop == "auto" || marginBottom == "auto") { view in
+                view.fixedSize(horizontal: false, vertical: true)
+              }
           }
 
           if marginBottom == "auto" { Spacer() }
         }
         .if(frameAlignment == .center && component == nil) { view in
-          view.fixedSize(horizontal: true, vertical: false)
+          view.fixedSize(horizontal: false, vertical: false)
         }
         .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
       }
@@ -216,9 +222,9 @@ struct BuilderBlockLayout<Content: View>: View {
     // 4. Apply visual and layout modifiers
     return
       scrollableView
-      .if(component == nil) { view in
-        view.builderBackground(responsiveStyles: responsiveStyles)
-      }
+      //      .if(component == nil) { view in
+      //        view.builderBackground(responsiveStyles: responsiveStyles)
+      //      }
       .padding(margin)  //margin
 
   }
