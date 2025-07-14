@@ -6,12 +6,10 @@ import SwiftUI
 struct BuilderBlock: View {
 
   var blocks: [BuilderBlockModel]
-  let alignVertically: Bool
   static let componentType: BuilderComponentType = .box
 
-  init(blocks: [BuilderBlockModel], alignVertically: Bool = true) {
+  init(blocks: [BuilderBlockModel]) {
     self.blocks = blocks
-    self.alignVertically = alignVertically
   }
 
   var body: some View {
@@ -39,12 +37,11 @@ struct BuilderBlock: View {
         BuilderBlockLayout(
           responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
           component: component
-        ) { alignVerticallyInLayout in  // Renamed parameter to avoid confusion
+        ) {
           if let component = component {
             BuilderComponentRegistry.shared.view(for: child)
           } else if let children = child.children, !children.isEmpty {
-            // Pass the alignVertically from the current block's context
-            BuilderBlock(blocks: children, alignVertically: alignVerticallyInLayout ?? true)
+            BuilderBlock(blocks: children)
           } else {
             Rectangle().fill(Color.clear)
           }
@@ -64,7 +61,7 @@ struct BuilderBlockLayout<Content: View>: View {
   @EnvironmentObject var buttonActionManager: BuilderActionManager
 
   // The content closure now takes an optional Bool, which represents the alignment for nested blocks.
-  @ViewBuilder let content: (_ alignVertically: Bool?) -> Content
+  @ViewBuilder let content: () -> Content
 
   var body: some View {
 
@@ -107,11 +104,9 @@ struct BuilderBlockLayout<Content: View>: View {
           columns: [
             GridItem(.adaptive(minimum: 50), spacing: spacing)  // Spacing between columns (0 for tight fit like image)
           ],
-          spacing: spacing
-        ) {
-          // Call content with the determined alignment for its children
-          content(false)
-        }
+          spacing: spacing,
+          content: content
+        )
         .frame(maxWidth: maxWidth)
         .padding(padding)
         .builderBackground(responsiveStyles: responsiveStyles)
@@ -132,7 +127,7 @@ struct BuilderBlockLayout<Content: View>: View {
           spacing: spacing
         ) {
           // Call content with the determined alignment for its children
-          content(true)
+          content()
             .padding(padding)
             .if(frameAlignment == .center && component == nil) { view in
               view.fixedSize(
@@ -158,7 +153,7 @@ struct BuilderBlockLayout<Content: View>: View {
         VStack(spacing: 0) {
           if marginTop == "auto" { Spacer() }
 
-          let componentView: some View = content(true)  // Call content with the determined alignment
+          let componentView: some View = content()  // Call content with the determined alignment
             .padding(padding)
             .if(width == nil && height == nil) { view in
               view.frame(
