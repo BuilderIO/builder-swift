@@ -201,8 +201,8 @@ struct BuilderBlockLayout<Content: View>: View {
 
           if marginBottom == "auto" { Spacer() }
         }
-        .if(frameAlignment == .center && component == nil) { view in
-          view.fixedSize(horizontal: false, vertical: false)
+        .if(frameAlignment == .center && (component == nil || component?.name == BuilderComponentType.section.rawValue)) { view in
+          view.fixedSize(horizontal: true, vertical: false)
         }
         .frame(maxWidth: frameAlignment == .center ? nil : .infinity, alignment: frameAlignment)
       }
@@ -222,9 +222,6 @@ struct BuilderBlockLayout<Content: View>: View {
     // 4. Apply visual and layout modifiers
     return
       scrollableView
-      //      .if(component == nil) { view in
-      //        view.builderBackground(responsiveStyles: responsiveStyles)
-      //      }
       .padding(margin)  //margin
 
   }
