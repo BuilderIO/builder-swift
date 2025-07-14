@@ -69,6 +69,16 @@ struct HTMLTextView: View {
 
       await processHTMLInBackground(wrappedHTML: wrappedHTML)
 
+    }.onChange(of: colorScheme) { oldScheme, newScheme in
+
+      let wrappedHTML = wrapHtmlWithStyledDiv(
+        styleDictionary: responsiveStyles ?? [:],
+        htmlString: html ?? "",
+        colorScheme: colorScheme)
+
+      Task {
+        await processHTMLInBackground(wrappedHTML: wrappedHTML)
+      }
     }
 
   }
