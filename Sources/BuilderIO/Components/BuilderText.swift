@@ -41,9 +41,12 @@ struct HTMLTextView: View {
   let html: String
   @State private var attributedString: AttributedString? = nil
   @State private var errorInProcessing: Bool?
+  @State private var hasProcessed = false
 
   let htmlPlainText: String
   var responsiveStyles: [String: String]?
+
+  @Environment(\.colorScheme) var colorScheme
 
   var body: some View {
     Group {
@@ -55,47 +58,97 @@ struct HTMLTextView: View {
       } else {
         ProgressView("")
       }
-    }
-    .task(id: html) {
-      let wrappedHTML = wrapHtmlWithStyledDiv(
-        styleDictionary: responsiveStyles ?? [:], htmlString: html ?? "")
+    }.task {
+      guard !hasProcessed else { return }
+      hasProcessed = true
 
-      processHTML(wrappedHTML: wrappedHTML)
+      let wrappedHTML = wrapHtmlWithStyledDiv(
+        styleDictionary: responsiveStyles ?? [:],
+        htmlString: html ?? "",
+        colorScheme: colorScheme)
+
+      await processHTMLInBackground(wrappedHTML: wrappedHTML)
+
+    }.onChange(of: colorScheme) { oldScheme, newScheme in
+
+      let wrappedHTML = wrapHtmlWithStyledDiv(
+        styleDictionary: responsiveStyles ?? [:],
+        htmlString: html ?? "",
+        colorScheme: colorScheme)
+
+      Task {
+        await processHTMLInBackground(wrappedHTML: wrappedHTML)
+      }
     }
+
   }
 
-  private func processHTML(wrappedHTML: String) {
-    attributedString = nil  // Clear previous attributed string
-    errorInProcessing = nil
-    guard let data = wrappedHTML.data(using: .utf8) else {
-      return
-    }
+  private func processHTMLInBackground(wrappedHTML: String) async {
+    attributedString = nil  // Clear current state on MainActor
+    errorInProcessing = nil  // Clear current state on MainActor
 
     do {
-      let nsAttributedString = try NSAttributedString(
-        data: data,
-        options: [
-          .documentType: NSAttributedString.DocumentType.html,
-          .characterEncoding: String.Encoding.utf8.rawValue,
-        ],
-        documentAttributes: nil
-      )
-      // Perform this conversion on a background thread if it's very large
-      // or if there are many HTMLTextViews.
-      if let swiftUIAttributedString = try? AttributedString(nsAttributedString, including: \.uiKit)
-      {
-        self.attributedString = swiftUIAttributedString
-      } else {
-        errorInProcessing = true
+      // Prepare data on a background thread if it's a heavy operation (e.g., large string)
+      let data = try await Task.detached(priority: .userInitiated) {
+        guard let data = wrappedHTML.data(using: .utf8) else {
+          throw HTMLProcessingError.dataConversionFailed
+        }
+        return data
+      }.value
+
+      // Perform the NSAttributedString conversion on the MainActor
+      await MainActor.run {
+        do {
+          let nsAttributedString = try NSAttributedString(
+            data: data,
+            options: [
+              .documentType: NSAttributedString.DocumentType.html,
+              .characterEncoding: String.Encoding.utf8.rawValue,
+            ],
+            documentAttributes: nil
+          )
+
+          guard
+            let swiftUIAttributedString = try? AttributedString(
+              nsAttributedString, including: \.uiKit)
+          else {
+            throw HTMLProcessingError.attributedStringConversionFailed
+          }
+          self.attributedString = swiftUIAttributedString
+          self.errorInProcessing = nil  // Clear error if successful
+        } catch {
+          print("HTML Processing Error (MainActor): \(error.localizedDescription)")
+          self.errorInProcessing = true
+          self.attributedString = nil  // Ensure attributedString is nil on error
+        }
       }
     } catch {
-      errorInProcessing = true
+      print("HTML Processing Error: \(error.localizedDescription)")
+      self.errorInProcessing = true
+      self.attributedString = nil
     }
   }
 
-  func wrapHtmlWithStyledDiv(styleDictionary: [String: String], htmlString: String) -> String {
+  // Define a custom error for clarity
+  enum HTMLProcessingError: Error, LocalizedError {
+    case dataConversionFailed
+    case attributedStringConversionFailed
+    var errorDescription: String? {
+      switch self {
+      case .dataConversionFailed: return "Failed to convert HTML string to data."
+      case .attributedStringConversionFailed:
+        return "Failed to convert NSAttributedString to AttributedString."
+      }
+    }
+  }
+
+  func wrapHtmlWithStyledDiv(
+    styleDictionary: [String: String], htmlString: String, colorScheme: ColorScheme
+  ) -> String {
 
     var addDefaultFontSize = true
+    var addDefaultColor = true
+
     // 1. Convert the dictionary to a CSS style string
     var cssProperties: [String] = []
 
@@ -113,12 +166,7 @@ struct HTMLTextView: View {
         cssKey = "font-weight"
       case "color":
         cssKey = "color"
-      case "lineHeight":
-        cssKey = "line-height"
-      case "textAlign":
-        cssKey = "text-align"
-      case "fontStyle":
-        cssKey = "font-style"
+        addDefaultColor = false
       default:
         continue
       }
@@ -129,16 +177,24 @@ struct HTMLTextView: View {
       cssProperties.append("font-size: 16px;")
     }
 
-    cssProperties.append("margin: 0; padding: 0;")
-    cssProperties.append("display: block;")
-    cssProperties.append("box-sizing: border-box;")
+    if addDefaultColor {
+      let defaultTextColor: String
+      if colorScheme == .dark {
+        // For dark mode, default text is usually light
+        defaultTextColor = "#FFFFFF"  // White
+      } else {
+        // For light mode, default text is usually dark
+        defaultTextColor = "#000000"  // Black
+      }
+      cssProperties.append("color: \(defaultTextColor);")
+    }
 
     let inlineCssStyle = cssProperties.joined(separator: " ")
     //extra trailing p tags
 
     var finalHtmlString: String
 
-    if startsWithPTag(htmlString) {
+    if wrappedInTags(htmlString) {
       finalHtmlString = "<div style=\"\(inlineCssStyle)\">\(htmlString)</div><p></p>"
     } else {
       finalHtmlString = "<div style=\"\(inlineCssStyle)\"><p>\(htmlString)</p></div><p></p>"
@@ -147,18 +203,18 @@ struct HTMLTextView: View {
     return finalHtmlString
   }
 
-  func startsWithPTag(_ text: String) -> Bool {
+  func wrappedInTags(_ text: String) -> Bool {
 
-    let pTagPattern = #"^\s*<p(\s+[^>]*?)?>"#
+    let pattern = #"^\s*<[^>]+>.*<\/[^>]+>\s*$"#
 
     do {
-      // .caseInsensitive ensures that <P> also matches <p>
-      let regex = try NSRegularExpression(pattern: pTagPattern, options: .caseInsensitive)
+
+      let regex = try NSRegularExpression(pattern: pattern, options: .dotMatchesLineSeparators)
       let range = NSRange(location: 0, length: text.utf16.count)
 
-      // A match is found if `firstMatch` returns a result.
       return regex.firstMatch(in: text, options: [], range: range) != nil
     } catch {
+      print("Error creating regex: \(error)")  // Log the error for debugging
       return false
     }
   }

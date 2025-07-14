@@ -6,9 +6,9 @@ public typealias BuilderActionHandler = (BuilderAction) -> Void
 public class BuilderActionManager: ObservableObject {
   public var actionHandler: BuilderActionHandler?
 
-  public init() {
-    // Explicit public initializer
-  }
+  @Published public var path = NavigationPath()
+
+  public init() {}
 
   public func setHandler(_ handler: @escaping BuilderActionHandler) {
     self.actionHandler = handler
@@ -18,24 +18,43 @@ public class BuilderActionManager: ObservableObject {
 
     var url: String? = builderAction.options?["link"].string ?? builderAction.linkURL
 
+    //<CUSTOM_SCHEME>://<MODEL_NAME>/<PAGE_URL>?<OPTIONAL_PARAMETERS>
+    //"builderio://page/my-awesome-page
     if let linkString = url {
-      // 2. Attempt to create a URL from the link string
       if let url = URL(string: linkString) {
-        // 3. Open the URL in an external browser
-        UIApplication.shared.open(url, options: [:]) { success in
-          if success {
-            print("Successfully opened link: \(linkString)")
-          } else {
-            print("Failed to open link: \(linkString)")
+
+        if url.scheme == BuilderIOManager.shared.getCustomNavigationScheme() {
+          let model = url.host ?? "page"
+          let pagePath = "\(url.path)" + (!(url.query?.isEmpty ?? true) ? "?\(url.query)" : "")
+          path.append(NavigationTarget(model: model, url: pagePath))
+
+        } else {
+          UIApplication.shared.open(url, options: [:]) { success in
+            if success {
+              print("Successfully opened link: \(linkString)")
+            } else {
+              print("Failed to open link: \(linkString)")
+            }
           }
         }
-        return  // Exit the function as we've handled the link
+        return
       } else {
         print("Invalid URL string: \(linkString)")
       }
     } else {
       actionHandler?(builderAction)
     }
+  }
+
+  public func popLast() {
+    path.removeLast()
+    print("Popped last view from navigation path.")
+  }
+
+  /// Pops to the root view of the navigation stack.
+  public func popToRoot() {
+    path = NavigationPath()
+    print("Popped to root of navigation path.")
   }
 }
 
@@ -61,5 +80,20 @@ extension EnvironmentValues {
   public var buttonActionManager: BuilderActionManager? {
     get { self[ButtonActionManagerKey.self] }
     set { self[ButtonActionManagerKey.self] = newValue }
+  }
+}
+
+public struct NavigationTarget: Hashable {
+  let model: String  // The Builder.io model name for the destination page
+  let url: String  // The URL path for the destination page
+
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(model)
+    hasher.combine(url)
+  }
+
+  public static func == (lhs: NavigationTarget, rhs: NavigationTarget) -> Bool {
+    // Ensure ID is part of the equality check
+    lhs.model == rhs.model && lhs.url == rhs.url
   }
 }

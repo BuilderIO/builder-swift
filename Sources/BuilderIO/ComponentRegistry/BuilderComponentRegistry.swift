@@ -31,33 +31,16 @@ public class BuilderComponentRegistry {
   }
 
   private func register(type: BuilderComponentType, viewClass: any BuilderViewProtocol.Type) {
-    if registry[type] == nil {
-      registry[type] = viewClass
-    }
+    registry[type] = viewClass
   }
 
-  //Register Custom component
   public func registerCustomComponent(
-    componentView: any BuilderViewProtocol.Type, apiKey: String? = nil
+    componentView: any BuilderViewProtocol.Type
   ) {
     registry[componentView.componentType] = componentView
 
-    if componentView is any BuilderCustomComponentViewProtocol.Type, let apiKey = apiKey {
-
-      let sessionId = UserDefaults.standard.string(forKey: "builderSessionId")
-      let sessionToken = UserDefaults.standard.string(forKey: "builderSessionToken")
-
-      if let sessionId = sessionId, let sessionToken = sessionToken {
-
-        let componentDTO = (componentView as! any BuilderCustomComponentViewProtocol.Type)
-          .builderCustomComponent
-
-        Task {
-          await BuilderContentAPI.registerCustomComponentInEditor(
-            component: componentDTO, apiKey: apiKey, sessionId: sessionId,
-            sessionToken: sessionToken)
-        }
-      }
+    if componentView is any BuilderCustomComponentViewProtocol.Type {
+      BuilderIOManager.shared.registerCustomComponentInEditor(componentView)
     }
   }
 
