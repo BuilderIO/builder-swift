@@ -68,8 +68,8 @@ struct BuilderImage: BuilderViewProtocol {
               Group {
                 if let children = children, !children.isEmpty {
                   VStack(spacing: 0) {
-                    BuilderBlock(blocks: children).fixedSize(horizontal: true, vertical: true)
-                  }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                    BuilderBlock(blocks: children).fixedSize(horizontal: true, vertical: false)
+                  }
                 } else {
                   EmptyView()
                 }
@@ -78,7 +78,7 @@ struct BuilderImage: BuilderViewProtocol {
         }
 
       case .failure:
-        Color.gray
+        EmptyView()
       @unknown default:
         EmptyView()
       }

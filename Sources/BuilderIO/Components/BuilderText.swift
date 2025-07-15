@@ -51,8 +51,11 @@ struct HTMLTextView: View {
   var body: some View {
     Group {
       if let attributedString = attributedString {
-        Text(attributedString)
-          .padding(.bottom, -24)
+
+        Text(attributedString).multilineTextAlignment(
+          CSSAlignments.textAlignment(responsiveStyles: responsiveStyles ?? [:])
+        )
+        .padding(.bottom, -24)
       } else if let errorInProcessing = errorInProcessing {
         Text(htmlPlainText)
       } else {
