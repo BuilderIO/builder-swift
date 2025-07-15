@@ -44,7 +44,7 @@ struct BuilderColumns: BuilderViewProtocol {
         VStack(spacing: space) {
           ForEach(columnsForLayout) { column in
             BuilderBlock(blocks: column.blocks, builderLayoutDirection: .vertical)
-          }.border(.yellow)
+          }
         }
       } else {
         ScrollView(.horizontal) {

@@ -31,15 +31,15 @@ struct BuilderBlock: View {
 
     Group {
       if builderLayoutDirection == .parentLayout {
-        blockContent().border(.blue)
+        blockContent()
       } else if builderLayoutDirection == .horizontal {
         HStack(spacing: spacing) {  // Adjust alignment and spacing as needed
           blockContent()
-        }.border(.green)
+        }
       } else {  // Default to column
         VStack(spacing: spacing) {  // Adjust alignment and spacing as needed
           blockContent()
-        }.border(.red)
+        }
       }
     }
   }
