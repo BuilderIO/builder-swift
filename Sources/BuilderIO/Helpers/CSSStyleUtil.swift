@@ -14,4 +14,11 @@ class CSSStyleUtil {
 
     return finalStyle
   }
+
+  static func extractPixels(_ value: String?) -> CGFloat? {
+    guard let value = value?.replacingOccurrences(of: "px", with: ""),
+      let number = Int(value)
+    else { return nil }
+    return CGFloat(number)
+  }
 }

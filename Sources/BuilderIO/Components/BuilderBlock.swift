@@ -2,23 +2,56 @@ import SwiftUI
 
 //BuilderBlock forms the out layout container for all components mimicking Blocks from response. As blocks can have layout direction of either horizontal or vertical a check is made and layout selected.
 
+//BuilderBlock forms the out layout container for all components mimicking Blocks from response. As blocks can have layout direction of either horizontal or vertical a check is made and layout selected.
+
+enum BuilderLayoutDirection {
+  case horizontal
+  case vertical
+  case parentLayout
+}
+
 @MainActor
 struct BuilderBlock: View {
 
   var blocks: [BuilderBlockModel]
   static let componentType: BuilderComponentType = .box
+  let builderLayoutDirection: BuilderLayoutDirection  // Default to vertical direction
+  let spacing: CGFloat  // Default to vertical direction
 
-  init(blocks: [BuilderBlockModel]) {
+  init(
+    blocks: [BuilderBlockModel], builderLayoutDirection: BuilderLayoutDirection = .parentLayout,
+    spacing: CGFloat = 0
+  ) {
     self.blocks = blocks
+    self.builderLayoutDirection = builderLayoutDirection
+    self.spacing = spacing
   }
 
   var body: some View {
 
+    Group {
+      if builderLayoutDirection == .parentLayout {
+        blockContent().border(.blue)
+      } else if builderLayoutDirection == .horizontal {
+        HStack(spacing: spacing) {  // Adjust alignment and spacing as needed
+          blockContent()
+        }.border(.green)
+      } else {  // Default to column
+        VStack(spacing: spacing) {  // Adjust alignment and spacing as needed
+          blockContent()
+        }.border(.red)
+      }
+    }
+  }
+
+  @ViewBuilder
+  private func blockContent() -> some View {
     ForEach(blocks) { child in
       let responsiveStyles = CSSStyleUtil.getFinalStyle(responsiveStyles: child.responsiveStyles)
       let component = child.component
+      let spacing = CSSStyleUtil.extractPixels(responsiveStyles["gap"]) ?? 0
 
-      //Only checking links for now, can be expanded to cover events in the future
+      // Only checking links for now, can be expanded to cover events in the future
       let isTappable =
         component?.name == BuilderComponentType.coreButton.rawValue
         || !(component?.options?["Link"].isEmpty ?? true) || !(child.linkUrl?.isEmpty ?? true)
@@ -30,10 +63,10 @@ struct BuilderBlock: View {
           options: child.component?.options,
           eventActions: child.actions,
           linkURL: child.linkUrl) : nil
+
       if responsiveStyles["display"] == "none" {
         EmptyView()
       } else {
-
         BuilderBlockLayout(
           responsiveStyles: responsiveStyles ?? [:], builderAction: builderAction,
           component: component
@@ -41,16 +74,17 @@ struct BuilderBlock: View {
           if let component = component {
             BuilderComponentRegistry.shared.view(for: child)
           } else if let children = child.children, !children.isEmpty {
-            BuilderBlock(blocks: children)
+            BuilderBlock(
+              blocks: children,
+              builderLayoutDirection: responsiveStyles["flexDirection"] == "row"
+                ? .horizontal : .vertical, spacing: spacing)
           } else {
             Rectangle().fill(Color.clear)
           }
         }
       }
-
     }
   }
-
 }
 
 struct BuilderBlockLayout<Content: View>: View {
@@ -79,23 +113,23 @@ struct BuilderBlockLayout<Content: View>: View {
     let marginTop = responsiveStyles["marginTop"]?.lowercased()
     let marginBottom = responsiveStyles["marginBottom"]?.lowercased()
 
-    let spacing = extractPixels(responsiveStyles["gap"]) ?? 0
+    let spacing = CSSStyleUtil.extractPixels(responsiveStyles["gap"]) ?? 0
     let padding = extractEdgeInsets(
       for: "padding", from: responsiveStyles, with: getBorderWidth(from: responsiveStyles))
     let margin = extractEdgeInsets(for: "margin", from: responsiveStyles)
 
-    let minHeight = extractPixels(responsiveStyles["minHeight"])
-    let maxHeight = extractPixels(responsiveStyles["maxHeight"])
-    let width = extractPixels(responsiveStyles["width"])
-    let height = extractPixels(responsiveStyles["height"])
+    let minHeight = CSSStyleUtil.extractPixels(responsiveStyles["minHeight"])
+    let maxHeight = CSSStyleUtil.extractPixels(responsiveStyles["maxHeight"])
+    let width = CSSStyleUtil.extractPixels(responsiveStyles["width"])
+    let height = CSSStyleUtil.extractPixels(responsiveStyles["height"])
 
-    let minWidth = extractPixels(responsiveStyles["minWidth"])
+    let minWidth = CSSStyleUtil.extractPixels(responsiveStyles["minWidth"])
     let maxWidth =
-      extractPixels(responsiveStyles["maxWidth"])
+      CSSStyleUtil.extractPixels(responsiveStyles["maxWidth"])
       ?? ((marginLeft == "auto" || marginRight == "auto" || alignSelf == "center")
         ? nil : .infinity)
 
-    let borderRadius = extractPixels(responsiveStyles["borderRadius"]) ?? 0
+    let borderRadius = CSSStyleUtil.extractPixels(responsiveStyles["borderRadius"]) ?? 0
 
     // 2. Build base layout (wrapped or not)
     let layoutView: some View = Group {
@@ -223,13 +257,6 @@ struct BuilderBlockLayout<Content: View>: View {
 
   }
 
-  func extractPixels(_ value: String?) -> CGFloat? {
-    guard let value = value?.replacingOccurrences(of: "px", with: ""),
-      let number = Int(value)
-    else { return nil }
-    return CGFloat(number)
-  }
-
   func getBorderWidth(from styles: [String: String]) -> CGFloat {
     var borderWidth: CGFloat = 0
     if let widthString = responsiveStyles["borderWidth"],
@@ -246,10 +273,10 @@ struct BuilderBlockLayout<Content: View>: View {
   ) -> EdgeInsets {
 
     let edgeInsets = EdgeInsets(
-      top: (extractPixels(styles["\(insetType)Top"]) ?? 0) + bufferWidth,
-      leading: (extractPixels(styles["\(insetType)Left"]) ?? 0) + bufferWidth,
-      bottom: (extractPixels(styles["\(insetType)Bottom"]) ?? 0) + bufferWidth,
-      trailing: (extractPixels(styles["\(insetType)Right"]) ?? 0) + bufferWidth
+      top: (CSSStyleUtil.extractPixels(styles["\(insetType)Top"]) ?? 0) + bufferWidth,
+      leading: (CSSStyleUtil.extractPixels(styles["\(insetType)Left"]) ?? 0) + bufferWidth,
+      bottom: (CSSStyleUtil.extractPixels(styles["\(insetType)Bottom"]) ?? 0) + bufferWidth,
+      trailing: (CSSStyleUtil.extractPixels(styles["\(insetType)Right"]) ?? 0) + bufferWidth
     )
     return edgeInsets
   }

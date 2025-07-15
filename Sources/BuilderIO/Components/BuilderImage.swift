@@ -78,7 +78,7 @@ struct BuilderImage: BuilderViewProtocol {
         }
 
       case .failure:
-        Color.gray
+        EmptyView()
       @unknown default:
         EmptyView()
       }
