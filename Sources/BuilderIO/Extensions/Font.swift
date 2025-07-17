@@ -16,6 +16,12 @@ extension Font {
     _ = UIFont.registerFont(bundle: .module, fontName: "OpenSans-Italic", fontExtension: "ttf")
     _ = UIFont.registerFont(bundle: .module, fontName: "Montserrat", fontExtension: "ttf")
     _ = UIFont.registerFont(bundle: .module, fontName: "Montserrat-Italic", fontExtension: "ttf")
+    _ = UIFont.registerFont(bundle: .module, fontName: "Raleway", fontExtension: "ttf")
+    _ = UIFont.registerFont(bundle: .module, fontName: "Raleway-Italic", fontExtension: "ttf")
+    _ = UIFont.registerFont(bundle: .module, fontName: "Nunito", fontExtension: "ttf")
+    _ = UIFont.registerFont(bundle: .module, fontName: "Nunito-Italic", fontExtension: "ttf")
+    _ = UIFont.registerFont(bundle: .module, fontName: "DMSans", fontExtension: "ttf")
+    _ = UIFont.registerFont(bundle: .module, fontName: "DMSans-Italic", fontExtension: "ttf")
   }
   
 }
