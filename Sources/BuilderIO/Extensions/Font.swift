@@ -14,6 +14,8 @@ extension Font {
     _ = UIFont.registerFont(bundle: .module, fontName: "Roboto-Italic", fontExtension: "ttf")
     _ = UIFont.registerFont(bundle: .module, fontName: "OpenSans", fontExtension: "ttf")
     _ = UIFont.registerFont(bundle: .module, fontName: "OpenSans-Italic", fontExtension: "ttf")
+    _ = UIFont.registerFont(bundle: .module, fontName: "Montserrat", fontExtension: "ttf")
+    _ = UIFont.registerFont(bundle: .module, fontName: "Montserrat-Italic", fontExtension: "ttf")
   }
   
 }
