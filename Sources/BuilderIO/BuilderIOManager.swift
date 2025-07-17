@@ -24,6 +24,7 @@ public final class BuilderIOManager {
         "Warning: BuilderIOManager has already been configured. Ignoring subsequent configuration.")
       return
     }
+    Font.registerFonts()
     _shared = BuilderIOManager(apiKey: apiKey, customNavigationScheme: customNavigationScheme)
   }
 
