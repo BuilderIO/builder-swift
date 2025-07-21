@@ -32,4 +32,5 @@ jobs:
 
       - name: Run swift-format lint (will fail on issues)
         run: |
-          swift-format lint --recursive Sources Tests
+          swift-format lint --recursive Sources Tests --exclude Tests/BuilderIOTests/Resources
+

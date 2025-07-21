@@ -21,21 +21,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # --- Crucial Step: Select Xcode 16.x ---
-      # This is the most likely fix for 'No such module SwiftUICore'
-      # and to get iOS 18.x simulators.
-      # As of current time (July 2025), macos-latest is expected to have Xcode 16.x.
-      # We'll explicitly select it to be sure.
       - name: Select Xcode 16.x for iOS 18.1 support
-        # This action is reliable for selecting specific Xcode versions.
-        # Check maxim-lobanov/setup-xcode for available versions like '16.0', '16.1', etc.
-        # You can use 'latest-stable' for the newest Xcode available if you don't need a specific patch.
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 'latest-stable' # Try 'latest-stable' first
-          # If 'latest-stable' still gives Xcode 15.x,
-          # explicitly try '16.0' or '16.1' (if you know it exists and is needed for your project).
-          # xcode-version: '16.1'
 
       - name: Display active Xcode version after selection
         run: xcodebuild -version
@@ -65,12 +54,3 @@ jobs:
                           CODE_SIGNING_REQUIRED=NO
                           # If you want to capture test results:
                           # -resultBundlePath "output/TestResults.xcresult"
-
-      # --- Optional: Upload Test Results ---
-      # - name: Upload Test Results (e.g., .xcresult bundle)
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: TestResults-BuilderIO
-      #     path: output/TestResults.xcresult
-      #     retention-days: 7
