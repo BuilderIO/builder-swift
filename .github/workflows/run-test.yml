@@ -1,0 +1,44 @@
+name: Xcode Build and Test
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run Xcode Tests on iPhone 16 (iOS 18.1)
+    runs-on: macos-latest # Still likely the most appropriate runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version (optional, but good for debugging)
+        run: xcodebuild -version
+
+      # IMPORTANT: Ensure the macos-latest runner (or specific macos-XX)
+      # has an Xcode version installed that supports iOS 18.1 simulators.
+      # This would typically be Xcode 16.1 or later.
+      # If needed, use `sudo xcode-select` to pick the right Xcode version
+      # or a dedicated Xcode setup action.
+
+      - name: List available simulators (for debugging if needed)
+        # This is very helpful if your build fails, to see exactly what's available
+        run: xcrun simctl list devices
+
+      - name: Build and Test Xcode Project on iPhone 16 with iOS 18.1
+        run: |
+          SIMULATOR_NAME="iPhone 16"
+          # Specify the exact OS version as 18.1
+          OS_VERSION="18.1"
+
+          DESTINATION="platform=iOS Simulator,name=${SIMULATOR_NAME},OS=${OS_VERSION}"
+
+          xcodebuild test -scheme BuilderIO -destination "$DESTINATION" CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
