@@ -1,3 +1,15 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Swift Format Lint
+
+on:
+  pull_request:
+    paths:
+      - '**/*.swift'
+      - '.swift-format.json'
+      - '.github/workflows/swift-format.yml'
+
 jobs:
   lint:
     runs-on: macos-latest
@@ -9,15 +21,16 @@ jobs:
       - name: Set up Swift
         uses: swift-actions/setup-swift@v1
         with:
-          swift-version: "5.9" # Or your desired Swift version
+          swift-version: "5.9"
 
-      - name: Run swift-format lint
-        uses: swift-actions/swift-format@v1
-        with:
-          # Path to format, relative to your repo root.
-          # Adjust if your sources/tests are in different directories.
-          paths: "Sources"
-          # Exclude paths: Use comma-separated list
-          exclude-paths: "Tests/BuilderIOTests/Resources"
-          # Action to perform: 'lint' for checking, 'format' for fixing
-          mode: "lint"
+      - name: Build swift-format
+        run: |
+          git clone https://github.com/apple/swift-format.git
+          cd swift-format
+          swift build -c release
+          echo "$(pwd)/.build/release" >> $GITHUB_PATH
+
+      - name: Run swift-format lint (will fail on issues)
+        run: |
+          swift-format lint --recursive Sources
+
