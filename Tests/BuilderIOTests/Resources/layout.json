@@ -1,0 +1,1734 @@
+{
+    "results":
+    [
+        {
+            "createdDate": 1752581874375,
+            "id": "55dbef0a753c4c378af60624fd0e7bb1",
+            "name": "layout",
+            "modelId": "036ff29532e349df8f16f726fb33dce3",
+            "published": "published",
+            "meta":
+            {
+                "kind": "page",
+                "lastPreviewUrl": "http://localhost:3000?builder.space=e084484c0e0241579f01abba29d9be10&builder.user.permissions=read%2Ccreate%2Cpublish%2CeditCode%2CeditDesigns%2CeditLayouts%2CeditLayers%2CeditContentPriority%2CeditFolders%2CeditProjects%2CmodifyMcpServers%2CmodifyProjectSettings%2CconnectCodeRepository%2CcreateProjects&builder.user.role.name=Developer&builder.user.role.id=developer&builder.cachebust=true&builder.preview=page&builder.noCache=true&builder.allowTextEdit=true&__builder_editing__=true&builder.overrides.page=55dbef0a753c4c378af60624fd0e7bb1&builder.overrides.55dbef0a753c4c378af60624fd0e7bb1=55dbef0a753c4c378af60624fd0e7bb1&builder.overrides.page:/=55dbef0a753c4c378af60624fd0e7bb1&builder.options.locale=Default",
+                "hasLinks": true
+            },
+            "query":
+            [
+                {
+                    "@type": "@builder.io/core:Query",
+                    "property": "urlPath",
+                    "operator": "is",
+                    "value": "/layout"
+                }
+            ],
+            "data":
+            {
+                "themeId": false,
+                "customFonts":
+                [
+                    {
+                        "lastModified": "2023-09-14",
+                        "variants":
+                        [
+                            "100",
+                            "200",
+                            "300",
+                            "regular",
+                            "500",
+                            "600",
+                            "700",
+                            "800",
+                            "900",
+                            "100italic",
+                            "200italic",
+                            "300italic",
+                            "italic",
+                            "500italic",
+                            "600italic",
+                            "700italic",
+                            "800italic",
+                            "900italic"
+                        ],
+                        "family": "Montserrat",
+                        "subsets":
+                        [
+                            "cyrillic",
+                            "cyrillic-ext",
+                            "latin",
+                            "latin-ext",
+                            "vietnamese"
+                        ],
+                        "category": "sans-serif",
+                        "menu": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw_aX8.ttf",
+                        "kind": "webfonts#webfont",
+                        "version": "v26",
+                        "files":
+                        {
+                            "100": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Uw-Y3tcoqK5.ttf",
+                            "200": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr6Ew-Y3tcoqK5.ttf",
+                            "300": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Ew-Y3tcoqK5.ttf",
+                            "500": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Ew-Y3tcoqK5.ttf",
+                            "600": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu170w-Y3tcoqK5.ttf",
+                            "700": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM70w-Y3tcoqK5.ttf",
+                            "800": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr70w-Y3tcoqK5.ttf",
+                            "900": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC70w-Y3tcoqK5.ttf",
+                            "600italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq3p6aX9-p7K5ILg.ttf",
+                            "900italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqw16aX9-p7K5ILg.ttf",
+                            "100italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R8aX9-p7K5ILg.ttf",
+                            "regular": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Ew-Y3tcoqK5.ttf",
+                            "800italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR6aX9-p7K5ILg.ttf",
+                            "500italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq5Z9aX9-p7K5ILg.ttf",
+                            "italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R9aX9-p7K5ILg.ttf",
+                            "700italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq0N6aX9-p7K5ILg.ttf",
+                            "200italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR9aX9-p7K5ILg.ttf",
+                            "300italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq_p9aX9-p7K5ILg.ttf"
+                        }
+                    }
+                ],
+                "title": "layout",
+                "blocks":
+                [
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-7e7af1649508433093758dd3bff0080f",
+                        "children":
+                        [
+                            {
+                                "@type": "@builder.io/sdk:Element",
+                                "@version": 2,
+                                "id": "builder-13eb017175494688961889d6bb190a47",
+                                "meta":
+                                {
+                                    "previousId": "builder-d2a52f951a2a4f83aa45833d884573c5"
+                                },
+                                "component":
+                                {
+                                    "name": "Text",
+                                    "options":
+                                    {
+                                        "text": "<h1>Top Categories</h1>"
+                                    },
+                                    "isRSC": null
+                                },
+                                "responsiveStyles":
+                                {
+                                    "large":
+                                    {
+                                        "display": "flex",
+                                        "flexDirection": "column",
+                                        "position": "relative",
+                                        "flexShrink": "0",
+                                        "boxSizing": "border-box",
+                                        "marginTop": "20px",
+                                        "lineHeight": "normal",
+                                        "height": "auto",
+                                        "textAlign": "center"
+                                    }
+                                }
+                            },
+                            {
+                                "@type": "@builder.io/sdk:Element",
+                                "@version": 2,
+                                "layerName": "Categories",
+                                "id": "builder-adf46d10b6434ba7a13743be0ca223bb",
+                                "meta":
+                                {
+                                    "previousId": "builder-596855760c4048e7be3d91ad09d1a54e"
+                                },
+                                "component":
+                                {
+                                    "name": "Core:Section",
+                                    "options":
+                                    {
+                                        "maxWidth": 1440,
+                                        "lazyLoad": false
+                                    },
+                                    "isRSC": null
+                                },
+                                "children":
+                                [
+                                    {
+                                        "@type": "@builder.io/sdk:Element",
+                                        "@version": 2,
+                                        "id": "builder-058fbf078f6548fb9f3dff5569705228",
+                                        "children":
+                                        [
+                                            {
+                                                "@type": "@builder.io/sdk:Element",
+                                                "@version": 2,
+                                                "layerName": "Category5",
+                                                "tagName": "a",
+                                                "id": "builder-0b6dfd790875471c82a5b20baaa34499",
+                                                "properties":
+                                                {
+                                                    "href": "#"
+                                                },
+                                                "linkUrl": "#",
+                                                "meta":
+                                                {
+                                                    "previousId": "builder-5e344b82fb7f47129bf97e8bd53b99a2"
+                                                },
+                                                "children":
+                                                [
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Background Color",
+                                                        "id": "builder-7f7fcf6be9614c24a055fafb4c776784",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-aaf91851114541738aa7a36ad714ece7"
+                                                        },
+                                                        "children":
+                                                        [
+                                                            {
+                                                                "@type": "@builder.io/sdk:Element",
+                                                                "@version": 2,
+                                                                "id": "builder-6b2de3c645c9453087d9756b74d5334d",
+                                                                "meta":
+                                                                {
+                                                                    "previousId": "builder-037938187f654e3eafecc7c74ab23aa8"
+                                                                },
+                                                                "component":
+                                                                {
+                                                                    "name": "Image",
+                                                                    "options":
+                                                                    {
+                                                                        "image": "https://nuevokart.com/wp-content/uploads/2022/11/groceries-packages-delivery-covid-19-quarantine-shopping-concept-courier-with-food-package-bring-goods-client-house-contactless-delivery-during-coronavirus-wear-face-mask-gloves-1024x683.jpg",
+                                                                        "backgroundSize": "cover",
+                                                                        "backgroundPosition": "center",
+                                                                        "lazy": false,
+                                                                        "fitContent": true,
+                                                                        "aspectRatio": 1,
+                                                                        "lockAspectRatio": false,
+                                                                        "height": 683,
+                                                                        "width": 1024
+                                                                    },
+                                                                    "isRSC": null
+                                                                },
+                                                                "responsiveStyles":
+                                                                {
+                                                                    "large":
+                                                                    {
+                                                                        "display": "flex",
+                                                                        "flexDirection": "column",
+                                                                        "position": "relative",
+                                                                        "flexShrink": "0",
+                                                                        "boxSizing": "border-box",
+                                                                        "marginTop": "auto",
+                                                                        "width": "90%",
+                                                                        "minHeight": "20px",
+                                                                        "minWidth": "20px",
+                                                                        "overflow": "hidden",
+                                                                        "borderRadius": "300px",
+                                                                        "height": "90%",
+                                                                        "flexGrow": "0",
+                                                                        "marginRight": "auto",
+                                                                        "marginLeft": "auto"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "0px",
+                                                                "height": "180px",
+                                                                "backgroundColor": "#dfe1e7",
+                                                                "width": "180px",
+                                                                "borderRadius": "300px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto",
+                                                                "paddingBottom": "0px"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Category Label",
+                                                        "id": "builder-a30e4c9ef8c3464b9a1d6c85df044d64",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-7c73b2ad04d845baa5c53120311d7838"
+                                                        },
+                                                        "component":
+                                                        {
+                                                            "name": "Text",
+                                                            "options":
+                                                            {
+                                                                "text": "Grocery"
+                                                            },
+                                                            "isRSC": null
+                                                        },
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "20px",
+                                                                "lineHeight": "normal",
+                                                                "height": "auto",
+                                                                "textAlign": "center",
+                                                                "fontSize": "16px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto"
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "responsiveStyles":
+                                                {
+                                                    "large":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "row",
+                                                        "position": "relative",
+                                                        "flexShrink": "0",
+                                                        "boxSizing": "border-box",
+                                                        "gap": "16px"
+                                                    },
+                                                    "medium":
+                                                    {
+                                                        "paddingTop": "18px",
+                                                        "paddingBottom": "18px",
+                                                        "gap": "8px",
+                                                        "marginTop": "auto",
+                                                        "marginBottom": "auto"
+                                                    },
+                                                    "small":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "column",
+                                                        "alignItems": "stretch"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "@type": "@builder.io/sdk:Element",
+                                                "@version": 2,
+                                                "layerName": "Category4",
+                                                "tagName": "a",
+                                                "id": "builder-df93ad7ec4024011b1aaaad230476ada",
+                                                "properties":
+                                                {
+                                                    "href": "#"
+                                                },
+                                                "linkUrl": "#",
+                                                "meta":
+                                                {
+                                                    "previousId": "builder-bf3a69a2f6574fd497924a21bbacaea4"
+                                                },
+                                                "children":
+                                                [
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Background Color",
+                                                        "id": "builder-ec3b030b1dc541d8a854adb576cf24a3",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-e3c67731ebce4eafa39074bf7d9e5e87"
+                                                        },
+                                                        "children":
+                                                        [
+                                                            {
+                                                                "@type": "@builder.io/sdk:Element",
+                                                                "@version": 2,
+                                                                "id": "builder-60cd78c9bca944569b38abfff516efa1",
+                                                                "meta":
+                                                                {
+                                                                    "previousId": "builder-7d61213dd5464e1b8a2defca51ae054c"
+                                                                },
+                                                                "component":
+                                                                {
+                                                                    "name": "Image",
+                                                                    "options":
+                                                                    {
+                                                                        "image": "https://www.freepnglogos.com/uploads/furniture-png/furniture-png-transparent-furniture-images-pluspng-15.png",
+                                                                        "backgroundSize": "cover",
+                                                                        "backgroundPosition": "top",
+                                                                        "lazy": false,
+                                                                        "fitContent": true,
+                                                                        "aspectRatio": 1.325,
+                                                                        "lockAspectRatio": false,
+                                                                        "height": 1024,
+                                                                        "width": 773
+                                                                    },
+                                                                    "isRSC": null
+                                                                },
+                                                                "responsiveStyles":
+                                                                {
+                                                                    "large":
+                                                                    {
+                                                                        "display": "flex",
+                                                                        "flexDirection": "column",
+                                                                        "position": "relative",
+                                                                        "flexShrink": "0",
+                                                                        "boxSizing": "border-box",
+                                                                        "marginTop": "auto",
+                                                                        "width": "90%",
+                                                                        "minHeight": "20px",
+                                                                        "minWidth": "20px",
+                                                                        "overflow": "hidden",
+                                                                        "borderRadius": "300px",
+                                                                        "height": "90%",
+                                                                        "flexGrow": "0",
+                                                                        "marginRight": "auto",
+                                                                        "marginLeft": "auto"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "0px",
+                                                                "height": "180px",
+                                                                "backgroundColor": "rgba(239, 108, 65, 1)",
+                                                                "width": "180px",
+                                                                "borderRadius": "300px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto",
+                                                                "paddingBottom": "0px"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Category Label",
+                                                        "id": "builder-bb0f505249bd4f8e97bbb217c5cbd551",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-4cac6fd615844460a297d1776d7d7935"
+                                                        },
+                                                        "component":
+                                                        {
+                                                            "name": "Text",
+                                                            "options":
+                                                            {
+                                                                "text": "Furnitures"
+                                                            },
+                                                            "isRSC": null
+                                                        },
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "20px",
+                                                                "lineHeight": "normal",
+                                                                "height": "auto",
+                                                                "textAlign": "center",
+                                                                "fontSize": "16px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto"
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "responsiveStyles":
+                                                {
+                                                    "large":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "row",
+                                                        "position": "relative",
+                                                        "flexShrink": "0",
+                                                        "boxSizing": "border-box",
+                                                        "gap": "16px"
+                                                    },
+                                                    "medium":
+                                                    {
+                                                        "paddingTop": "18px",
+                                                        "paddingBottom": "18px",
+                                                        "gap": "8px",
+                                                        "marginTop": "auto",
+                                                        "marginBottom": "auto"
+                                                    },
+                                                    "small":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "column",
+                                                        "alignItems": "stretch"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "@type": "@builder.io/sdk:Element",
+                                                "@version": 2,
+                                                "layerName": "Category3",
+                                                "tagName": "a",
+                                                "id": "builder-1004c920582d4e26814b16c86adb6e42",
+                                                "properties":
+                                                {
+                                                    "href": "#"
+                                                },
+                                                "linkUrl": "#",
+                                                "meta":
+                                                {
+                                                    "previousId": "builder-53dd8e21aa2941a792d35fab2bc25136"
+                                                },
+                                                "children":
+                                                [
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Background Color",
+                                                        "id": "builder-082cacc0b275462ea4a5c854e257c0ed",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-a37b40d0dd924f30bdb93c1be0957e77"
+                                                        },
+                                                        "children":
+                                                        [
+                                                            {
+                                                                "@type": "@builder.io/sdk:Element",
+                                                                "@version": 2,
+                                                                "id": "builder-5352bcdfc9e3497aa21b91e2ef2361d3",
+                                                                "meta":
+                                                                {
+                                                                    "previousId": "builder-731cbaed2446405ebb50858a8da18e49"
+                                                                },
+                                                                "component":
+                                                                {
+                                                                    "name": "Image",
+                                                                    "options":
+                                                                    {
+                                                                        "image": "https://pngimg.com/uploads/macbook/small/macbook_PNG65.png",
+                                                                        "backgroundSize": "cover",
+                                                                        "backgroundPosition": "top",
+                                                                        "lazy": false,
+                                                                        "fitContent": true,
+                                                                        "aspectRatio": 1,
+                                                                        "lockAspectRatio": false,
+                                                                        "height": 200,
+                                                                        "width": 200
+                                                                    },
+                                                                    "isRSC": null
+                                                                },
+                                                                "responsiveStyles":
+                                                                {
+                                                                    "large":
+                                                                    {
+                                                                        "display": "flex",
+                                                                        "flexDirection": "column",
+                                                                        "position": "relative",
+                                                                        "flexShrink": "0",
+                                                                        "boxSizing": "border-box",
+                                                                        "marginTop": "auto",
+                                                                        "width": "90%",
+                                                                        "minHeight": "20px",
+                                                                        "minWidth": "20px",
+                                                                        "overflow": "hidden",
+                                                                        "borderRadius": "300px",
+                                                                        "height": "90%",
+                                                                        "flexGrow": "0",
+                                                                        "marginRight": "auto",
+                                                                        "marginLeft": "auto"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "0px",
+                                                                "height": "180px",
+                                                                "backgroundColor": "rgba(0, 108, 233, 1)",
+                                                                "width": "180px",
+                                                                "borderRadius": "300px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto",
+                                                                "paddingBottom": "0px"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Category Label",
+                                                        "id": "builder-aaa554a6bcce496da0c2c482e7bc9a9f",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-30f8a0c0656842b4ba6dcebf744667c0"
+                                                        },
+                                                        "component":
+                                                        {
+                                                            "name": "Text",
+                                                            "options":
+                                                            {
+                                                                "text": "Electronics"
+                                                            },
+                                                            "isRSC": null
+                                                        },
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "20px",
+                                                                "lineHeight": "normal",
+                                                                "height": "auto",
+                                                                "textAlign": "center",
+                                                                "fontSize": "16px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto"
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "responsiveStyles":
+                                                {
+                                                    "large":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "row",
+                                                        "position": "relative",
+                                                        "flexShrink": "0",
+                                                        "boxSizing": "border-box",
+                                                        "gap": "16px"
+                                                    },
+                                                    "medium":
+                                                    {
+                                                        "paddingTop": "18px",
+                                                        "paddingBottom": "18px",
+                                                        "gap": "8px",
+                                                        "marginTop": "auto",
+                                                        "marginBottom": "auto"
+                                                    },
+                                                    "small":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "column",
+                                                        "alignItems": "stretch"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "@type": "@builder.io/sdk:Element",
+                                                "@version": 2,
+                                                "layerName": "Category 2",
+                                                "tagName": "a",
+                                                "id": "builder-c1322191f3e74b09b1ca17d8596cb7c6",
+                                                "properties":
+                                                {
+                                                    "href": "#"
+                                                },
+                                                "linkUrl": "#",
+                                                "meta":
+                                                {
+                                                    "previousId": "builder-22d7947a37ec46f69cf36bbb6db27da5"
+                                                },
+                                                "children":
+                                                [
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Background Color",
+                                                        "id": "builder-b15b4a887f8b434c9f4c5aeb0af650c1",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-5a0e4c0da69d434cbf7f7e9668aeae0e"
+                                                        },
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "0px",
+                                                                "height": "180px",
+                                                                "backgroundColor": "rgba(238, 177, 202, 1)",
+                                                                "width": "180px",
+                                                                "borderRadius": "300px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto",
+                                                                "paddingBottom": "0px"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Category Label",
+                                                        "id": "builder-a21e568f6cd54ef9ab3f1795b9578098",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-13edcaa059f44cc59eeefe2e73e4875a"
+                                                        },
+                                                        "component":
+                                                        {
+                                                            "name": "Text",
+                                                            "options":
+                                                            {
+                                                                "text": "Women"
+                                                            },
+                                                            "isRSC": null
+                                                        },
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "20px",
+                                                                "lineHeight": "normal",
+                                                                "height": "auto",
+                                                                "textAlign": "center",
+                                                                "fontSize": "16px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto"
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "responsiveStyles":
+                                                {
+                                                    "large":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "row",
+                                                        "position": "relative",
+                                                        "flexShrink": "0",
+                                                        "boxSizing": "border-box",
+                                                        "gap": "16px"
+                                                    },
+                                                    "medium":
+                                                    {
+                                                        "paddingTop": "18px",
+                                                        "paddingBottom": "18px",
+                                                        "gap": "8px",
+                                                        "marginTop": "auto",
+                                                        "marginBottom": "auto"
+                                                    },
+                                                    "small":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "column",
+                                                        "alignItems": "stretch"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "@type": "@builder.io/sdk:Element",
+                                                "@version": 2,
+                                                "layerName": "Category1",
+                                                "tagName": "a",
+                                                "id": "builder-0153a41ce06f4848b1c976ec4453d928",
+                                                "properties":
+                                                {
+                                                    "href": "#"
+                                                },
+                                                "linkUrl": "#",
+                                                "meta":
+                                                {
+                                                    "previousId": "builder-97cc24ff9e2a4f29ad8b7ade7b01f542"
+                                                },
+                                                "children":
+                                                [
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Background Color",
+                                                        "id": "builder-310daeb331cc4bbca37d22106253e6b5",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-b4f99306b0a146469a3842bf748e2e47"
+                                                        },
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "0px",
+                                                                "height": "180px",
+                                                                "backgroundColor": "rgba(247, 201, 46, 1)",
+                                                                "width": "180px",
+                                                                "borderRadius": "300px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto",
+                                                                "paddingBottom": "0px"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "layerName": "Category Label",
+                                                        "id": "builder-b6c86cc52a034ccaa692556f497c0990",
+                                                        "meta":
+                                                        {
+                                                            "previousId": "builder-49ae795a09474e86b41a9599240a2ba8"
+                                                        },
+                                                        "component":
+                                                        {
+                                                            "name": "Text",
+                                                            "options":
+                                                            {
+                                                                "text": "Home Decor"
+                                                            },
+                                                            "isRSC": null
+                                                        },
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "20px",
+                                                                "lineHeight": "normal",
+                                                                "height": "auto",
+                                                                "textAlign": "center",
+                                                                "fontSize": "16px",
+                                                                "marginLeft": "auto",
+                                                                "marginRight": "auto"
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "responsiveStyles":
+                                                {
+                                                    "large":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "row",
+                                                        "position": "relative",
+                                                        "flexShrink": "0",
+                                                        "boxSizing": "border-box",
+                                                        "gap": "16px"
+                                                    },
+                                                    "medium":
+                                                    {
+                                                        "paddingTop": "18px",
+                                                        "paddingBottom": "18px",
+                                                        "gap": "8px",
+                                                        "marginTop": "auto",
+                                                        "marginBottom": "auto"
+                                                    },
+                                                    "small":
+                                                    {
+                                                        "display": "flex",
+                                                        "flexDirection": "column",
+                                                        "alignItems": "stretch"
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "responsiveStyles":
+                                        {
+                                            "large":
+                                            {
+                                                "display": "flex",
+                                                "flexDirection": "row",
+                                                "gap": "10px",
+                                                "paddingLeft": "10px",
+                                                "marginRight": "10px",
+                                                "overflow": "scroll"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "responsiveStyles":
+                                {
+                                    "large":
+                                    {
+                                        "display": "flex",
+                                        "flexDirection": "column",
+                                        "position": "relative",
+                                        "flexShrink": "0",
+                                        "boxSizing": "border-box",
+                                        "marginTop": "0px",
+                                        "paddingLeft": "12px",
+                                        "paddingRight": "12px",
+                                        "paddingTop": "12px",
+                                        "paddingBottom": "12px",
+                                        "minHeight": "100px"
+                                    }
+                                }
+                            },
+                            {
+                                "@type": "@builder.io/sdk:Element",
+                                "@version": 2,
+                                "layerName": "Columns",
+                                "id": "builder-1c2bbeec075946ae9e7e003da5f0520d",
+                                "meta":
+                                {
+                                    "previousId": "builder-bb97b3bdc53546e291d6d020e42acb1e"
+                                },
+                                "component":
+                                {
+                                    "name": "Columns",
+                                    "options":
+                                    {
+                                        "columns":
+                                        [
+                                            {
+                                                "blocks":
+                                                [
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "id": "builder-211519e03d4b44fdae7b43ac737f2860",
+                                                        "children":
+                                                        [
+                                                            {
+                                                                "@type": "@builder.io/sdk:Element",
+                                                                "@version": 2,
+                                                                "id": "builder-77a8b560c42a4446a805167c66fa3f15",
+                                                                "component":
+                                                                {
+                                                                    "name": "Image",
+                                                                    "options":
+                                                                    {
+                                                                        "image": "https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=998&height=1000",
+                                                                        "backgroundPosition": "center",
+                                                                        "backgroundSize": "contain",
+                                                                        "aspectRatio": 0.7004048582995948,
+                                                                        "lazy": true,
+                                                                        "srcset": "https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=100&height=1000 100w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=200&height=1000 200w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=400&height=1000 400w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=800&height=1000 800w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=1200&height=1000 1200w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=1600&height=1000 1600w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=2000&height=1000 2000w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=998&height=1000 998w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=638&height=1000 638w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F8e096f01b00343dca3952d645f7ae024?width=376&height=1000 376w",
+                                                                        "sizes": "(max-width: 638px) 100vw, 27vw"
+                                                                    },
+                                                                    "isRSC": null
+                                                                },
+                                                                "responsiveStyles":
+                                                                {
+                                                                    "large":
+                                                                    {
+                                                                        "display": "flex",
+                                                                        "flexDirection": "column",
+                                                                        "alignItems": "stretch",
+                                                                        "flexShrink": "0",
+                                                                        "position": "relative",
+                                                                        "textAlign": "center",
+                                                                        "lineHeight": "normal",
+                                                                        "height": "auto"
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "@type": "@builder.io/sdk:Element",
+                                                                "@version": 2,
+                                                                "layerName": "Centered Box",
+                                                                "id": "builder-15b6376baabb4837aeb05a88f2c9de0c",
+                                                                "children":
+                                                                [
+                                                                    {
+                                                                        "@type": "@builder.io/sdk:Element",
+                                                                        "@version": 2,
+                                                                        "layerName": "Title",
+                                                                        "id": "builder-5645624894ff4f0f976ddaa87b00fbd2",
+                                                                        "component":
+                                                                        {
+                                                                            "name": "Text",
+                                                                            "options":
+                                                                            {
+                                                                                "text": "<p>Something Great to Say</p>"
+                                                                            },
+                                                                            "isRSC": null
+                                                                        },
+                                                                        "responsiveStyles":
+                                                                        {
+                                                                            "large":
+                                                                            {
+                                                                                "display": "flex",
+                                                                                "flexDirection": "column",
+                                                                                "alignItems": "stretch",
+                                                                                "flexShrink": "0",
+                                                                                "position": "relative",
+                                                                                "marginTop": "-1.65625px",
+                                                                                "textAlign": "center",
+                                                                                "lineHeight": "normal",
+                                                                                "height": "auto",
+                                                                                "fontSize": "24px"
+                                                                            },
+                                                                            "medium":
+                                                                            {
+                                                                                "marginTop": "1.34375px",
+                                                                                "textAlign": "center"
+                                                                            },
+                                                                            "small":
+                                                                            {
+                                                                                "fontSize": "25px"
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "@type": "@builder.io/sdk:Element",
+                                                                        "@version": 2,
+                                                                        "layerName": "Subtitle",
+                                                                        "id": "builder-41c57a6b422d436e86972a16c1255efb",
+                                                                        "component":
+                                                                        {
+                                                                            "name": "Text",
+                                                                            "options":
+                                                                            {
+                                                                                "text": "<p>Some more great things to elaborate on that wonderful things you have to tell your audience</p>"
+                                                                            },
+                                                                            "isRSC": null
+                                                                        },
+                                                                        "responsiveStyles":
+                                                                        {
+                                                                            "large":
+                                                                            {
+                                                                                "display": "flex",
+                                                                                "flexDirection": "column",
+                                                                                "alignItems": "stretch",
+                                                                                "flexShrink": "0",
+                                                                                "position": "relative",
+                                                                                "marginTop": "14.59375px",
+                                                                                "textAlign": "center",
+                                                                                "lineHeight": "normal",
+                                                                                "height": "auto",
+                                                                                "fontSize": "15px",
+                                                                                "color": "rgba(86, 86, 86, 1)"
+                                                                            },
+                                                                            "medium":
+                                                                            {
+                                                                                "textAlign": "center"
+                                                                            },
+                                                                            "small":
+                                                                            {
+                                                                                "fontSize": "15px"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ],
+                                                                "responsiveStyles":
+                                                                {
+                                                                    "large":
+                                                                    {
+                                                                        "display": "flex",
+                                                                        "flexDirection": "column",
+                                                                        "alignItems": "stretch",
+                                                                        "position": "relative",
+                                                                        "flexShrink": "0",
+                                                                        "boxSizing": "border-box",
+                                                                        "marginTop": "9px",
+                                                                        "marginBottom": "auto",
+                                                                        "paddingBottom": "17px",
+                                                                        "paddingTop": "17px"
+                                                                    },
+                                                                    "medium":
+                                                                    {
+                                                                        "paddingBottom": "20px",
+                                                                        "paddingTop": "20px"
+                                                                    },
+                                                                    "small":
+                                                                    {
+                                                                        "paddingBottom": "20px",
+                                                                        "paddingTop": "20px"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "20px",
+                                                                "marginLeft": "0px",
+                                                                "marginBottom": "20px",
+                                                                "marginRight": "0px"
+                                                            },
+                                                            "medium":
+                                                            {
+                                                                "marginBottom": "40px"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "blocks":
+                                                [
+                                                    {
+                                                        "@type": "@builder.io/sdk:Element",
+                                                        "@version": 2,
+                                                        "id": "builder-826d3cd02784438d8a173b78fd96b549",
+                                                        "children":
+                                                        [
+                                                            {
+                                                                "@type": "@builder.io/sdk:Element",
+                                                                "@version": 2,
+                                                                "id": "builder-9c41a306d7454667b2775eac28edfb05",
+                                                                "component":
+                                                                {
+                                                                    "name": "Image",
+                                                                    "options":
+                                                                    {
+                                                                        "image": "https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=998&height=1000",
+                                                                        "backgroundPosition": "center",
+                                                                        "backgroundSize": "contain",
+                                                                        "aspectRatio": 0.7004048582995948,
+                                                                        "lazy": true,
+                                                                        "srcset": "https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=100&height=1000 100w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=200&height=1000 200w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=400&height=1000 400w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=800&height=1000 800w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=1200&height=1000 1200w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=1600&height=1000 1600w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=2000&height=1000 2000w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=998&height=1000 998w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=638&height=1000 638w, https://cdn.builder.io/api/v1/image/assets%2FagZ9n5CUKRfbL9t6CaJOyVSK4Es2%2F70c33c597e9946e9a79ab99ad9a999d3?width=376&height=1000 376w",
+                                                                        "sizes": "(max-width: 638px) 100vw, 27vw"
+                                                                    },
+                                                                    "isRSC": null
+                                                                },
+                                                                "responsiveStyles":
+                                                                {
+                                                                    "large":
+                                                                    {
+                                                                        "display": "flex",
+                                                                        "flexDirection": "column",
+                                                                        "alignItems": "stretch",
+                                                                        "flexShrink": "0",
+                                                                        "position": "relative",
+                                                                        "textAlign": "center",
+                                                                        "lineHeight": "normal",
+                                                                        "height": "auto"
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "@type": "@builder.io/sdk:Element",
+                                                                "@version": 2,
+                                                                "layerName": "Centered Box",
+                                                                "id": "builder-80e74584758c43aab93e21480ee24f7f",
+                                                                "children":
+                                                                [
+                                                                    {
+                                                                        "@type": "@builder.io/sdk:Element",
+                                                                        "@version": 2,
+                                                                        "layerName": "Title",
+                                                                        "id": "builder-bb5c72bae0e24686bda9cd0222fd3bdb",
+                                                                        "component":
+                                                                        {
+                                                                            "name": "Text",
+                                                                            "options":
+                                                                            {
+                                                                                "text": "<p>Something Great to Say</p>"
+                                                                            },
+                                                                            "isRSC": null
+                                                                        },
+                                                                        "responsiveStyles":
+                                                                        {
+                                                                            "large":
+                                                                            {
+                                                                                "display": "flex",
+                                                                                "flexDirection": "column",
+                                                                                "alignItems": "stretch",
+                                                                                "flexShrink": "0",
+                                                                                "position": "relative",
+                                                                                "marginTop": "-1.65625px",
+                                                                                "textAlign": "center",
+                                                                                "lineHeight": "normal",
+                                                                                "height": "auto",
+                                                                                "fontSize": "24px"
+                                                                            },
+                                                                            "medium":
+                                                                            {
+                                                                                "marginTop": "1.34375px",
+                                                                                "textAlign": "center"
+                                                                            },
+                                                                            "small":
+                                                                            {
+                                                                                "fontSize": "25px"
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "@type": "@builder.io/sdk:Element",
+                                                                        "@version": 2,
+                                                                        "layerName": "Subtitle",
+                                                                        "id": "builder-8707a6552ba447cfb94f58320fcd364b",
+                                                                        "component":
+                                                                        {
+                                                                            "name": "Text",
+                                                                            "options":
+                                                                            {
+                                                                                "text": "<p>Some more great things to elaborate on that wonderful things you have to tell your audience</p>"
+                                                                            },
+                                                                            "isRSC": null
+                                                                        },
+                                                                        "responsiveStyles":
+                                                                        {
+                                                                            "large":
+                                                                            {
+                                                                                "display": "flex",
+                                                                                "flexDirection": "column",
+                                                                                "alignItems": "stretch",
+                                                                                "flexShrink": "0",
+                                                                                "position": "relative",
+                                                                                "marginTop": "14.59375px",
+                                                                                "textAlign": "center",
+                                                                                "lineHeight": "normal",
+                                                                                "height": "auto",
+                                                                                "fontSize": "15px",
+                                                                                "color": "rgba(86, 86, 86, 1)"
+                                                                            },
+                                                                            "medium":
+                                                                            {
+                                                                                "textAlign": "center"
+                                                                            },
+                                                                            "small":
+                                                                            {
+                                                                                "fontSize": "15px"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ],
+                                                                "responsiveStyles":
+                                                                {
+                                                                    "large":
+                                                                    {
+                                                                        "display": "flex",
+                                                                        "flexDirection": "column",
+                                                                        "alignItems": "stretch",
+                                                                        "position": "relative",
+                                                                        "flexShrink": "0",
+                                                                        "boxSizing": "border-box",
+                                                                        "marginTop": "9px",
+                                                                        "marginBottom": "auto",
+                                                                        "paddingBottom": "17px",
+                                                                        "paddingTop": "17px"
+                                                                    },
+                                                                    "medium":
+                                                                    {
+                                                                        "paddingBottom": "20px",
+                                                                        "paddingTop": "20px"
+                                                                    },
+                                                                    "small":
+                                                                    {
+                                                                        "paddingBottom": "20px",
+                                                                        "paddingTop": "20px"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        "responsiveStyles":
+                                                        {
+                                                            "large":
+                                                            {
+                                                                "display": "flex",
+                                                                "flexDirection": "column",
+                                                                "position": "relative",
+                                                                "flexShrink": "0",
+                                                                "boxSizing": "border-box",
+                                                                "marginTop": "20px",
+                                                                "marginLeft": "0px",
+                                                                "marginBottom": "20px",
+                                                                "marginRight": "0px"
+                                                            },
+                                                            "medium":
+                                                            {
+                                                                "marginBottom": "40px"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "space": 24,
+                                        "stackColumnsAt": "never",
+                                        "reverseColumnsWhenStacked": false
+                                    },
+                                    "isRSC": null
+                                },
+                                "responsiveStyles":
+                                {
+                                    "large":
+                                    {
+                                        "display": "flex",
+                                        "flexDirection": "column",
+                                        "position": "relative",
+                                        "flexShrink": "0",
+                                        "boxSizing": "border-box",
+                                        "alignItems": "stretch",
+                                        "paddingLeft": "0px",
+                                        "paddingRight": "0px",
+                                        "marginTop": "12px"
+                                    }
+                                }
+                            }
+                        ],
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-1e394cf1056d4a109db467494246a5cb",
+                        "meta":
+                        {
+                            "previousId": "builder-d4e07e8d89ad4e5090d45ad29498a005"
+                        },
+                        "component":
+                        {
+                            "name": "Image",
+                            "options":
+                            {
+                                "image": "https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=2000",
+                                "backgroundSize": "cover",
+                                "backgroundPosition": "center",
+                                "aspectRatio": 1,
+                                "height": 1253,
+                                "width": 1880,
+                                "lazy": false,
+                                "srcset": "https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=638 638w, https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=998 998w",
+                                "sizes": "(max-width: 638px) 100vw, 100vw"
+                            },
+                            "isRSC": null
+                        },
+                        "children":
+                        [
+                            {
+                                "@type": "@builder.io/sdk:Element",
+                                "@version": 2,
+                                "id": "builder-50d4838eb62c44539e28fabff0a6b0ab",
+                                "meta":
+                                {
+                                    "previousId": "builder-97aa0bf752b7431bbb74256cff642a45"
+                                },
+                                "children":
+                                [
+                                    {
+                                        "@type": "@builder.io/sdk:Element",
+                                        "@version": 2,
+                                        "id": "builder-dd4b4e977dd64a4c914ee5e1032f682e",
+                                        "meta":
+                                        {
+                                            "previousId": "builder-395e1f2c3b684ce097850d03b00f2cb9"
+                                        },
+                                        "component":
+                                        {
+                                            "name": "Text",
+                                            "options":
+                                            {
+                                                "text": "<p>Lip Gloss</p>"
+                                            },
+                                            "isRSC": null
+                                        },
+                                        "responsiveStyles":
+                                        {
+                                            "large":
+                                            {
+                                                "display": "flex",
+                                                "flexDirection": "column",
+                                                "alignItems": "stretch",
+                                                "position": "relative",
+                                                "flexShrink": "0",
+                                                "boxSizing": "border-box",
+                                                "marginTop": "20px",
+                                                "lineHeight": "normal",
+                                                "height": "auto",
+                                                "textAlign": "center",
+                                                "color": "rgba(0, 0, 0, 1)"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "@type": "@builder.io/sdk:Element",
+                                        "@version": 2,
+                                        "id": "builder-f2733d01f8f646f9bed617b1ea0130d8",
+                                        "meta":
+                                        {
+                                            "previousId": "builder-29ab607488c7418e8ae26f6ef761f4da"
+                                        },
+                                        "component":
+                                        {
+                                            "name": "Text",
+                                            "options":
+                                            {
+                                                "text": "<p>Lorem ipsum dolor sit amet, eu duo veri legendos, te eum dolorum pertinacia.</p>"
+                                            },
+                                            "isRSC": null
+                                        },
+                                        "responsiveStyles":
+                                        {
+                                            "large":
+                                            {
+                                                "display": "flex",
+                                                "flexDirection": "column",
+                                                "alignItems": "stretch",
+                                                "position": "relative",
+                                                "flexShrink": "0",
+                                                "boxSizing": "border-box",
+                                                "marginTop": "20px",
+                                                "lineHeight": "normal",
+                                                "height": "auto",
+                                                "textAlign": "center",
+                                                "paddingLeft": "10px",
+                                                "paddingRight": "10px",
+                                                "backgroundColor": "rgba(144, 19, 254, 1)"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "responsiveStyles":
+                                {
+                                    "large":
+                                    {
+                                        "display": "flex",
+                                        "flexDirection": "column",
+                                        "alignItems": "stretch",
+                                        "position": "relative",
+                                        "flexShrink": "0",
+                                        "boxSizing": "border-box",
+                                        "marginTop": "auto",
+                                        "width": "250px",
+                                        "backgroundColor": "rgba(255, 255, 255, 1)",
+                                        "marginLeft": "auto",
+                                        "marginRight": "auto",
+                                        "paddingBottom": "30px",
+                                        "justifyContent": "space-around",
+                                        "marginBottom": "12px"
+                                    }
+                                }
+                            }
+                        ],
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "alignItems": "stretch",
+                                "minHeight": "20px",
+                                "minWidth": "20px",
+                                "overflow": "hidden"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "layerName": "Description",
+                        "id": "builder-250f730147834143be4737756865c807",
+                        "meta":
+                        {
+                            "figmaLayerId": "54:8937",
+                            "previousId": "builder-c5d675d8e4c248d78e2d2aa84ceeb898"
+                        },
+                        "children":
+                        [
+                            {
+                                "@type": "@builder.io/sdk:Element",
+                                "@version": 2,
+                                "id": "builder-c1cc3805627e49069cdacb1a604fc675",
+                                "meta":
+                                {
+                                    "figmaLayerId": "54:8938",
+                                    "previousId": "builder-787b93eb89ac41fe87ffecf552b982b6"
+                                },
+                                "component":
+                                {
+                                    "name": "Text",
+                                    "options":
+                                    {
+                                        "text": "Customisable Hero Layout"
+                                    },
+                                    "isRSC": null
+                                },
+                                "responsiveStyles":
+                                {
+                                    "large":
+                                    {
+                                        "maxWidth": "860px",
+                                        "fontSize": "48px",
+                                        "letterSpacing": "-0.5px",
+                                        "textAlign": "center",
+                                        "width": "100%",
+                                        "fontWeight": "700"
+                                    },
+                                    "small":
+                                    {
+                                        "fontSize": "36px",
+                                        "maxWidth": "370px"
+                                    }
+                                }
+                            },
+                            {
+                                "@type": "@builder.io/sdk:Element",
+                                "@version": 2,
+                                "layerName": "Describe your product value he...",
+                                "id": "builder-ee2952a2732949eeaafd68ee1ce5cc16",
+                                "meta":
+                                {
+                                    "figmaLayerId": "54:8939",
+                                    "previousId": "builder-7e5ce4c96043428195960631387d4a1b"
+                                },
+                                "component":
+                                {
+                                    "name": "Text",
+                                    "options":
+                                    {
+                                        "text": "Describe your product value here. Also, customise the colors as per your brand guidelines."
+                                    },
+                                    "isRSC": null
+                                },
+                                "responsiveStyles":
+                                {
+                                    "large":
+                                    {
+                                        "maxWidth": "860px",
+                                        "marginTop": "8px",
+                                        "color": "rgba(195, 195, 195, 1)",
+                                        "fontSize": "24px",
+                                        "letterSpacing": "0px",
+                                        "textAlign": "center",
+                                        "fontWeight": "300"
+                                    },
+                                    "medium":
+                                    {
+                                        "fontSize": "16px",
+                                        "maxWidth": "370px"
+                                    }
+                                }
+                            },
+                            {
+                                "@type": "@builder.io/sdk:Element",
+                                "@version": 2,
+                                "layerName": "Call to actions",
+                                "id": "builder-2d0335c594fb4916a3ca3c4719017d09",
+                                "meta":
+                                {
+                                    "previousId": "builder-2d7eee2d4c164e2e8baff930b31a0e28"
+                                },
+                                "children":
+                                [
+                                    {
+                                        "@type": "@builder.io/sdk:Element",
+                                        "@version": 2,
+                                        "layerName": "CTA 1",
+                                        "id": "builder-09b3afb804ac4909a778ab1cc305c4bc",
+                                        "meta":
+                                        {
+                                            "previousId": "builder-fdd2e3d549444363b097c0f9572a9af6"
+                                        },
+                                        "component":
+                                        {
+                                            "name": "Core:Button",
+                                            "options":
+                                            {
+                                                "text": "Click me!",
+                                                "openLinkInNewTab": false
+                                            },
+                                            "isRSC": null
+                                        },
+                                        "responsiveStyles":
+                                        {
+                                            "large":
+                                            {
+                                                "display": "flex",
+                                                "flexDirection": "column",
+                                                "position": "relative",
+                                                "flexShrink": "0",
+                                                "boxSizing": "border-box",
+                                                "marginTop": "20px",
+                                                "paddingTop": "15px",
+                                                "paddingBottom": "15px",
+                                                "paddingLeft": "25px",
+                                                "paddingRight": "25px",
+                                                "backgroundColor": "rgba(74, 144, 226, 1)",
+                                                "borderRadius": "4px",
+                                                "textAlign": "center",
+                                                "cursor": "pointer"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "@type": "@builder.io/sdk:Element",
+                                        "@version": 2,
+                                        "layerName": "CTA 2",
+                                        "id": "builder-264515c082c84f68a11d79387076a499",
+                                        "meta":
+                                        {
+                                            "previousId": "builder-185fd7b54d3d478890f2579926d8fc8f"
+                                        },
+                                        "component":
+                                        {
+                                            "name": "Core:Button",
+                                            "options":
+                                            {
+                                                "text": "Click me!",
+                                                "openLinkInNewTab": false
+                                            },
+                                            "isRSC": null
+                                        },
+                                        "responsiveStyles":
+                                        {
+                                            "large":
+                                            {
+                                                "display": "flex",
+                                                "flexDirection": "column",
+                                                "position": "relative",
+                                                "flexShrink": "0",
+                                                "boxSizing": "border-box",
+                                                "marginTop": "20px",
+                                                "paddingTop": "15px",
+                                                "paddingBottom": "15px",
+                                                "paddingLeft": "25px",
+                                                "paddingRight": "25px",
+                                                "color": "rgba(255, 255, 255, 1)",
+                                                "borderRadius": "4px",
+                                                "textAlign": "center",
+                                                "cursor": "pointer",
+                                                "borderStyle": "solid",
+                                                "borderWidth": "1px",
+                                                "borderColor": "rgba(80, 227, 194, 1)",
+                                                "backgroundColor": "rgba(80, 227, 194, 1)"
+                                            },
+                                            "medium":
+                                            {
+                                                "paddingBottom": "8px"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "responsiveStyles":
+                                {
+                                    "large":
+                                    {
+                                        "display": "flex",
+                                        "flexDirection": "row",
+                                        "position": "relative",
+                                        "flexShrink": "0",
+                                        "boxSizing": "border-box",
+                                        "gap": "16px",
+                                        "width": "auto",
+                                        "marginLeft": "auto",
+                                        "marginRight": "auto",
+                                        "alignSelf": "center"
+                                    }
+                                }
+                            }
+                        ],
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "justifyContent": "flex-start",
+                                "alignItems": "flex-start",
+                                "marginLeft": "auto",
+                                "marginRight": "auto",
+                                "marginTop": "36px",
+                                "marginBottom": "36px"
+                            }
+                        }
+                    },
+                    {
+                        "id": "builder-pixel-uhjs9hgdxf9",
+                        "@type": "@builder.io/sdk:Element",
+                        "tagName": "img",
+                        "properties":
+                        {
+                            "src": "https://cdn.builder.io/api/v1/pixel?apiKey=e084484c0e0241579f01abba29d9be10",
+                            "aria-hidden": "true",
+                            "alt": "",
+                            "role": "presentation",
+                            "width": "0",
+                            "height": "0"
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "height": "0",
+                                "width": "0",
+                                "display": "inline-block",
+                                "opacity": "0",
+                                "overflow": "hidden",
+                                "pointerEvents": "none"
+                            }
+                        }
+                    }
+                ],
+                "url": "/layout",
+                "state":
+                {
+                    "deviceSize": "large",
+                    "location":
+                    {
+                        "pathname": "/layout",
+                        "path":
+                        [
+                            "layout"
+                        ],
+                        "query":
+                        {}
+                    }
+                }
+            },
+            "variations":
+            {},
+            "lastUpdated": 1752657812589,
+            "firstPublished": 1752593045218,
+            "testRatio": 1,
+            "screenshot": "https://cdn.builder.io/api/v1/image/assets%2Fe084484c0e0241579f01abba29d9be10%2Fb1bd762e9e264476a6dbad09c3b2c2d8",
+            "createdBy": "Fx9FxTq1Wyds3RU8GJIMOIDp25i2",
+            "lastUpdatedBy": "Fx9FxTq1Wyds3RU8GJIMOIDp25i2",
+            "folders":
+            [],
+            "rev": "51v7aa7g8tj"
+        }
+    ]
+}

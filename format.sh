@@ -1,1 +1,1 @@
-swift-format format --in-place --recursive Sources
+swift-format format --in-place --recursive Sources Tests

@@ -102,7 +102,9 @@ struct BuilderBlockLayout<Content: View>: View {
     // 1. Extract basic layout parameters
     let direction = responsiveStyles["flexDirection"] ?? "column"
     let wrap = responsiveStyles["flexWrap"] == "wrap" && direction == "row"
-    let scroll = (responsiveStyles["overflow"] == "auto" || responsiveStyles["overflow"] == "scroll") && direction == "row"
+    let scroll =
+      (responsiveStyles["overflow"] == "auto" || responsiveStyles["overflow"] == "scroll")
+      && direction == "row"
 
     let justify = responsiveStyles["justifyContent"]
     let alignItems = responsiveStyles["alignItems"]
