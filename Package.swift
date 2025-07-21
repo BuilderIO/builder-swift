@@ -27,7 +27,10 @@ let package = Package(
             name: "BuilderIO",
             dependencies: [
                 "SwiftyJSON",
-            ]
+            ],
+            resources: [
+                   .process("Resources/Fonts")
+                 ]
         ),
     ]
 )
