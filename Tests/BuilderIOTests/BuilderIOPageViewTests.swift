@@ -10,7 +10,7 @@ class BuilderIOPageViewTests: XCTestCase {
   static let record = false
   
   override func setUpWithError() throws {
-    BuilderIOManager.configure(apiKey: "e084484c0e0241579f01abba29d9be10", customNavigationScheme: "builderio")
+    BuilderIOManager.configure(apiKey: "UNITTESTINGAPIKEY", customNavigationScheme: "builderio")
     
     continueAfterFailure = false
   }

@@ -8,7 +8,7 @@ class BuilderIOMockManager {
 
   // MARK: - Properties
   private let baseURLString =
-    "https://cdn.builder.io/api/v3/content/page?apiKey=e084484c0e0241579f01abba29d9be10"
+    "https://cdn.builder.io/api/v3/content/page?apiKey=UNITTESTINGAPIKEY"
   let mockedURLSession: URLSession  // Public so your API service can use it
 
   // MARK: - Initialization
@@ -17,7 +17,7 @@ class BuilderIOMockManager {
     let configuration = URLSessionConfiguration.default
     configuration.protocolClasses = [MockingURLProtocol.self]
     self.mockedURLSession = URLSession(configuration: configuration)
-    registerImageMock();
+    registerImageMock()
   }
 
   /// Loads a JSON file from the test bundle and returns it as Data.
@@ -125,7 +125,7 @@ class BuilderIOMockManager {
       "url":
         "https://pngimg.com/uploads/macbook/small/macbook_PNG65.png",
       "extension": "png",
-    ]
+    ],
   ]
 
   func registerImageMock(statusCode: Int = 200) {
