@@ -1,4 +1,4 @@
-name: Xcode Build and Test (Improved)
+name: Xcode Build and Test
 
 on:
   push:
@@ -9,81 +9,68 @@ on:
     branches:
       - main
       - develop
-  workflow_dispatch: # Allows manual triggering from GitHub UI
+  workflow_dispatch:
 
 jobs:
   test:
     name: Run Xcode Tests on iPhone 16 (iOS 18.1)
-    # Using macos-latest as it's most likely to have Xcode 16+ for iOS 18.1
-    # In mid-2025, macos-latest should map to macOS 15, which will have Xcode 16.x.
+    # macOS-latest should ideally include Xcode 16+, but we'll ensure it.
     runs-on: macos-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # Action to check out your repository code
+        uses: actions/checkout@v4
 
-      - name: Display current Xcode version
+      # --- Crucial Step: Select Xcode 16.x ---
+      # This is the most likely fix for 'No such module SwiftUICore'
+      # and to get iOS 18.x simulators.
+      # As of current time (July 2025), macos-latest is expected to have Xcode 16.x.
+      # We'll explicitly select it to be sure.
+      - name: Select Xcode 16.x for iOS 18.1 support
+        # This action is reliable for selecting specific Xcode versions.
+        # Check maxim-lobanov/setup-xcode for available versions like '16.0', '16.1', etc.
+        # You can use 'latest-stable' for the newest Xcode available if you don't need a specific patch.
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable' # Try 'latest-stable' first
+          # If 'latest-stable' still gives Xcode 15.x,
+          # explicitly try '16.0' or '16.1' (if you know it exists and is needed for your project).
+          # xcode-version: '16.1'
+
+      - name: Display active Xcode version after selection
         run: xcodebuild -version
-        # This will show which Xcode version is active by default.
-        # Example output: Xcode 16.1 Build version 16D123q
-
-      # --- Conditional Xcode Version Selection (Uncomment and adjust if needed) ---
-      # If your project explicitly requires Xcode 16.1 and `macos-latest` doesn't
-      # default to it, you might need to select it.
-      # You'll need to know the exact path on the runner's file system.
-      # Check GitHub's runner image documentation or previous `xcodebuild -version` output
-      # to find the available Xcode paths.
-      # - name: Select specific Xcode version (e.g., Xcode 16.1)
-      #   # Make sure this path exists on the runner!
-      #   run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
-      #   # Alternative using an action (often simpler):
-      #   # uses: maxim-lobanov/setup-xcode@v1
-      #   # with:
-      #   #   xcode-version: '16.1' # Specify the exact version needed (e.g., '16.1', '15.3')
+        # Verify here that Xcode 16.x (or newer) is now active.
 
       - name: List available iOS Simulators and their OS versions
-        # This is CRUCIAL for debugging "No such module" or "destination not found" issues.
-        # It will show you exactly what simulator devices and iOS versions are installed
-        # on the runner.
+        # Now, this should show iPhone 16 with iOS 18.x if Xcode 16 is active.
         run: xcrun simctl list devices
 
-      - name: Clean Xcode Derived Data (Proactive Step)
-        # Often helpful to ensure a fresh build and avoid cached issues.
-        run: |
-          # The -derivedDataPath flag is recommended for specifying output location,
-          # but for a simple clean, the default location is usually fine.
-          # If you set a custom derivedDataPath in your test command, use it here too.
-          xcodebuild clean -scheme BuilderIO \
-                           -destination "platform=iOS Simulator,name=iPhone 16,OS=18.1"
+      - name: Clean Xcode Derived Data
+        # Always good practice for CI to ensure a fresh build.
+        run: xcodebuild clean -scheme BuilderIO -destination "platform=iOS Simulator,name=iPhone 16,OS=18.1"
 
       - name: Build and Test Xcode Project on iPhone 16 (iOS 18.1)
         run: |
-          # Define the target simulator for clarity
           SIMULATOR_NAME="iPhone 16"
-          # Specify the exact iOS version needed for the build.
-          # Ensure this version is available on the chosen Xcode version and runner image.
+          # Ensure this OS version is available with your selected Xcode 16.x
           OS_VERSION="18.1" 
 
           DESTINATION="platform=iOS Simulator,name=${SIMULATOR_NAME},OS=${OS_VERSION}"
 
           echo "Attempting to build and test on destination: $DESTINATION"
           
-          # Run the test command
-          # CODE_SIGNING_ALLOWED=NO and CODE_SIGNING_REQUIRED=NO are good for CI tests
-          # to avoid issues with code signing on a fresh runner.
           xcodebuild test -scheme BuilderIO \
                           -destination "$DESTINATION" \
                           CODE_SIGNING_ALLOWED=NO \
                           CODE_SIGNING_REQUIRED=NO
-                          # If you want to capture test results in a specific format for artifacts:
+                          # If you want to capture test results:
                           # -resultBundlePath "output/TestResults.xcresult"
 
-      # --- Optional: Upload Test Results as Artifact ---
-      # This requires `-resultBundlePath` in the `xcodebuild` command above.
+      # --- Optional: Upload Test Results ---
       # - name: Upload Test Results (e.g., .xcresult bundle)
-      #   if: always() # Run this step even if previous steps fail
+      #   if: always()
       #   uses: actions/upload-artifact@v4
       #   with:
       #     name: TestResults-BuilderIO
-      #     path: output/TestResults.xcresult # Ensure this matches your -resultBundlePath
-      #     retention-days: 7 # Optional: How long to keep the artifact
+      #     path: output/TestResults.xcresult
+      #     retention-days: 7
