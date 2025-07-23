@@ -17,19 +17,21 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Set up Swift
-        uses: swift-actions/setup-swift@v1
+          
+      - name: Select Xcode 16.x for swift-format support
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          swift-version: "5.9"
+          xcode-version: 'latest-stable' # Aims for Xcode 16.x or newer
 
-      - name: Build swift-format
+      - name: Verify Xcode version and swift-format availability
         run: |
-          git clone https://github.com/apple/swift-format.git
-          cd swift-format
-          swift build -c release
-          echo "$(pwd)/.build/release" >> $GITHUB_PATH
+          echo "Active Xcode version:"
+          xcodebuild -version
+          echo "swift-format path (should be within Xcode toolchain):"
+          xcrun --find swift-format || echo "swift-format not found via xcrun, check Xcode version."
+
 
       - name: Run swift-format lint (will fail on issues)
         run: |
-          swift-format lint --recursive Sources Tests
+          xcrun swift-format lint --recursive Sources Tests --ignore-unparsable-files
+

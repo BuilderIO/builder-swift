@@ -1,0 +1,858 @@
+{
+    "results":
+    [
+        {
+            "createdDate": 1669990626614,
+            "id": "8e2aae7a28904de6b5bdd9b84bcabe98",
+            "name": "text without html <V0 Support>",
+            "modelId": "036ff29532e349df8f16f726fb33dce3",
+            "published": "published",
+            "meta":
+            {
+                "kind": "page",
+                "hasLinks": true,
+                "lastPreviewUrl": "http://localhost:3000?builder.space=e084484c0e0241579f01abba29d9be10&builder.user.permissions=read%2Ccreate%2Cpublish%2CeditCode%2CeditDesigns%2CeditLayouts%2CeditLayers%2CeditContentPriority%2CeditFolders%2CeditProjects%2CmodifyMcpServers%2CmodifyProjectSettings%2CconnectCodeRepository%2CcreateProjects&builder.user.role.name=Developer&builder.user.role.id=developer&builder.cachebust=true&builder.preview=page&builder.noCache=true&builder.allowTextEdit=true&__builder_editing__=true&builder.overrides.page=8e2aae7a28904de6b5bdd9b84bcabe98&builder.overrides.8e2aae7a28904de6b5bdd9b84bcabe98=8e2aae7a28904de6b5bdd9b84bcabe98&builder.overrides.page:/=8e2aae7a28904de6b5bdd9b84bcabe98&builder.options.locale=Default",
+                "originalContentId": "ec2631727d344986a6a72d53b68d17dd",
+                "winningTest": null
+            },
+            "query":
+            [
+                {
+                    "@type": "@builder.io/core:Query",
+                    "property": "urlPath",
+                    "operator": "is",
+                    "value": "/text"
+                }
+            ],
+            "data":
+            {
+                "themeId": false,
+                "title": "text",
+                "customFonts":
+                [
+                    {
+                        "category": "sans-serif",
+                        "family": "Raleway",
+                        "files":
+                        {
+                            "100": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvao4CPNLA3JC9c.ttf",
+                            "200": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVtaooCPNLA3JC9c.ttf",
+                            "300": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVuEooCPNLA3JC9c.ttf",
+                            "500": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvoooCPNLA3JC9c.ttf",
+                            "600": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVsEpYCPNLA3JC9c.ttf",
+                            "700": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVs9pYCPNLA3JC9c.ttf",
+                            "800": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVtapYCPNLA3JC9c.ttf",
+                            "900": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVtzpYCPNLA3JC9c.ttf",
+                            "100italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4WjNPrQVIT9c2c8.ttf",
+                            "200italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4ejMPrQVIT9c2c8.ttf",
+                            "300italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4TbMPrQVIT9c2c8.ttf",
+                            "500italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4VrMPrQVIT9c2c8.ttf",
+                            "600italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4bbLPrQVIT9c2c8.ttf",
+                            "700italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4Y_LPrQVIT9c2c8.ttf",
+                            "800italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4ejLPrQVIT9c2c8.ttf",
+                            "900italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4cHLPrQVIT9c2c8.ttf",
+                            "italic": "https://fonts.gstatic.com/s/raleway/v29/1Pt_g8zYS_SKggPNyCgSQamb1W0lwk4S4WjMPrQVIT9c2c8.ttf",
+                            "regular": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaooCPNLA3JC9c.ttf"
+                        },
+                        "kind": "webfonts#webfont",
+                        "lastModified": "2023-09-14",
+                        "menu": "https://fonts.gstatic.com/s/raleway/v29/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCOPrQ.ttf",
+                        "subsets":
+                        [
+                            "cyrillic",
+                            "cyrillic-ext",
+                            "latin",
+                            "latin-ext",
+                            "vietnamese"
+                        ],
+                        "variants":
+                        [
+                            "100",
+                            "200",
+                            "300",
+                            "regular",
+                            "500",
+                            "600",
+                            "700",
+                            "800",
+                            "900",
+                            "100italic",
+                            "200italic",
+                            "300italic",
+                            "italic",
+                            "500italic",
+                            "600italic",
+                            "700italic",
+                            "800italic",
+                            "900italic"
+                        ],
+                        "version": "v29"
+                    },
+                    {
+                        "category": "sans-serif",
+                        "family": "DM Sans",
+                        "files":
+                        {
+                            "100": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAop1hTmf3ZGMZpg.ttf",
+                            "200": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAIpxhTmf3ZGMZpg.ttf",
+                            "300": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwA_JxhTmf3ZGMZpg.ttf",
+                            "500": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAkJxhTmf3ZGMZpg.ttf",
+                            "600": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAfJthTmf3ZGMZpg.ttf",
+                            "700": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwARZthTmf3ZGMZpg.ttf",
+                            "800": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAIpthTmf3ZGMZpg.ttf",
+                            "900": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAC5thTmf3ZGMZpg.ttf",
+                            "100italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat-JDG3zRmYJpso5.ttf",
+                            "200italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat8JDW3zRmYJpso5.ttf",
+                            "300italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat_XDW3zRmYJpso5.ttf",
+                            "500italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat-7DW3zRmYJpso5.ttf",
+                            "600italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat9XCm3zRmYJpso5.ttf",
+                            "700italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat9uCm3zRmYJpso5.ttf",
+                            "800italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat8JCm3zRmYJpso5.ttf",
+                            "900italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat8gCm3zRmYJpso5.ttf",
+                            "italic": "https://fonts.gstatic.com/s/dmsans/v14/rP2rp2ywxg089UriCZaSExd86J3t9jz86Mvy4qCRAL19DksVat-JDW3zRmYJpso5.ttf",
+                            "regular": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAopxhTmf3ZGMZpg.ttf"
+                        },
+                        "kind": "webfonts#webfont",
+                        "lastModified": "2023-07-13",
+                        "menu": "https://fonts.gstatic.com/s/dmsans/v14/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAopxRT23z.ttf",
+                        "subsets":
+                        [
+                            "latin",
+                            "latin-ext"
+                        ],
+                        "variants":
+                        [
+                            "100",
+                            "200",
+                            "300",
+                            "regular",
+                            "500",
+                            "600",
+                            "700",
+                            "800",
+                            "900",
+                            "100italic",
+                            "200italic",
+                            "300italic",
+                            "italic",
+                            "500italic",
+                            "600italic",
+                            "700italic",
+                            "800italic",
+                            "900italic"
+                        ],
+                        "version": "v14"
+                    },
+                    {
+                        "category": "sans-serif",
+                        "family": "Lato",
+                        "files":
+                        {
+                            "100": "https://fonts.gstatic.com/s/lato/v24/S6u8w4BMUTPHh30wWyWrFCbw7A.ttf",
+                            "300": "https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh7USew-FGC_p9dw.ttf",
+                            "700": "https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh6UVew-FGC_p9dw.ttf",
+                            "900": "https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh50Xew-FGC_p9dw.ttf",
+                            "100italic": "https://fonts.gstatic.com/s/lato/v24/S6u-w4BMUTPHjxsIPy-vNiPg7MU0.ttf",
+                            "300italic": "https://fonts.gstatic.com/s/lato/v24/S6u_w4BMUTPHjxsI9w2PHA3s5dwt7w.ttf",
+                            "700italic": "https://fonts.gstatic.com/s/lato/v24/S6u_w4BMUTPHjxsI5wqPHA3s5dwt7w.ttf",
+                            "900italic": "https://fonts.gstatic.com/s/lato/v24/S6u_w4BMUTPHjxsI3wiPHA3s5dwt7w.ttf",
+                            "italic": "https://fonts.gstatic.com/s/lato/v24/S6u8w4BMUTPHjxswWyWrFCbw7A.ttf",
+                            "regular": "https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHvxk6XweuBCY.ttf"
+                        },
+                        "kind": "webfonts#webfont",
+                        "lastModified": "2023-05-02",
+                        "menu": "https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHjxgwWw.ttf",
+                        "subsets":
+                        [
+                            "latin",
+                            "latin-ext"
+                        ],
+                        "variants":
+                        [
+                            "100",
+                            "100italic",
+                            "300",
+                            "300italic",
+                            "regular",
+                            "italic",
+                            "700",
+                            "700italic",
+                            "900",
+                            "900italic"
+                        ],
+                        "version": "v24"
+                    },
+                    {
+                        "category": "monospace",
+                        "family": "Source Code Pro",
+                        "files":
+                        {
+                            "200": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DEyQhM5hTXUcdJg.ttf",
+                            "300": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DJKQhM5hTXUcdJg.ttf",
+                            "500": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DP6QhM5hTXUcdJg.ttf",
+                            "600": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DBKXhM5hTXUcdJg.ttf",
+                            "700": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DCuXhM5hTXUcdJg.ttf",
+                            "800": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DEyXhM5hTXUcdJg.ttf",
+                            "900": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DGWXhM5hTXUcdJg.ttf",
+                            "200italic": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTT7I1rSVcZZJiGpw.ttf",
+                            "300italic": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTMo1rSVcZZJiGpw.ttf",
+                            "500italic": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTXo1rSVcZZJiGpw.ttf",
+                            "600italic": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTsoprSVcZZJiGpw.ttf",
+                            "700italic": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTi4prSVcZZJiGpw.ttf",
+                            "800italic": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTT7IprSVcZZJiGpw.ttf",
+                            "900italic": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTxYprSVcZZJiGpw.ttf",
+                            "italic": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_jiYsKILxRpg3hIP6sJ7fM7PqlOPHYvDP_W9O7GQTTbI1rSVcZZJiGpw.ttf",
+                            "regular": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DMyQhM5hTXUcdJg.ttf"
+                        },
+                        "kind": "webfonts#webfont",
+                        "lastModified": "2023-09-14",
+                        "menu": "https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DMyQtM9rSQ.ttf",
+                        "subsets":
+                        [
+                            "cyrillic",
+                            "cyrillic-ext",
+                            "greek",
+                            "greek-ext",
+                            "latin",
+                            "latin-ext",
+                            "vietnamese"
+                        ],
+                        "variants":
+                        [
+                            "200",
+                            "300",
+                            "regular",
+                            "500",
+                            "600",
+                            "700",
+                            "800",
+                            "900",
+                            "200italic",
+                            "300italic",
+                            "italic",
+                            "500italic",
+                            "600italic",
+                            "700italic",
+                            "800italic",
+                            "900italic"
+                        ],
+                        "version": "v23"
+                    },
+                    {
+                        "category": "sans-serif",
+                        "family": "Nunito",
+                        "files":
+                        {
+                            "200": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDDshRTM9jo7eTWk.ttf",
+                            "300": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDOUhRTM9jo7eTWk.ttf",
+                            "500": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDIkhRTM9jo7eTWk.ttf",
+                            "600": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDGUmRTM9jo7eTWk.ttf",
+                            "700": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDFwmRTM9jo7eTWk.ttf",
+                            "800": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDDsmRTM9jo7eTWk.ttf",
+                            "900": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDBImRTM9jo7eTWk.ttf",
+                            "200italic": "https://fonts.gstatic.com/s/nunito/v26/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNiLXA3iqzbXWnoeg.ttf",
+                            "300italic": "https://fonts.gstatic.com/s/nunito/v26/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNi83A3iqzbXWnoeg.ttf",
+                            "500italic": "https://fonts.gstatic.com/s/nunito/v26/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNin3A3iqzbXWnoeg.ttf",
+                            "600italic": "https://fonts.gstatic.com/s/nunito/v26/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNic3c3iqzbXWnoeg.ttf",
+                            "700italic": "https://fonts.gstatic.com/s/nunito/v26/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNiSnc3iqzbXWnoeg.ttf",
+                            "800italic": "https://fonts.gstatic.com/s/nunito/v26/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNiLXc3iqzbXWnoeg.ttf",
+                            "900italic": "https://fonts.gstatic.com/s/nunito/v26/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNiBHc3iqzbXWnoeg.ttf",
+                            "italic": "https://fonts.gstatic.com/s/nunito/v26/XRXK3I6Li01BKofIMPyPbj8d7IEAGXNirXA3iqzbXWnoeg.ttf",
+                            "regular": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshRTM9jo7eTWk.ttf"
+                        },
+                        "kind": "webfonts#webfont",
+                        "lastModified": "2023-09-14",
+                        "menu": "https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshdTI3ig.ttf",
+                        "subsets":
+                        [
+                            "cyrillic",
+                            "cyrillic-ext",
+                            "latin",
+                            "latin-ext",
+                            "vietnamese"
+                        ],
+                        "variants":
+                        [
+                            "200",
+                            "300",
+                            "regular",
+                            "500",
+                            "600",
+                            "700",
+                            "800",
+                            "900",
+                            "200italic",
+                            "300italic",
+                            "italic",
+                            "500italic",
+                            "600italic",
+                            "700italic",
+                            "800italic",
+                            "900italic"
+                        ],
+                        "version": "v26"
+                    },
+                    {
+                        "category": "sans-serif",
+                        "family": "Aldrich",
+                        "files":
+                        {
+                            "regular": "https://fonts.gstatic.com/s/aldrich/v21/MCoTzAn-1s3IGyJMZaAS3pP5H_E.ttf"
+                        },
+                        "kind": "webfonts#webfont",
+                        "lastModified": "2023-08-25",
+                        "menu": "https://fonts.gstatic.com/s/aldrich/v21/MCoTzAn-1s3IGyJMVaEY2g.ttf",
+                        "subsets":
+                        [
+                            "latin"
+                        ],
+                        "variants":
+                        [
+                            "regular"
+                        ],
+                        "version": "v21"
+                    },
+                    {
+                        "category": "sans-serif",
+                        "family": "Montserrat",
+                        "files":
+                        {
+                            "100": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Uw-Y3tcoqK5.ttf",
+                            "200": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr6Ew-Y3tcoqK5.ttf",
+                            "300": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Ew-Y3tcoqK5.ttf",
+                            "500": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Ew-Y3tcoqK5.ttf",
+                            "600": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu170w-Y3tcoqK5.ttf",
+                            "700": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM70w-Y3tcoqK5.ttf",
+                            "800": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr70w-Y3tcoqK5.ttf",
+                            "900": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC70w-Y3tcoqK5.ttf",
+                            "100italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R8aX9-p7K5ILg.ttf",
+                            "200italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR9aX9-p7K5ILg.ttf",
+                            "300italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq_p9aX9-p7K5ILg.ttf",
+                            "500italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq5Z9aX9-p7K5ILg.ttf",
+                            "600italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq3p6aX9-p7K5ILg.ttf",
+                            "700italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq0N6aX9-p7K5ILg.ttf",
+                            "800italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR6aX9-p7K5ILg.ttf",
+                            "900italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqw16aX9-p7K5ILg.ttf",
+                            "italic": "https://fonts.gstatic.com/s/montserrat/v26/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R9aX9-p7K5ILg.ttf",
+                            "regular": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Ew-Y3tcoqK5.ttf"
+                        },
+                        "kind": "webfonts#webfont",
+                        "lastModified": "2023-09-14",
+                        "menu": "https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw_aX8.ttf",
+                        "subsets":
+                        [
+                            "cyrillic",
+                            "cyrillic-ext",
+                            "latin",
+                            "latin-ext",
+                            "vietnamese"
+                        ],
+                        "variants":
+                        [
+                            "100",
+                            "200",
+                            "300",
+                            "regular",
+                            "500",
+                            "600",
+                            "700",
+                            "800",
+                            "900",
+                            "100italic",
+                            "200italic",
+                            "300italic",
+                            "italic",
+                            "500italic",
+                            "600italic",
+                            "700italic",
+                            "800italic",
+                            "900italic"
+                        ],
+                        "version": "v26"
+                    }
+                ],
+                "blocks":
+                [
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-b9dcbf73806f4d44b0417af731d60d99",
+                        "meta":
+                        {
+                            "previousId": "builder-4e3e54937f1d4834b8b97e5af023412a"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<p>H1 Fill width</p>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "fontSize": "32px",
+                                "fontWeight": "600",
+                                "fontFamily": "Raleway, sans-serif"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-119c6e6d8a944db994ebcc94d3180d9a",
+                        "meta":
+                        {
+                            "previousId": "builder-12e92e0f0fc74418ad65653adb472d0f"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<p>H2 Center</p>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "marginLeft": "auto",
+                                "marginRight": "auto",
+                                "fontSize": "24px",
+                                "fontWeight": "600",
+                                "fontFamily": "DM Sans, sans-serif"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-afd68d61520f4a0c9549d703b83a944e",
+                        "meta":
+                        {
+                            "previousId": "builder-466e88f164464e1b8e53bb78d652f62c"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<h6>H6 Right</h6>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "marginLeft": "auto",
+                                "fontSize": "11px"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-fa6ad4c170ad40af832d2461cd17f684",
+                        "meta":
+                        {
+                            "previousId": "builder-fb39da098187488098724d7a540538ab"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<p>Some red text left aligned</p>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "color": "rgba(208, 2, 27, 1)",
+                                "marginRight": "auto"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-77a9b0ef9ed5493a9720f3b40f7e3a84",
+                        "meta":
+                        {
+                            "previousId": "builder-11b42b565e45431796dfafa4867fe394"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<p>Some white text on a black background</p>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "backgroundColor": "rgba(0, 0, 0, 1)",
+                                "color": "rgba(255, 255, 255, 1)",
+                                "fontFamily": "Lato, sans-serif",
+                                "fontSize": "24px"
+                            },
+                            "small":
+                            {
+                                "color": "rgba(255, 255, 255, 1)"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-482b376b6c764b6d9d5054e33dacca43",
+                        "meta":
+                        {
+                            "previousId": "builder-733b2c11821743fba31b237a9e8c94ef"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<p>Some custom <font face=\"Source Code Pro, monospace\">font</font> of size 24px</p>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "fontSize": "24px",
+                                "fontFamily": "Source Code Pro, monospace"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "tagName": "a",
+                        "id": "builder-3450396755464b1c9a3501ab418118ca",
+                        "properties":
+                        {
+                            "href": "http://www.google.com"
+                        },
+                        "linkUrl": "http://www.google.com",
+                        "meta":
+                        {
+                            "previousId": "builder-67f7eac89f384896b4e740bfdbcef454"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<p>This whole block is clickable</p>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "fontFamily": "Courier New, monospace"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "layerName": "Describe your product value he...",
+                        "id": "builder-69f1ca8ab8b04e209d7542d845bf3398",
+                        "meta":
+                        {
+                            "figmaLayerId": "54:8939",
+                            "previousId": "builder-ee2952a2732949eeaafd68ee1ce5cc16"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<font face=\"Arial, sans-serif\">Fonts are the visual representation of text, playing a crucial role in both readability and aesthetic appeal. They come in a variety of styles, such as serif, sans-serif, script, and monospace, each conveying a different tone or personality. Serif fonts like Times New Roman are often seen as traditional and formal.</font>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "maxWidth": "860px",
+                                "marginTop": "8px",
+                                "fontSize": "35px",
+                                "letterSpacing": "0px",
+                                "textAlign": "center",
+                                "fontWeight": "300",
+                                "marginLeft": "auto",
+                                "marginRight": "auto",
+                                "fontFamily": "Lato, sans-serif"
+                            },
+                            "medium":
+                            {
+                                "fontSize": "24px",
+                                "maxWidth": "370px"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-261ce352437a4f00a794dea204bce23b",
+                        "meta":
+                        {
+                            "previousId": "builder-e8da4929479a4abf9cd8e3959a1e6699"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<h1>Left Align <span style=\"color: rgb(80, 227, 194);\">Text</span></h1>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "marginRight": "auto",
+                                "paddingLeft": "20px",
+                                "paddingRight": "20px",
+                                "color": "rgba(221, 23, 23, 1)",
+                                "fontFamily": "Nunito, sans-serif"
+                            },
+                            "small":
+                            {
+                                "backgroundColor": "rgba(144, 19, 254, 1)",
+                                "fontSize": "12px"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "id": "builder-54d67576377d4a9293c6f8d2efcda0ef",
+                        "meta":
+                        {
+                            "previousId": "builder-ad756879bc6c4ee3ac7977d5af0b6811"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<h1><strong>Right<em> </em></strong><em>Align</em><strong><em> </em></strong><strong style=\"color: rgb(144, 19, 254);\"><em><u>Text</u></em></strong></h1>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "position": "relative",
+                                "flexShrink": "0",
+                                "boxSizing": "border-box",
+                                "marginTop": "20px",
+                                "lineHeight": "normal",
+                                "height": "auto",
+                                "marginLeft": "auto",
+                                "paddingLeft": "20px",
+                                "marginRight": "20px"
+                            },
+                            "medium":
+                            {
+                                "display": "none"
+                            },
+                            "small":
+                            {
+                                "borderWidth": "2px",
+                                "borderStyle": "solid",
+                                "borderColor": "rgba(219, 20, 20, 1)",
+                                "backgroundColor": "rgba(80, 227, 194, 1)",
+                                "backgroundRepeat": "no-repeat",
+                                "backgroundPosition": "center",
+                                "backgroundSize": "cover",
+                                "display": "flex",
+                                "fontSize": "14px",
+                                "fontWeight": "600",
+                                "fontFamily": "Aldrich, sans-serif"
+                            }
+                        }
+                    },
+                    {
+                        "@type": "@builder.io/sdk:Element",
+                        "@version": 2,
+                        "layerName": "Describe your product value he...",
+                        "id": "builder-3f806eb007af4592a53f57ebb18f4169",
+                        "meta":
+                        {
+                            "figmaLayerId": "54:8939",
+                            "previousId": "builder-440e8183265f4bd6861b845b799b7a9f"
+                        },
+                        "component":
+                        {
+                            "name": "Text",
+                            "options":
+                            {
+                                "text": "<font face=\"Arial, sans-serif\">Fonts are the visual representation of text, playing a crucial role in both readability and aesthetic appeal. They come in a variety of styles, such as serif, sans-serif, script, and monospace, each conveying a different tone or personality. Serif fonts like Times New Roman are often seen as traditional and formal.</font>"
+                            },
+                            "isRSC": null
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "maxWidth": "860px",
+                                "marginTop": "8px",
+                                "fontSize": "35px",
+                                "letterSpacing": "0px",
+                                "textAlign": "left",
+                                "fontWeight": "300",
+                                "fontFamily": "Montserrat, sans-serif"
+                            },
+                            "medium":
+                            {
+                                "fontSize": "24px",
+                                "maxWidth": "370px"
+                            }
+                        }
+                    },
+                    {
+                        "id": "builder-pixel-6mp7omjjyfl",
+                        "@type": "@builder.io/sdk:Element",
+                        "tagName": "img",
+                        "properties":
+                        {
+                            "src": "https://cdn.builder.io/api/v1/pixel?apiKey=e084484c0e0241579f01abba29d9be10",
+                            "aria-hidden": "true",
+                            "alt": "",
+                            "role": "presentation",
+                            "width": "0",
+                            "height": "0"
+                        },
+                        "responsiveStyles":
+                        {
+                            "large":
+                            {
+                                "height": "0",
+                                "width": "0",
+                                "display": "inline-block",
+                                "opacity": "0",
+                                "overflow": "hidden",
+                                "pointerEvents": "none"
+                            }
+                        }
+                    }
+                ],
+                "url": "/text",
+                "state":
+                {
+                    "deviceSize": "large",
+                    "location":
+                    {
+                        "pathname": "/text",
+                        "path":
+                        [
+                            "text"
+                        ],
+                        "query":
+                        {}
+                    }
+                }
+            },
+            "variations":
+            {},
+            "lastUpdated": 1752755335205,
+            "firstPublished": 1667368417884,
+            "testRatio": 1,
+            "screenshot": "https://cdn.builder.io/api/v1/image/assets%2Fe084484c0e0241579f01abba29d9be10%2F990ed8386473436187215d616a9f4fcc",
+            "createdBy": "QYeiBq9XQFgTLKJsB0zOJLTAWOs1",
+            "lastUpdatedBy": "Fx9FxTq1Wyds3RU8GJIMOIDp25i2",
+            "folders":
+            [],
+            "rev": "a3sml3sucac"
+        }
+    ]
+}
