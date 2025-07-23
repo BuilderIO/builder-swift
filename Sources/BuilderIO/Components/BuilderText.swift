@@ -11,7 +11,7 @@ struct BuilderText: BuilderViewProtocol {
 
   init(block: BuilderBlockModel) {
     self.block = block
-    self.text = block.component?.options?["text"].string ?? ""
+    self.text = block.component?.options?.dictionaryValue?["text"]?.stringValue ?? ""
     self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
   }
 

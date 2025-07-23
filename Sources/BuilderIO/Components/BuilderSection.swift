@@ -1,6 +1,5 @@
 import Foundation
 import SwiftUI
-import SwiftyJSON
 
 struct BuilderSection: BuilderViewProtocol {
 
@@ -13,10 +12,11 @@ struct BuilderSection: BuilderViewProtocol {
   init(block: BuilderBlockModel) {
     self.block = block
     self.children = block.children
-    self.lazyLoad = block.component?.options?["lazyLoad"].bool ?? false
+    self.lazyLoad = block.component?.options?.dictionaryValue?["lazyLoad"]?.boolValue ?? false
     self.maxWidth =
-      block.component?.options?["maxWidth"] != nil
-      ? CGFloat(block.component?.options?["maxWidth"].float ?? .infinity) : nil
+      block.component?.options?.dictionaryValue?["maxWidth"] != nil
+      ? CGFloat(block.component?.options?.dictionaryValue?["maxWidth"]?.doubleValue ?? .infinity)
+      : nil
   }
 
   var body: some View {

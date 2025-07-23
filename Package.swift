@@ -20,7 +20,6 @@ let package = Package(
     
     // --- Dependencies ---
     dependencies: [
-        .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.0"),
         .package(url: "https://github.com/WeTransfer/Mocker.git", .upToNextMajor(from: "3.0.0")),
     ],
@@ -30,9 +29,6 @@ let package = Package(
         // Main library target
         .target(
             name: "BuilderIO",
-            dependencies: [
-                "SwiftyJSON",
-            ],
             resources: [
                 .process("Resources/Fonts")
             ]

@@ -3,14 +3,14 @@ import Mocker
 import XCTest  // Import XCTest if this class is part of your test bundle
 
 class BuilderIOMockManager {
-  
+
   static let shared = BuilderIOMockManager()
-  
+
   // MARK: - Properties
   private let baseURLString =
-  "https://cdn.builder.io/api/v3/content/page?apiKey=UNITTESTINGAPIKEY"
+    "https://cdn.builder.io/api/v3/content/page?apiKey=UNITTESTINGAPIKEY"
   let mockedURLSession: URLSession  // Public so your API service can use it
-  
+
   // MARK: - Initialization
   private init() {  // Private initializer to ensure only one instance is created
     // Configure URLSession to use Mocker's URLProtocol
@@ -19,7 +19,7 @@ class BuilderIOMockManager {
     self.mockedURLSession = URLSession(configuration: configuration)
     registerImageMock()
   }
-  
+
   /// Loads a JSON file from the test bundle and returns it as Data.
   ///
   /// - Parameters:
@@ -38,7 +38,7 @@ class BuilderIOMockManager {
       return nil
     }
   }
-  
+
   private func loadImageData(from imageName: String, withExtension fileExtension: String) -> Data? {
     guard
       let url = Bundle.module.url(
@@ -64,7 +64,7 @@ class BuilderIOMockManager {
       return nil
     }
   }
-  
+
   /// Registers a mock for a specific Builder.io API URL with a local JSON response.
   ///
   /// - Parameters:
@@ -74,27 +74,27 @@ class BuilderIOMockManager {
   func registerMock(for endpoint: String, with jsonFileName: String, statusCode: Int = 200) {
     guard let responseData = loadJSONData(from: jsonFileName) else {
       XCTFail("Failed to read file: \(jsonFileName)")
-      
+
       return  // loadJSONData will already have failed the test if file is missing
     }
-    
+
     guard let url = URL(string: "\(baseURLString)&url=\(endpoint)") else {
       XCTFail("Invalid URL constructed for endpoint: \(endpoint)")
       return
     }
-    
+
     let mock = Mock(
       url: url,
       dataType: .json,
       statusCode: statusCode,
       data: [.get: responseData]
     )
-    
+
     print("✅ Mock registered successfully for endpoint: \(url) using data")
-    
+
     mock.register()
   }
-  
+
   let images: [[String: String]] = [
     [
       "name": "grocery",
@@ -127,22 +127,22 @@ class BuilderIOMockManager {
       "extension": "png",
     ],
   ]
-  
+
   func registerImageMock(statusCode: Int = 200) {
-    
+
     for image in images {
-      
+
       guard
         let responseData = loadImageData(from: image["name"]!, withExtension: image["extension"]!)
       else {
         return  // loadImageData will already have failed the test if file is missing
       }
-      
+
       guard let urlString = image["url"], let url = URL(string: urlString) else {
         XCTFail("Invalid URL string for image mock: \(String(describing: image["url"]))")
         return
       }
-      
+
       let mock = Mock(
         url: url,
         ignoreQuery: true,
@@ -152,9 +152,9 @@ class BuilderIOMockManager {
       )
       mock.register()
     }
-    
+
   }
-  
+
   /// Clears all registered mocks. Call this in your `tearDown` method.
   func clearAllMocks() {
     Mocker.removeAll()

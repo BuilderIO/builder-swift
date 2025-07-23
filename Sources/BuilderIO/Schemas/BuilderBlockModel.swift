@@ -1,4 +1,4 @@
-import SwiftyJSON
+import Foundation  // For Codable, Data, etc.
 
 // Schema for Builder blocks
 public struct BuilderBlockModel: Codable, Identifiable {
@@ -8,15 +8,16 @@ public struct BuilderBlockModel: Codable, Identifiable {
   public var children: [BuilderBlockModel]? = []
   public var component: BuilderBlockComponent? = nil
   public var responsiveStyles: BuilderBlockResponsiveStyles? = BuilderBlockResponsiveStyles()  // for inner style of the component
-  public var actions: JSON? = [:]
-  public var code: JSON? = [:]
-  public var meta: JSON? = [:]
+  public var actions: AnyCodable? = nil  // Replaced JSON? with AnyCodable?, default to nil
+  public var code: AnyCodable? = nil  // Replaced JSON? with AnyCodable?, default to nil
+  public var meta: AnyCodable? = nil  // Replaced JSON? with AnyCodable?, default to nil
   public var linkUrl: String? = nil
+
 }
 
 public struct BuilderBlockComponent: Codable {
   public var name: String
-  public var options: JSON? = [:]
+  public var options: AnyCodable? = nil  // Replaced JSON? with AnyCodable?, default to nil
 }
 
 public struct BuilderBlockResponsiveStyles: Codable {
