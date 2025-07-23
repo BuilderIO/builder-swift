@@ -14,19 +14,6 @@ struct BuilderColumns: BuilderViewProtocol {
   init(block: BuilderBlockModel) {
     self.block = block
 
-    //    if let jsonString = block.component?.options?["columns"].rawString(),
-    //      let jsonData = jsonString.data(using: .utf8)
-    //    {
-    //      let decoder = JSONDecoder()
-    //      do {
-    //        self.columns = try decoder.decode([BuilderContentData].self, from: jsonData)
-    //      } catch {
-    //        self.columns = []
-    //      }
-    //    } else {
-    //      self.columns = []
-    //    }
-
     self.columns = []
 
     if let columnsAnyCodableArray = block.component?.options?
@@ -57,14 +44,7 @@ struct BuilderColumns: BuilderViewProtocol {
       self.columns = decodedColumns
 
     } else {
-      // This 'else' block handles cases where:
-      // - block.component is nil
-      // - options is nil
-      // - options is not a dictionary
-      // - "columns" key is not present
-      // - "columns" value is not an array
       print("Could not find or access 'columns' array in component options.")
-      // self.columns is already [] from the default assignment
     }
 
     self.space = block.component?.options?.dictionaryValue?["space"]?.doubleValue ?? 0
