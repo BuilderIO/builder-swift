@@ -74,5 +74,4 @@ class BuilderIOPageViewTests: XCTestCase {
     
     return hostingController
   }
-  
 }

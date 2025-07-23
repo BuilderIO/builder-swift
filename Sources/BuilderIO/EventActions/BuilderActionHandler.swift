@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftyJSON
 
 public typealias BuilderActionHandler = (BuilderAction) -> Void
 
@@ -16,7 +15,8 @@ public class BuilderActionManager: ObservableObject {
 
   public func handleButtonPress(builderAction: BuilderAction) {
 
-    var url: String? = builderAction.options?["link"].string ?? builderAction.linkURL
+    var url: String? =
+      builderAction.options?.dictionaryValue?["link"]?.stringValue ?? builderAction.linkURL
 
     //<CUSTOM_SCHEME>://<MODEL_NAME>/<PAGE_URL>?<OPTIONAL_PARAMETERS>
     //"builderio://page/my-awesome-page
@@ -61,10 +61,12 @@ public class BuilderActionManager: ObservableObject {
 public class BuilderAction {
   let componentId: String
   let linkURL: String?
-  let options: JSON?
-  let eventActions: JSON?
+  let options: AnyCodable?
+  let eventActions: AnyCodable?
 
-  public init(componentId: String, options: JSON?, eventActions: JSON?, linkURL: String? = nil) {
+  public init(
+    componentId: String, options: AnyCodable?, eventActions: AnyCodable?, linkURL: String? = nil
+  ) {
     self.componentId = componentId
     self.options = options
     self.eventActions = eventActions

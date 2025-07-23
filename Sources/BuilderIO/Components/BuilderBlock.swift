@@ -54,7 +54,8 @@ struct BuilderBlock: View {
       // Only checking links for now, can be expanded to cover events in the future
       let isTappable =
         component?.name == BuilderComponentType.coreButton.rawValue
-        || !(component?.options?["Link"].isEmpty ?? true) || !(child.linkUrl?.isEmpty ?? true)
+        || !(component?.options?.dictionaryValue?["Link"]?.stringValue?.isEmpty ?? true)
+        || !(child.linkUrl?.isEmpty ?? true)
 
       let builderAction: BuilderAction? =
         (isTappable)

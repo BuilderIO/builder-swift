@@ -16,15 +16,18 @@ struct BuilderImage: BuilderViewProtocol {
 
   init(block: BuilderBlockModel) {
     self.block = block
-    self.imageURL = URL(string: block.component?.options?["image"].string ?? "")
-    if let ratio = block.component?.options?["aspectRatio"].float {
+    self.imageURL = URL(
+      string: block.component?.options?.dictionaryValue?["image"]?.stringValue ?? "")
+    if let ratio = block.component?.options?.dictionaryValue?["aspectRatio"]?.doubleValue {
       self.aspectRatio = CGFloat(1 / ratio)
     }
 
     self.children = block.children
-    self.contentMode = block.component?.options?["backgroundSize"] == "cover" ? .fill : .fit
+    self.contentMode =
+      block.component?.options?.dictionaryValue?["backgroundSize"]?.stringValue == "cover"
+      ? .fill : .fit
     self.fitContent =
-      (block.component?.options?["fitContent"].boolValue ?? false)
+      (block.component?.options?.dictionaryValue?["fitContent"]?.boolValue ?? false)
       && !(block.children?.isEmpty ?? true)
 
   }

@@ -1,6 +1,5 @@
 import Foundation
 import SwiftUI
-import SwiftyJSON
 
 struct BuilderColumns: BuilderViewProtocol {
   static let componentType: BuilderComponentType = .columns
@@ -15,23 +14,65 @@ struct BuilderColumns: BuilderViewProtocol {
   init(block: BuilderBlockModel) {
     self.block = block
 
-    if let jsonString = block.component?.options?["columns"].rawString(),
-      let jsonData = jsonString.data(using: .utf8)
+    //    if let jsonString = block.component?.options?["columns"].rawString(),
+    //      let jsonData = jsonString.data(using: .utf8)
+    //    {
+    //      let decoder = JSONDecoder()
+    //      do {
+    //        self.columns = try decoder.decode([BuilderContentData].self, from: jsonData)
+    //      } catch {
+    //        self.columns = []
+    //      }
+    //    } else {
+    //      self.columns = []
+    //    }
+
+    self.columns = []
+
+    if let columnsAnyCodableArray = block.component?.options?
+      .dictionaryValue?["columns"]?
+      .arrayValue
     {
+
       let decoder = JSONDecoder()
-      do {
-        self.columns = try decoder.decode([BuilderContentData].self, from: jsonData)
-      } catch {
-        self.columns = []
+      var decodedColumns: [BuilderContentData] = []
+
+      // Iterate through each AnyCodable element in the array
+      for anyCodableElement in columnsAnyCodableArray {
+        do {
+          // Convert the AnyCodable element back into Data
+          // (This is necessary because JSONDecoder works with Data)
+          let elementData = try JSONEncoder().encode(anyCodableElement)
+
+          // Decode that Data into a BuilderContentData instance
+          let column = try decoder.decode(BuilderContentData.self, from: elementData)
+          decodedColumns.append(column)
+        } catch {
+          // Handle error for a specific element if it can't be decoded
+          print("Error decoding individual BuilderContentData from AnyCodable element: \(error)")
+          // You might choose to append a default empty BuilderContentData,
+          // or simply skip this element, as we are doing here.
+        }
       }
+      self.columns = decodedColumns
+
     } else {
-      self.columns = []
+      // This 'else' block handles cases where:
+      // - block.component is nil
+      // - options is nil
+      // - options is not a dictionary
+      // - "columns" key is not present
+      // - "columns" value is not an array
+      print("Could not find or access 'columns' array in component options.")
+      // self.columns is already [] from the default assignment
     }
 
-    self.space = block.component?.options?["space"].doubleValue ?? 0
-    self.stackColumns = !(block.component?.options?["stackColumnsAt"] == "never" ?? false)
+    self.space = block.component?.options?.dictionaryValue?["space"]?.doubleValue ?? 0
+    self.stackColumns =
+      !((block.component?.options?.dictionaryValue?["stackColumnsAt"]?.stringValue == "never")
+      ?? false)
     self.reverseColumnsWhenStacked =
-      block.component?.options?["reverseColumnsWhenStacked"].boolValue ?? false
+      block.component?.options?.dictionaryValue?["reverseColumnsWhenStacked"]?.boolValue ?? false
 
   }
 
