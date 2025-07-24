@@ -9,7 +9,7 @@ public class StateModel {
       return currentData[keys[0]]?.arrayValue
     }
 
-    let nextLevelObject = currentData[keys[0]] as? [String: AnyCodable]
+    let nextLevelObject = currentData[keys[0]]?.dictionaryValue
 
     var nextKeys = Array(keys.dropFirst())
 

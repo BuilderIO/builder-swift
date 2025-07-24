@@ -82,10 +82,10 @@ public final class BuilderIOViewModel {
                 keyString: collectionName),
                 collectionModel.count > 0
               {
-
                 for model in collectionModel {
                   var newContentModel = contentBlock
                   newContentModel.stateBoundObjectModel = model
+                  newContentModel.id = UUID().uuidString
                   newContentBlocks.append(newContentModel)
                 }
               } else {
