@@ -37,7 +37,10 @@ struct BuilderImage: BuilderViewProtocol {
     AsyncImage(url: imageURL) { phase in
       switch phase {
       case .empty:
-        ProgressView()
+        Rectangle()  // Create the Rectangle shape
+          .fill(Color.clear)  // Make the rectangle itself transparent
+          .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)  // Apply aspect ratio to the rectangle
+          .overlay(ProgressView())
       case .success(let image):
         if fitContent {
           Group {

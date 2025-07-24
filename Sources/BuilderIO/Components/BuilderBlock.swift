@@ -33,11 +33,11 @@ struct BuilderBlock: View {
       if builderLayoutDirection == .parentLayout {
         blockContent()
       } else if builderLayoutDirection == .horizontal {
-        HStack(spacing: spacing) {  // Adjust alignment and spacing as needed
+        LazyHStack(spacing: spacing) {  // Adjust alignment and spacing as needed
           blockContent()
         }
       } else {  // Default to column
-        VStack(spacing: spacing) {  // Adjust alignment and spacing as needed
+        LazyVStack(spacing: spacing) {  // Adjust alignment and spacing as needed
           blockContent()
         }
       }

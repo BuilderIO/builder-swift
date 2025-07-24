@@ -29,12 +29,14 @@ public struct BuilderIOContentView: View {
           .foregroundColor(.red)
       } else if let builderContent = viewModel.builderContent {
 
-        let builderBlockView = BuilderBlock(blocks: builderContent.data.blocks)
-          .onAppear {
-            if !BuilderContentAPI.isPreviewing() {
-              viewModel.sendTrackingPixel()
-            }
+        let builderBlockView = BuilderBlock(
+          blocks: builderContent.data.blocks, builderLayoutDirection: .vertical
+        )
+        .onAppear {
+          if !BuilderContentAPI.isPreviewing() {
+            viewModel.sendTrackingPixel()
           }
+        }
 
         // Conditionally apply ScrollView and refreshable
         if url != nil && !url!.isEmpty {
