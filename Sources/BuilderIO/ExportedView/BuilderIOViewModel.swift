@@ -84,7 +84,7 @@ public final class BuilderIOViewModel {
               {
                 for model in collectionModel {
                   var newContentModel = contentBlock
-                  newContentModel.stateBoundObjectModel = model
+                  newContentModel.propagateStateBoundObjectModel(model)
                   newContentModel.id = UUID().uuidString
                   newContentBlocks.append(newContentModel)
                 }

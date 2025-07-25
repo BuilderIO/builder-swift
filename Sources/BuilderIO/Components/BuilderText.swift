@@ -13,6 +13,10 @@ struct BuilderText: BuilderViewProtocol {
     self.block = block
     self.text = block.component?.options?.dictionaryValue?["text"]?.stringValue ?? ""
     self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
+
+    if let textBinding = block.codeBindings(for: "text") {
+      self.text = textBinding.stringValue
+    }
   }
 
   var body: some View {
