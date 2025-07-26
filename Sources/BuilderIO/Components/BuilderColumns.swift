@@ -42,10 +42,11 @@ struct BuilderColumns: BuilderViewProtocol {
         }
       }
 
-      if block.stateBoundObjectModel != nil {
-        for column in decodedColumns {
-          for var blocks in column.blocks {
-            blocks.propagateStateBoundObjectModel(block.stateBoundObjectModel!)
+      if let stateBoundObjectModel = block.stateBoundObjectModel {
+        for columnIndex in decodedColumns.indices {
+          for blockIndex in decodedColumns[columnIndex].blocks.indices {
+            decodedColumns[columnIndex].blocks[blockIndex]
+              .propagateStateBoundObjectModel(stateBoundObjectModel)
           }
         }
       }
