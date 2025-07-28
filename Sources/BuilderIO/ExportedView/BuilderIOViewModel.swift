@@ -82,9 +82,13 @@ public final class BuilderIOViewModel {
                 keyString: collectionName),
                 collectionModel.count > 0
               {
-                for model in collectionModel {
+                for i in 0..<collectionModel.count {
                   var newContentModel = contentBlock
-                  newContentModel.propagateStateBoundObjectModel(model)
+                  newContentModel.propagateStateBoundObjectModel(
+                    self.stateModel,
+                    stateRepeatCollectionKey: StateRepeatCollectionKey(
+                      index: i, collection: collectionName))
+
                   newContentModel.id = UUID().uuidString
                   newContentBlocks.append(newContentModel)
                 }
@@ -93,7 +97,9 @@ public final class BuilderIOViewModel {
               }
 
             } else {
-              newContentBlocks.append(contentBlock)
+              var newContentModel = contentBlock
+              newContentModel.propagateStateBoundObjectModel(self.stateModel)
+              newContentBlocks.append(newContentModel)
             }
 
           }

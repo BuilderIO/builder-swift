@@ -46,7 +46,8 @@ struct BuilderColumns: BuilderViewProtocol {
         for columnIndex in decodedColumns.indices {
           for blockIndex in decodedColumns[columnIndex].blocks.indices {
             decodedColumns[columnIndex].blocks[blockIndex]
-              .propagateStateBoundObjectModel(stateBoundObjectModel)
+              .propagateStateBoundObjectModel(
+                stateBoundObjectModel, stateRepeatCollectionKey: block.stateRepeatCollectionKey)
           }
         }
       }
