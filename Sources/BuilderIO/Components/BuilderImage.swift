@@ -12,7 +12,7 @@ struct BuilderImage: BuilderViewProtocol {
   var contentMode: ContentMode = .fit
   var fitContent: Bool = false
 
-  @State private var imageLoadedSuccessfully: Bool = false
+  @State private var builderImageLoader: BuilderImageLoader = BuilderImageLoader()
 
   init(block: BuilderBlockModel) {
     self.block = block
@@ -38,16 +38,18 @@ struct BuilderImage: BuilderViewProtocol {
   }
 
   var body: some View {
-
-    AsyncImage(url: imageURL) { phase in
-      switch phase {
-      case .empty:
-        Rectangle()  // Create the Rectangle shape
-          .fill(Color.clear)  // Make the rectangle itself transparent
-          .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)  // Apply aspect ratio to the rectangle
+    Group {
+      switch builderImageLoader.imageStatus {
+      case .loading:
+        Rectangle()
+          .fill(Color.clear)
+          .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
           .overlay(ProgressView())
-      case .success(let image):
+      case .error:
+        EmptyView()
+      case .loaded(let uiImage):
         if fitContent {
+          // Content fits over the image, image acts as background
           Group {
             if let children = children, !children.isEmpty {
               VStack(spacing: 0) {
@@ -58,20 +60,22 @@ struct BuilderImage: BuilderViewProtocol {
               .frame(maxWidth: .infinity, maxHeight: .infinity)
               .padding(0)
               .background(
-                image.resizable()
+                Image(uiImage: uiImage)  // Use UIImage directly
+                  .resizable()
                   .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
                   .clipped()
               )
             } else {
-              EmptyView()
+              EmptyView()  // No children, so nothing to show if fitContent is true without children
             }
           }
-
         } else {
+          // Image fills the space, children overlay it
           Rectangle().fill(Color.clear)
             .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
             .background(
-              image.resizable()
+              Image(uiImage: uiImage)  // Use UIImage directly
+                .resizable()
                 .aspectRatio(contentMode: self.contentMode)
                 .clipped()
             )
@@ -88,11 +92,11 @@ struct BuilderImage: BuilderViewProtocol {
             )
         }
 
-      case .failure:
-        EmptyView()
-      @unknown default:
-        EmptyView()
       }
+    }
+    .task {
+      try? await Task.sleep(nanoseconds: 10_000_000)
+      await builderImageLoader.loadImage(from: imageURL)
     }
 
   }
