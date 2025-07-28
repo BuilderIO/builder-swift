@@ -7,6 +7,7 @@ enum ImageStatus {
   case error
 }
 
+@MainActor
 @Observable
 class BuilderImageLoader {
 
