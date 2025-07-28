@@ -126,6 +126,12 @@ class BuilderIOMockManager {
         "https://pngimg.com/uploads/macbook/small/macbook_PNG65.png",
       "extension": "png",
     ],
+    [
+      "name": "gloss",
+      "url":
+        "https://cdn.builder.io/api/v1/image/assets%2F89d6bbb44070475d9580fd22f21ef8f1%2F4c0ff0da35b24347bb87443f268979bd?width=2000",
+      "extension": "jpg",
+    ],
   ]
 
   func registerImageMock(statusCode: Int = 200) {

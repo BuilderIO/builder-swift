@@ -29,7 +29,7 @@ class BuilderIOPageViewTests: XCTestCase {
     
     let hostingController = makeHostingController(for: "/text", width: 375, height: 812)
     
-          let expectation = XCTestExpectation(description: "Wait for view to render")
+    let expectation = XCTestExpectation(description: "Wait for view to render")
     
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
       
@@ -46,7 +46,7 @@ class BuilderIOPageViewTests: XCTestCase {
     
     let hostingController = makeHostingController(for: "/layout", width: 375, height: 812)
     
-          let expectation = XCTestExpectation(description: "Wait for view to render")
+    let expectation = XCTestExpectation(description: "Wait for view to render")
     
     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
       

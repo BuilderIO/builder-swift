@@ -46,7 +46,8 @@ struct BuilderImage: BuilderViewProtocol {
           .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
           .overlay(ProgressView())
       case .error:
-        EmptyView()
+        Rectangle()
+          .fill(Color.clear)
       case .loaded(let uiImage):
         if fitContent {
           // Content fits over the image, image acts as background
