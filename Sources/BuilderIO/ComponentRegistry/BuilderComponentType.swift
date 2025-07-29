@@ -8,6 +8,7 @@ public struct BuilderComponentType: Equatable, Hashable {
   static let section = BuilderComponentType(rawValue: "Core:Section")
   static let box = BuilderComponentType(rawValue: "Box")
   static let empty = BuilderComponentType(rawValue: "Empty")
+  static let video = BuilderComponentType(rawValue: "Video")
 
   // Add new types dynamically
   public static func custom(_ name: String) -> BuilderComponentType {
