@@ -22,8 +22,7 @@ struct BuilderVideo: BuilderViewProtocol {
 
   // AVPlayer
   @State private var player: AVPlayer?
-  @State private var playerLayer: AVPlayerLayer?
-  // New state to manage play button visibility and video playing state
+
   @State private var showOverlay: Bool
   @State private var isPlaying: Bool = false
 
@@ -76,31 +75,45 @@ struct BuilderVideo: BuilderViewProtocol {
   var body: some View {
     Group {
       if let videoURL = videoURL {
-        VideoPlayer(player: player)
-          .onAppear {
-            player = AVPlayer(url: videoURL)
-            playerLayer = AVPlayerLayer(player: player)
-            playerLayer?.videoGravity =
-              self.contentMode == .fill ? .resizeAspectFill : .resizeAspect
-            player?.isMuted = muted
-
-            if loop {
-              NotificationCenter.default.addObserver(
-                forName: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem, queue: .main
-              ) { [self] _ in
-                self.player?.seek(to: CMTime.zero)
-                self.player?.play()
-              }
-            }
-
-            if autoPlay {
-              self.showOverlay = false
-              player?.play()
-            }
+        Rectangle().fill(Color.clear)
+          .aspectRatio(self.aspectRatio ?? 1, contentMode: self.contentMode)
+          .if(contentMode == .fill) { view in
+            view.background(
+              VideoPlayerView(
+                videoURL: videoURL,
+                autoPlay: true,
+                muted: self.muted,
+                loop: self.loop
+              )
+            )
           }
-          .onDisappear {
-            player?.pause()
-            player = nil
+          .if(contentMode == .fit) { view in
+            view.background(
+              VideoPlayer(player: player)
+                .onAppear {
+                  player = AVPlayer(url: videoURL)
+                  player?.isMuted = muted
+
+                  if loop {
+                    NotificationCenter.default.addObserver(
+                      forName: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem,
+                      queue: .main
+                    ) { [self] _ in
+                      self.player?.seek(to: CMTime.zero)
+                      self.player?.play()
+                    }
+                  }
+
+                  if autoPlay {
+                    self.showOverlay = false
+                    player?.play()
+                  }
+                }.onDisappear {
+                  player?.pause()
+                  player = nil
+                }
+
+            )
           }
           .aspectRatio(aspectRatio, contentMode: self.contentMode)
           .overlay(
@@ -141,14 +154,80 @@ struct BuilderVideo: BuilderViewProtocol {
               }
             }
           )
-          .onChange(of: muted) { newMuted in
-            player?.isMuted = newMuted
-          }
 
       } else {
         // If no video URL, display poster image or an empty view
         EmptyView()
       }
+    }
+  }
+}
+
+struct VideoPlayerView: UIViewRepresentable {
+  var videoURL: URL
+  var autoPlay: Bool
+  var muted: Bool
+  var loop: Bool
+
+  func makeUIView(context: Context) -> PlayerContainerView {
+    let playerContainerView = PlayerContainerView(
+      videoURL: videoURL,
+      autoPlay: autoPlay,
+      muted: muted,
+      loop: loop
+    )
+    return playerContainerView
+  }
+
+  func updateUIView(_ uiView: PlayerContainerView, context: Context) {
+
+    uiView.player?.isMuted = muted
+
+  }
+
+  // 2. Custom UIView subclass to host the AVPlayerLayer
+  class PlayerContainerView: UIView {
+    var player: AVPlayer?  // Make it optional to handle init scenarios
+    private var playerLayer: AVPlayerLayer!
+    private var playerLooper: AVPlayerLooper?
+
+    init(videoURL: URL, autoPlay: Bool, muted: Bool, loop: Bool) {
+      super.init(frame: .zero)
+      self.backgroundColor = .black
+
+      // For seamless looping, use AVPlayerLooper with a queue player
+      // This also handles the initial autoPlay.
+      let playerItem = AVPlayerItem(url: videoURL)
+      let queuePlayer = AVQueuePlayer(playerItem: playerItem)
+
+      player = queuePlayer  // Assign to the optional player property
+      playerLayer = AVPlayerLayer(player: queuePlayer)
+      playerLayer.videoGravity = .resizeAspectFill
+
+      self.layer.addSublayer(playerLayer)
+
+      // Apply mute setting
+      player?.isMuted = muted
+
+      // Handle looping
+      if loop {
+        playerLooper = AVPlayerLooper(player: queuePlayer, templateItem: playerItem)
+      }
+
+      // Handle autoPlay
+      if autoPlay {
+        queuePlayer.play()
+      }
+
+    }
+
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+      super.layoutSubviews()
+      playerLayer.frame = bounds
     }
   }
 }
