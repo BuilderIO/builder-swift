@@ -6,18 +6,18 @@ public struct BuilderIOContentView: View {
   let model: String
   let url: String?
 
-  @StateObject private var viewModel: BuilderIOViewModel
+  @State private var viewModel: BuilderIOViewModel
 
   public init(model: String) {
     self.model = model
     self.url = nil
-    _viewModel = StateObject(wrappedValue: BuilderIOViewModel())
+    _viewModel = State(wrappedValue: BuilderIOViewModel())
   }
 
   init(url: String, model: String = "page") {
     self.url = url
     self.model = model
-    _viewModel = StateObject(wrappedValue: BuilderIOViewModel())
+    _viewModel = State(wrappedValue: BuilderIOViewModel())
   }
 
   public var body: some View {
@@ -29,12 +29,14 @@ public struct BuilderIOContentView: View {
           .foregroundColor(.red)
       } else if let builderContent = viewModel.builderContent {
 
-        let builderBlockView = BuilderBlock(blocks: builderContent.data.blocks)
-          .onAppear {
-            if !BuilderContentAPI.isPreviewing() {
-              viewModel.sendTrackingPixel()
-            }
+        let builderBlockView = BuilderBlock(
+          blocks: builderContent.data.blocks, builderLayoutDirection: .vertical
+        )
+        .onAppear {
+          if !BuilderContentAPI.isPreviewing() {
+            viewModel.sendTrackingPixel()
           }
+        }
 
         // Conditionally apply ScrollView and refreshable
         if url != nil && !url!.isEmpty {

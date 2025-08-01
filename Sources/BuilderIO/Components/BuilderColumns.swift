@@ -32,7 +32,7 @@ struct BuilderColumns: BuilderViewProtocol {
           let elementData = try JSONEncoder().encode(anyCodableElement)
 
           // Decode that Data into a BuilderContentData instance
-          let column = try decoder.decode(BuilderContentData.self, from: elementData)
+          var column = try decoder.decode(BuilderContentData.self, from: elementData)
           decodedColumns.append(column)
         } catch {
           // Handle error for a specific element if it can't be decoded
@@ -41,6 +41,17 @@ struct BuilderColumns: BuilderViewProtocol {
           // or simply skip this element, as we are doing here.
         }
       }
+
+      if let stateBoundObjectModel = block.stateBoundObjectModel {
+        for columnIndex in decodedColumns.indices {
+          for blockIndex in decodedColumns[columnIndex].blocks.indices {
+            decodedColumns[columnIndex].blocks[blockIndex]
+              .propagateStateBoundObjectModel(
+                stateBoundObjectModel, stateRepeatCollectionKey: block.stateRepeatCollectionKey)
+          }
+        }
+      }
+
       self.columns = decodedColumns
 
     } else {

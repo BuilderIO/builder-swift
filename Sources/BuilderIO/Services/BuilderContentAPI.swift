@@ -158,4 +158,58 @@ public struct BuilderContentAPI {
     }
   }
 
+  public static func getDataFromBoundAPI(url: String) async throws -> AnyCodable {
+    // 1. Validate URL
+    guard let url = URL(string: url) else {
+      throw APIError.invalidURL
+    }
+
+    // 2. Perform the network request
+    // The `data(from:)` method throws errors directly,
+    // so we use `try` and handle them in a `do-catch` block or let them propagate.
+    let (data, response) = try await URLSession.shared.data(from: url)
+
+    // 3. Validate HTTP Response
+    guard let httpResponse = response as? HTTPURLResponse else {
+      throw APIError.invalidResponse(statusCode: 0)  // Should ideally not happen with URLSession
+    }
+
+    guard (200...299).contains(httpResponse.statusCode) else {
+      throw APIError.invalidResponse(statusCode: httpResponse.statusCode)
+    }
+
+    // 4. Check for Data
+    guard !data.isEmpty else {
+      throw APIError.noData
+    }
+
+    // 5. Decode JSON using JSONDecoder
+    let decoder = JSONDecoder()
+    do {
+      let jsonResult = try decoder.decode(AnyCodable.self, from: data)
+      return jsonResult
+    } catch {
+      throw APIError.decodingFailed(error)
+    }
+  }
+}
+
+enum APIError: Error, LocalizedError {
+  case invalidURL
+  case requestFailed(Error)
+  case invalidResponse(statusCode: Int)
+  case noData
+  case decodingFailed(Error)
+
+  var errorDescription: String? {
+    switch self {
+    case .invalidURL: return "The provided URL is invalid."
+    case .requestFailed(let error): return "Network request failed: \(error.localizedDescription)"
+    case .invalidResponse(let statusCode):
+      return "Invalid server response with status code: \(statusCode)"
+    case .noData: return "No data received from the API."
+    case .decodingFailed(let error):
+      return "Failed to decode API response: \(error.localizedDescription)"
+    }
+  }
 }

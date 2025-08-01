@@ -1,8 +1,6 @@
 import SwiftUI
 
-//BuilderBlock forms the out layout container for all components mimicking Blocks from response. As blocks can have layout direction of either horizontal or vertical a check is made and layout selected.
-
-//BuilderBlock forms the out layout container for all components mimicking Blocks from response. As blocks can have layout direction of either horizontal or vertical a check is made and layout selected.
+//BuilderBlock forms the outer layout container for all components mimicking Blocks from response. As blocks can have layout direction of either horizontal or vertical a check is made and layout selected.
 
 enum BuilderLayoutDirection {
   case horizontal
@@ -33,11 +31,11 @@ struct BuilderBlock: View {
       if builderLayoutDirection == .parentLayout {
         blockContent()
       } else if builderLayoutDirection == .horizontal {
-        HStack(spacing: spacing) {  // Adjust alignment and spacing as needed
+        LazyHStack(spacing: spacing) {  // Adjust alignment and spacing as needed
           blockContent()
         }
       } else {  // Default to column
-        VStack(spacing: spacing) {  // Adjust alignment and spacing as needed
+        LazyVStack(spacing: spacing) {  // Adjust alignment and spacing as needed
           blockContent()
         }
       }

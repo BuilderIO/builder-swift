@@ -14,6 +14,10 @@ extension BuilderViewProtocol {
   func getFinalStyle(responsiveStyles: BuilderBlockResponsiveStyles?) -> [String: String] {
     return CSSStyleUtil.getFinalStyle(responsiveStyles: responsiveStyles)
   }
+
+  func codeBindings() -> [String: String]? {
+    return nil
+  }
 }
 
 struct BuilderEmptyView: BuilderViewProtocol {
