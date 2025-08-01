@@ -6,7 +6,7 @@ struct BuilderImage: BuilderViewProtocol {
   var block: BuilderBlockModel
   var children: [BuilderBlockModel]?
 
-  var imageURL: URL?
+  var imageURL: URL? = nil
   var aspectRatio: CGFloat? = nil
   var lockAspectRatio: Bool = false
   var contentMode: ContentMode = .fit
@@ -16,8 +16,12 @@ struct BuilderImage: BuilderViewProtocol {
 
   init(block: BuilderBlockModel) {
     self.block = block
-    self.imageURL = URL(
-      string: block.component?.options?.dictionaryValue?["image"]?.stringValue ?? "")
+
+    if let imageLink = block.component?.options?.dictionaryValue?["image"] {
+      self.imageURL = URL(
+        string: localize(localizedValue: imageLink) ?? "")
+    }
+
     if let ratio = block.component?.options?.dictionaryValue?["aspectRatio"]?.doubleValue {
       self.aspectRatio = CGFloat(1 / ratio)
     }

@@ -11,7 +11,11 @@ struct BuilderText: BuilderViewProtocol {
 
   init(block: BuilderBlockModel) {
     self.block = block
-    self.text = block.component?.options?.dictionaryValue?["text"]?.stringValue ?? ""
+
+    if let textValue = block.component?.options?.dictionaryValue?["text"] {
+      self.text = localize(localizedValue: textValue) ?? ""
+    }
+
     self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
 
     if let textBinding = block.codeBindings(for: "text") {
