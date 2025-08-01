@@ -28,6 +28,7 @@ public class BuilderComponentRegistry {
     register(type: BuilderButton.componentType, viewClass: BuilderButton.self)
     register(type: BuilderColumns.componentType, viewClass: BuilderColumns.self)
     register(type: BuilderSection.componentType, viewClass: BuilderSection.self)
+    register(type: BuilderVideo.componentType, viewClass: BuilderVideo.self)
   }
 
   private func register(type: BuilderComponentType, viewClass: any BuilderViewProtocol.Type) {
