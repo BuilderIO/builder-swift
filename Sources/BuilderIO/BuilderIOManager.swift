@@ -15,24 +15,26 @@ public final class BuilderIOManager {
 
   private let apiKey: String
   public let customNavigationScheme: String
+  public let locale: String?
 
   private static var registered = false
 
-  public static func configure(apiKey: String, customNavigationScheme: String = "builderio") {
+  public static func configure(apiKey: String, customNavigationScheme: String = "builderio", locale: String = "Default") {
     guard _shared == nil else {
       print(
         "Warning: BuilderIOManager has already been configured. Ignoring subsequent configuration.")
       return
     }
     Font.registerFonts()
-    _shared = BuilderIOManager(apiKey: apiKey, customNavigationScheme: customNavigationScheme)
+    _shared = BuilderIOManager(apiKey: apiKey, customNavigationScheme: customNavigationScheme, locale: locale)
   }
 
   // MARK: - Private Initialization
 
-  private init(apiKey: String, customNavigationScheme: String) {
+  private init(apiKey: String, customNavigationScheme: String, locale: String) {
     self.apiKey = apiKey
     self.customNavigationScheme = customNavigationScheme
+    self.locale = locale
 
     if !Self.registered {
       BuilderComponentRegistry.shared.initialize()
@@ -60,7 +62,7 @@ public final class BuilderIOManager {
         model: model,
         apiKey: apiKey,
         url: resolvedUrl,
-        locale: "",
+        locale: locale,
         preview: ""
       ) {
         return .success(content)
