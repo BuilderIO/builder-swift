@@ -51,6 +51,16 @@ struct BuilderColumns: BuilderViewProtocol {
           }
         }
       }
+      
+      if let locale = block.locale {
+        
+        for columnIndex in decodedColumns.indices {
+          for blockIndex in decodedColumns[columnIndex].blocks.indices {
+            decodedColumns[columnIndex].blocks[blockIndex]
+              .setLocaleRecursively(locale)
+          }
+        }
+      }
 
       self.columns = decodedColumns
 

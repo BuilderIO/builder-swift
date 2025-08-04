@@ -18,7 +18,6 @@ public struct BuilderIOContentView: View {
     self.url = nil
     self._locale = locale  // Initialize the binding
     _viewModel = State(wrappedValue: BuilderIOViewModel(locale: locale.wrappedValue))
-
   }
 
   public init(url: String, model: String = "page", locale: String) {
