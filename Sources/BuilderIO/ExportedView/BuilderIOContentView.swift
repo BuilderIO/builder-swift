@@ -9,12 +9,20 @@ public struct BuilderIOContentView: View {
   @State private var viewModel: BuilderIOViewModel
   @Binding var locale: String
 
+  public init(model: String, locale: String) {
+    self.init(model: model, locale: .constant(locale))
+  }
+
   public init(model: String, locale: Binding<String>) {
     self.model = model
     self.url = nil
     self._locale = locale  // Initialize the binding
     _viewModel = State(wrappedValue: BuilderIOViewModel(locale: locale.wrappedValue))
 
+  }
+
+  public init(url: String, model: String = "page", locale: String) {
+    self.init(url: url, model: model, locale: .constant(locale))
   }
 
   init(url: String, model: String = "page", locale: Binding<String>) {

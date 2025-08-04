@@ -5,7 +5,7 @@ public struct BuilderIOPage: View {
 
   let url: String
   let model: String
-  @State private var locale: String
+  @Binding var locale: String
 
   @StateObject private var buttonActionManager = BuilderActionManager()
   var onClickEventHandler: ((BuilderAction) -> Void)? = nil
@@ -16,14 +16,18 @@ public struct BuilderIOPage: View {
     url: String, model: String = "page", locale: String = "Default",
     onClickEventHandler: ((BuilderAction) -> Void)? = nil
   ) {
+    self.init(
+      url: url, model: model, locale: .constant(locale), onClickEventHandler: onClickEventHandler)
+  }
+
+  public init(
+    url: String, model: String = "page", locale: Binding<String>,
+    onClickEventHandler: ((BuilderAction) -> Void)? = nil
+  ) {
     self.url = url
     self.model = model
     self.onClickEventHandler = onClickEventHandler
-    self._locale = State(initialValue: locale)
-  }
-
-  public func updateLocale(locale: String) {
-
+    self._locale = locale
   }
 
   public var body: some View {
