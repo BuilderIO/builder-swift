@@ -22,7 +22,7 @@ extension BuilderViewProtocol {
   func localize(localizedValue: AnyCodable) -> String? {
 
     if let localeDictionary = localizedValue.dictionaryValue {
-      if let currentLocale = BuilderIOManager.shared.locale {
+      if let currentLocale = block.locale {
         if let localizedString = localeDictionary[currentLocale]?.stringValue {
           return localizedString
         }

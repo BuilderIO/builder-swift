@@ -7,17 +7,21 @@ public struct BuilderIOContentView: View {
   let url: String?
 
   @State private var viewModel: BuilderIOViewModel
+  @Binding var locale: String
 
-  public init(model: String) {
+  public init(model: String, locale: Binding<String>) {
     self.model = model
     self.url = nil
-    _viewModel = State(wrappedValue: BuilderIOViewModel())
+    self._locale = locale  // Initialize the binding
+    _viewModel = State(wrappedValue: BuilderIOViewModel(locale: locale.wrappedValue))
+
   }
 
-  init(url: String, model: String = "page") {
+  init(url: String, model: String = "page", locale: Binding<String>) {
     self.url = url
     self.model = model
-    _viewModel = State(wrappedValue: BuilderIOViewModel())
+    self._locale = locale
+    _viewModel = State(wrappedValue: BuilderIOViewModel(locale: locale.wrappedValue))
   }
 
   public var body: some View {
@@ -66,6 +70,8 @@ public struct BuilderIOContentView: View {
       if viewModel.builderContent == nil && !viewModel.isLoading {
         await loadContent()
       }
+    }.onChange(of: locale) {
+      viewModel.updateLocale(locale: locale)
     }
   }
 

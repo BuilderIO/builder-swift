@@ -17,6 +17,8 @@ public struct BuilderBlockModel: Codable, Identifiable {
   public var stateBoundObjectModel: StateModel? = nil
   public var stateRepeatCollectionKey: StateRepeatCollectionKey? = nil
 
+  public var locale: String? = nil  // Optional locale for the block
+
 }
 
 public struct StateRepeatCollectionKey: Codable {
@@ -85,6 +87,18 @@ extension BuilderBlockModel {
     }
 
     return nil
+  }
+
+  public mutating func setLocaleRecursively(_ newLocale: String) {
+    self.locale = newLocale
+    self.id = UUID().uuidString  // Reset ID to ensure uniqueness after locale change
+    if let children = self.children {
+      var newChildren = children
+      for i in 0..<newChildren.count {
+        newChildren[i].setLocaleRecursively(newLocale)
+      }
+      self.children = newChildren
+    }
   }
 
 }

@@ -12,14 +12,24 @@ public final class BuilderIOViewModel {
   public var isLoading: Bool = false
   public var errorMessage: String?
   public var stateModel: StateModel = StateModel()
+  public var locale: String = "Default"
 
   public var isNetworkAvailable: Bool = false
   private let networkMonitor = NWPathMonitor()
   private let networkQueue = DispatchQueue(label: "NetworkMonitorQueue")
 
   /// Initializes the BuilderIOViewModel.
-  public init() {
+  public init(locale: String) {
+    self.locale = locale
     startNetworkMonitoring()
+  }
+
+  public func updateLocale(locale: String) {
+    self.locale = locale
+    for i in 0..<(self.builderContent?.data.blocks.count ?? 0) {
+      self.builderContent?.data.blocks[i].setLocaleRecursively(locale)
+    }
+
   }
 
   private func startNetworkMonitoring() {
@@ -67,7 +77,14 @@ public final class BuilderIOViewModel {
         }
 
         if self.stateModel.apiResponses.isEmpty {
+          var newContentBlocks = fetchedContent.data.blocks ?? []
+          for i in 0..<newContentBlocks.count {
+            newContentBlocks[i].setLocaleRecursively(locale)
+          }
+
           self.builderContent = fetchedContent
+
+          self.builderContent?.data.blocks = newContentBlocks
         } else {
           // Further logic for content binding/loops can go here if needed.
           var contentBlocks = fetchedContent.data.blocks ?? []
@@ -103,7 +120,12 @@ public final class BuilderIOViewModel {
             }
 
           }
+
           self.builderContent = fetchedContent
+
+          for i in 0..<newContentBlocks.count {
+            newContentBlocks[i].setLocaleRecursively(locale)
+          }
 
           self.builderContent?.data.blocks = newContentBlocks
         }
