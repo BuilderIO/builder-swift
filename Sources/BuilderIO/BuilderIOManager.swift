@@ -51,9 +51,7 @@ public final class BuilderIOManager {
   }
 
   public func fetchBuilderContent(model: String = "page", url: String? = nil, locale: String) async
-    -> Result<
-      BuilderContent, Error
-    >
+    -> Result<BuilderContent, Error>
   {
     do {
       let resolvedUrl = url ?? ""
