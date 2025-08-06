@@ -9,18 +9,18 @@ public struct BuilderIOContentView: View {
   @State private var viewModel: BuilderIOViewModel
   @Binding var locale: String
 
-  public init(model: String, locale: String) {
+  public init(model: String, locale: String = "Default") {
     self.init(model: model, locale: .constant(locale))
   }
 
   public init(model: String, locale: Binding<String>) {
     self.model = model
     self.url = nil
-    self._locale = locale  // Initialize the binding
-    _viewModel = State(wrappedValue: BuilderIOViewModel(locale: locale.wrappedValue))
+    self._locale = locale
+    _viewModel = State(wrappedValue: BuilderIOViewModel())
   }
 
-  public init(url: String, model: String = "page", locale: String) {
+  public init(url: String, model: String = "page", locale: String = "Default") {
     self.init(url: url, model: model, locale: .constant(locale))
   }
 
@@ -28,7 +28,7 @@ public struct BuilderIOContentView: View {
     self.url = url
     self.model = model
     self._locale = locale
-    _viewModel = State(wrappedValue: BuilderIOViewModel(locale: locale.wrappedValue))
+    _viewModel = State(wrappedValue: BuilderIOViewModel())
   }
 
   public var body: some View {
@@ -78,14 +78,17 @@ public struct BuilderIOContentView: View {
         await loadContent()
       }
     }.onChange(of: locale) {
-      viewModel.updateLocale(locale: locale)
+      Task {
+        await loadContent()
+      }
     }
   }
 
   func loadContent() async {
     if !viewModel.isLoading {
       print("Calling fetchBuilderPageContent from .task for section model : \(model)")
-      await viewModel.fetchBuilderContent(model: model, url: url ?? "")
+      await viewModel.fetchBuilderContent(
+        model: model, url: url ?? "", locale: _locale.wrappedValue)
     } else if viewModel.isLoading {
       print("Already loading content for section model: \(model). Not re-fetching.")
     }

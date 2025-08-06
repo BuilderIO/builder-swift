@@ -50,9 +50,11 @@ public final class BuilderIOManager {
     return customNavigationScheme
   }
 
-  public func fetchBuilderContent(model: String = "page", url: String? = nil) async -> Result<
-    BuilderContent, Error
-  > {
+  public func fetchBuilderContent(model: String = "page", url: String? = nil, locale: String) async
+    -> Result<
+      BuilderContent, Error
+    >
+  {
     do {
       let resolvedUrl = url ?? ""
 
@@ -60,7 +62,7 @@ public final class BuilderIOManager {
         model: model,
         apiKey: apiKey,
         url: resolvedUrl,
-        locale: nil,  //Always send to nil so as to get all options to allow for local changes without requiring an API call
+        locale: locale,
         preview: ""
       ) {
         return .success(content)
