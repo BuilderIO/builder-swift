@@ -78,7 +78,7 @@ class BuilderIOMockManager {
       return  // loadJSONData will already have failed the test if file is missing
     }
 
-    guard let url = URL(string: "\(baseURLString)&url=\(endpoint)") else {
+    guard let url = URL(string: "\(baseURLString)&url=\(endpoint)&locale=Default") else {
       XCTFail("Invalid URL constructed for endpoint: \(endpoint)")
       return
     }
