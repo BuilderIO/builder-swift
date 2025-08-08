@@ -44,7 +44,7 @@ public final class BuilderIOViewModel {
 
   /// Fetches the Builder.io page content for a given URL.
   /// Manages loading, content, and error states.
-  public func fetchBuilderContent(model: String = "page", url: String = "") async {
+  public func fetchBuilderContent(model: String = "page", url: String = "", locale: String) async {
     // Set loading state immediately
     isLoading = true
     errorMessage = nil  // Clear any previous error
@@ -58,16 +58,24 @@ public final class BuilderIOViewModel {
 
     do {
       // Await the content fetching
-      let result = await BuilderIOManager.shared.fetchBuilderContent(model: model, url: url)
+      let result = await BuilderIOManager.shared.fetchBuilderContent(
+        model: model, url: url, locale: locale)
       switch result {
       case .success(let fetchedContent):
-        if fetchedContent.data.httpRequests != nil {
+        if let httpRequests = fetchedContent.data.httpRequests {
           self.stateModel.apiResponses = try await fetchParallelAPIData(
-            urls: fetchedContent.data.httpRequests!)
+            urls: httpRequests, locale: locale)
         }
 
         if self.stateModel.apiResponses.isEmpty {
+          var newContentBlocks = fetchedContent.data.blocks ?? []
+          for i in 0..<newContentBlocks.count {
+            newContentBlocks[i].setLocaleRecursively(locale)
+          }
+
           self.builderContent = fetchedContent
+
+          self.builderContent?.data.blocks = newContentBlocks
         } else {
           // Further logic for content binding/loops can go here if needed.
           var contentBlocks = fetchedContent.data.blocks ?? []
@@ -103,7 +111,12 @@ public final class BuilderIOViewModel {
             }
 
           }
+
           self.builderContent = fetchedContent
+
+          for i in 0..<newContentBlocks.count {
+            newContentBlocks[i].setLocaleRecursively(locale)
+          }
 
           self.builderContent?.data.blocks = newContentBlocks
         }
@@ -120,12 +133,23 @@ public final class BuilderIOViewModel {
     isLoading = false
   }
 
+  func replaceLocalePlaceholder(in string: String, with locale: String) -> String {
+    let placeholder = "&locale={{state.locale}}"
+    if string.contains(placeholder) {
+      return string.replacingOccurrences(of: placeholder, with: "&locale=\(locale)")
+    } else {
+      return string
+    }
+  }
+
   /// Sends a tracking pixel to Builder.io.
   public func sendTrackingPixel() {
     BuilderIOManager.shared.sendTrackingPixel()
   }
 
-  public func fetchParallelAPIData(urls: [String: String]) async -> [String: AnyCodable] {
+  public func fetchParallelAPIData(urls: [String: String], locale: String) async -> [String:
+    AnyCodable]
+  {
     isLoading = true
     errorMessage = nil  // Clear any previous error
 
@@ -140,13 +164,18 @@ public final class BuilderIOViewModel {
 
     // Use withTaskGroup for concurrent execution and collection of results
     // The Task will now return (originalKey, apiResult)
-    await withTaskGroup(of: (String, AnyCodable?).self) { group in
+    await withTaskGroup(of: (String, AnyCodable?).self) { [weak self] group in
       for (key, urlString) in urls {  // Iterate over key-value pairs
         group.addTask {
           do {
-            let apiResult = try await BuilderContentAPI.getDataFromBoundAPI(url: urlString)
-            // Return the original key along with the API result
-            return (key, apiResult)
+            if let self = self {
+              let apiResult = try await BuilderContentAPI.getDataFromBoundAPI(
+                url: self.replaceLocalePlaceholder(in: urlString, with: locale))
+              // Return the original key along with the API result
+              return (key, apiResult)
+            } else {
+              return (key, nil)
+            }
           } catch {
             print(
               "Error fetching data from \(urlString) for key \(key): \(error.localizedDescription)")

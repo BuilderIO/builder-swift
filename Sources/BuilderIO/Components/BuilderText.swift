@@ -11,7 +11,11 @@ struct BuilderText: BuilderViewProtocol {
 
   init(block: BuilderBlockModel) {
     self.block = block
-    self.text = block.component?.options?.dictionaryValue?["text"]?.stringValue ?? ""
+    var processedText: String = ""
+    if let textValue = block.component?.options?.dictionaryValue?["text"] {
+      self.text = localize(localizedValue: textValue) ?? ""
+    }
+
     self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
 
     if let textBinding = block.codeBindings(for: "text") {
@@ -106,12 +110,25 @@ struct HTMLTextView: View {
       // Perform the NSAttributedString conversion on the MainActor
       await MainActor.run {
         do {
-          let nsAttributedString = try NSAttributedString(
-            data: data,
-            options: [
+
+          var attributedOptions: [NSAttributedString.DocumentReadingOptionKey: Any] = [:]
+
+          if #available(iOS 18.0, *) {
+            attributedOptions = [
               .documentType: NSAttributedString.DocumentType.html,
               .characterEncoding: String.Encoding.utf8.rawValue,
-            ],
+              .textKit1ListMarkerFormatDocumentOption: true,
+            ]
+          } else {
+            attributedOptions = [
+              .documentType: NSAttributedString.DocumentType.html,
+              .characterEncoding: String.Encoding.utf8.rawValue,
+            ]
+          }
+
+          let nsAttributedString = try NSAttributedString(
+            data: data,
+            options: attributedOptions,
             documentAttributes: nil
           )
 
@@ -121,6 +138,7 @@ struct HTMLTextView: View {
           else {
             throw HTMLProcessingError.attributedStringConversionFailed
           }
+
           self.attributedString = swiftUIAttributedString
           self.errorInProcessing = nil  // Clear error if successful
         } catch {
@@ -226,74 +244,4 @@ struct HTMLTextView: View {
     }
   }
 
-}
-
-struct BuilderText_Previews: PreviewProvider {
-  static let builderJSONString = """
-    {
-             "@type": "@builder.io/sdk:Element",
-             "@version": 2,
-             "id": "builder-54d67576377d4a9293c6f8d2efcda0ef",
-             "meta": {
-               "previousId": "builder-ad756879bc6c4ee3ac7977d5af0b6811"
-             },
-             "component": {
-               "name": "Text",
-              "options": {
-                "text": "<h1><strong>Right<em> </em></strong><em>Align</em><strong><em> </em></strong><strong style=\\\"color: rgb(144, 19, 254);\\\"><em><u>Text</u></em></strong></h1><p> This is a paragraph with some content that will determine the height dynamically. This text should wrap to multiple lines if the width is constrained.</p>"
-              },
-               "isRSC": null
-             },
-             "responsiveStyles": {
-               "large": {
-                 "display": "flex",
-                 "flexDirection": "column",
-                 "position": "relative",
-                 "flexShrink": "0",
-                 "boxSizing": "border-box",
-                 "marginTop": "20px",
-                 "lineHeight": "normal",
-                 "height": "auto",
-                 "marginLeft": "auto",
-                 "paddingLeft": "20px",
-                 "marginRight": "20px"
-               },
-               "medium": {
-                 "display": "none"
-               },
-               "small": {
-                 "borderWidth": "2px",
-                 "borderStyle": "solid",
-                 "borderColor": "rgba(219, 20, 20, 1)",
-                 "backgroundColor": "rgba(80, 227, 194, 1)",
-                 "backgroundRepeat": "no-repeat",
-                 "backgroundPosition": "center",
-                 "backgroundSize": "cover",
-                 "display": "flex",
-                 "fontSize": "12px",
-                 "fontWeight": "600",
-                 "fontFamily": "Aldrich, sans-serif"
-               }
-             }
-           }
-    """
-
-  static func decodeBuilderBlockModel(from jsonString: String) -> BuilderBlockModel? {
-    let data = Data(jsonString.utf8)
-    do {
-      let decoder = JSONDecoder()
-      return try decoder.decode(BuilderBlockModel.self, from: data)
-    } catch {
-      print("Decoding failed:", error)
-      return nil
-    }
-  }
-
-  static var previews: some View {
-    if let block = decodeBuilderBlockModel(from: builderJSONString) {
-      BuilderText(block: block)
-    } else {
-      Text("Failed to decode block")
-    }
-  }
 }

@@ -18,6 +18,22 @@ extension BuilderViewProtocol {
   func codeBindings() -> [String: String]? {
     return nil
   }
+
+  func localize(localizedValue: AnyCodable) -> String? {
+
+    if let localeDictionary = localizedValue.dictionaryValue {
+      if let currentLocale = block.locale {
+        if let localizedString = localeDictionary[currentLocale]?.stringValue {
+          return localizedString
+        }
+      }
+
+      return localeDictionary["Default"]?.stringValue
+
+    } else {
+      return localizedValue.stringValue
+    }
+  }
 }
 
 struct BuilderEmptyView: BuilderViewProtocol {
