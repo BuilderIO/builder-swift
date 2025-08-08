@@ -36,9 +36,6 @@ struct BuilderVideo: BuilderViewProtocol {
     if let videoString = options?["video"]?.stringValue {
       self.videoURL = URL(string: videoString)
     }
-    if let videoBinding = block.codeBindings(for: "video")?.stringValue {
-      self.videoURL = URL(string: videoBinding)
-    }
 
     // Video options
     self.autoPlay = options?["autoPlay"]?.boolValue ?? false

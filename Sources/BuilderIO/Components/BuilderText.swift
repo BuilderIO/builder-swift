@@ -18,9 +18,6 @@ struct BuilderText: BuilderViewProtocol {
 
     self.responsiveStyles = getFinalStyle(responsiveStyles: block.responsiveStyles)
 
-    if let textBinding = block.codeBindings(for: "text") {
-      self.text = textBinding.stringValue
-    }
   }
 
   var body: some View {

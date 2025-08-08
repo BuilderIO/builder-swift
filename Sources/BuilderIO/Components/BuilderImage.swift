@@ -34,11 +34,6 @@ struct BuilderImage: BuilderViewProtocol {
       (block.component?.options?.dictionaryValue?["fitContent"]?.boolValue ?? false)
       && !(block.children?.isEmpty ?? true)
 
-    if let imageBinding = block.codeBindings(for: "image")?.stringValue {
-      self.imageURL = URL(
-        string: imageBinding)
-    }
-
   }
 
   var body: some View {
